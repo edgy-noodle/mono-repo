@@ -1,0 +1,26 @@
+---
+- name: Install k8s packages
+  hosts: k8s
+  become: true
+  tasks:
+
+  - name: Install updates
+    apt:
+      upgrade: true
+      update_cache: yes
+
+  - name: Install packages
+    tags: k8s
+    package:
+      name:
+        - bash-completion
+        - bridge-utils
+        - net-tools
+        - cloud-utils
+        - containerd
+        - ca-certificates
+        - gnupg
+        - kubelet
+        - kubeadm
+        - kubectl
+      state: latest
