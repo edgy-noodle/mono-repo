@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Install packages and update cache
+    package:
+      name:
+        - bash-completion
+        - bridge-utils
+        - net-tools
+        - cloud-utils
+      state: latest
+      update_cache: yes
