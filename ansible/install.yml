@@ -3,12 +3,7 @@
   become: true
   tasks:
 
-  - name: Update repo index
-    apt:
-      update_cache: yes
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: Install packages
+  - name: Install packages and update cache
     apt:
       name:
         - bash-completion
@@ -16,4 +11,5 @@
         - net-tools
         - cloud-utils
       state: latest
+      update_cache: yes
     when: ansible_distribution in ["Debian", "Ubuntu"]
