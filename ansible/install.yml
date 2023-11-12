@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Install packages
+    apt:
+      name:
+        - bash-completion
+        - bridge-utils
+        - net-tools
+        - cloud-utils
