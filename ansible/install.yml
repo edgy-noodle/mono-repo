@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: k8s provisioning
+  hosts: k8s
   become: true
   tasks:
 
