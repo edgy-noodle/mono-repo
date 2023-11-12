@@ -14,3 +14,4 @@
         - bridge-utils
         - net-tools
         - cloud-utils
+      state: latest
