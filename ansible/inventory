@@ -1,1 +1,9 @@
+[cpn]
 192.168.1.180
+
+[workers]
+192.168.1.[182:183]
+
+[k8s:children]
+cpn
+workers
