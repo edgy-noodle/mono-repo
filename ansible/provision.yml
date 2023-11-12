@@ -1,0 +1,17 @@
+---
+- name: General provisioning
+  hosts: all
+  remote_user: root
+  tasks:
+
+  - name: Install sudo
+    package:
+      name: sudo
+      state: latest
+      update_cache: yes
+
+  - name: Add account to sudoers
+    user:
+      name: edgy
+      groups: sudo
+      append: true
