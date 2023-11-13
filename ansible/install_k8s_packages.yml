@@ -68,6 +68,10 @@
       regexp: '            SystemdCgroup = false'
       replace: '            SystemdCgroup = true'
 
+  - name: Reload configs
+    systemd:
+      daemon_reload: true
+
   - name: Create keyrings directory
     file:
       path: /etc/apt/keyrings
@@ -79,7 +83,7 @@
       dest: /etc/apt/keyrings/kubernetes-archive-keyring.asc
       mode: 0644
 
-  - name: Add k8s repos
+  - name: Add k8s package repos
     deb822_repository:
       name: kubernetes
       types: deb
