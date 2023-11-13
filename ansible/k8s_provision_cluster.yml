@@ -84,6 +84,7 @@
           - kubelet
           - kubeadm
           - kubectl
+          - python3-kubernetes
           - pipx
         update_cache: yes
         state: latest
@@ -137,10 +138,6 @@
     - name: Install k8s ansible collection dependency - pyyaml
       community.general.pipx:
         name: pyaml
-    - name: Install k8s ansible collection dependency - kubernetes
-      community.general.pipx:
-        name: kubernetes
-        install_deps: true
 
 
 - name: Provision Control Plane Node
