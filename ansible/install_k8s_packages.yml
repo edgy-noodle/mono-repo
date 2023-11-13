@@ -76,7 +76,7 @@
   - name: Download k8s keys
     get_url:
       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-      dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+      dest: /etc/apt/keyrings/kubernetes-archive-keyring.asc
       mode: 0644
 
   - name: Add k8s repos
@@ -86,7 +86,7 @@
       suites: kubernetes-xenial
       components: main
       uris: https://apt.kubernetes.io/
-      signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+      signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.asc
 
   - name: Install k8s packages
     tags: k8s
