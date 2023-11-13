@@ -142,7 +142,7 @@
       reboot:
 
 
-- name: Initialize Control Plane Node
+- name: Provision Control Plane Node
   hosts: cpn
   become: true
   tasks:
@@ -203,7 +203,7 @@
         k8s_join_cmd: "{{ k8s_join_cmd.stdout_lines[0] }}"
 
 
-- name: Initialize worker nodes
+- name: Provision worker nodes
   hosts: workers
   become: true
   tasks:
