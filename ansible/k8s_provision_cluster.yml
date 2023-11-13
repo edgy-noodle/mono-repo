@@ -107,8 +107,14 @@
         uris: https://apt.kubernetes.io/
         signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.asc
 
+    - name: Install k8s ansible collection dependencies
+      pip:
+        name:
+          - openshift
+          - pyyaml
+          - kubernetes
+
     - name: Install k8s packages
-      tags: k8s
       package:
         name:
           - kubelet
