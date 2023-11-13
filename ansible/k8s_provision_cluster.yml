@@ -137,6 +137,7 @@
     - name: Install k8s ansible collection dependency - pyyaml
       community.general.pipx:
         name: pyyaml
+        executable: pipx
     - name: Install k8s ansible collection dependency - kubernetes
       community.general.pipx:
         name: kubernetes
