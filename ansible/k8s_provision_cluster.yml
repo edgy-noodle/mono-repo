@@ -29,6 +29,7 @@
     - name: Reboot
       reboot:
 
+
 - name: Provision all nodes
   hosts: k8s
   become: true
@@ -57,37 +58,6 @@
         src: ../configs/k8s/99-kubernetes-cri.conf
         dest: /etc/sysctl.d/99-kubernetes-cri.conf
 
-    - name: Install containerd package
-      package:
-        name: containerd
-        update_cache: yes
-        state: latest
-
-    - name: Create containerd directory
-      file:
-        path: /etc/containerd
-        state: directory
-
-    - name: Generate containerd config
-      shell: |
-        containerd config default | sudo tee /etc/containerd/config.toml
-
-    - name: Change SystemdCgroup to true in containerd config
-      replace:
-        path: /etc/containerd/config.toml
-        regexp: 'SystemdCgroup = false'
-        replace: 'SystemdCgroup = true'
-
-    - name: Reload configs
-      systemd:
-        daemon_reload: true
-
-    - name: Enable containerd service
-      systemd:
-        name: containerd
-        enabled: true
-        state: restarted
-
     - name: Create keyrings directory
       file:
         path: /etc/apt/keyrings
@@ -107,43 +77,69 @@
         uris: https://apt.kubernetes.io/
         signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.asc
 
-    - name: Install k8s packages and pipx
+    - name: Install packages - containerd, k8s, pipx
       package:
         name:
+          - containerd
           - kubelet
           - kubeadm
           - kubectl
-          - python3-pip
+          - pipx
         update_cache: yes
         state: latest
+
+    - name: Create containerd directory
+      file:
+        path: /etc/containerd
+        state: directory
+
+    - name: Generate containerd config
+      shell: |
+        containerd config default | sudo tee /etc/containerd/config.toml
+
+    - name: Change SystemdCgroup to true in containerd config
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
 
     - name: Disable automatic update for kubelet package
       dpkg_selections:
         name: kubelet
         selection: hold
-
     - name: Disable automatic update for kubeadm package
       dpkg_selections:
         name: kubeadm
         selection: hold
-
     - name: Disable automatic update for kubectl package
       dpkg_selections:
         name: kubectl
         selection: hold
 
+    - name: Reload configs
+      systemd:
+        daemon_reload: true
+    - name: Enable containerd service
+      systemd:
+        name: containerd
+        enabled: true
+        state: restarted
     - name: Enable kubelet service
       systemd:
         name: kubelet
         enabled: true
         state: started
 
-    - name: Install k8s ansible collection dependencies
-      pip:
-        name:
-          - openshift
-          - pyyaml
-          - kubernetes
+    - name: Install k8s ansible collection dependency - openshift
+      pipx:
+        name: openshift
+    - name: Install k8s ansible collection dependency - pyyaml
+      pipx:
+        name: pyyaml
+    - name: Install k8s ansible collection dependency - kubernetes
+      pipx:
+        name: kubernetes
+
 
 - name: Provision Control Plane Node
   hosts: cpn
