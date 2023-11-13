@@ -166,10 +166,10 @@
     - name: Download brew installer
       get_url:
         url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-        dest: ~/brew/install.sh
+        dest: ~/install.sh
 
     - name: Install brew
-      command: ~/brew/install.sh
+      command: ~/install.sh
 
     - name: Install k9s
       community.general.homebrew:
