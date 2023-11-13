@@ -77,7 +77,7 @@
         uris: https://apt.kubernetes.io/
         signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.asc
 
-    - name: Install packages - containerd, k8s, pipx
+    - name: Install packages - containerd, k8s, pipx, jsonpatch
       package:
         name:
           - containerd
@@ -86,6 +86,7 @@
           - kubectl
           - python3-kubernetes
           - pipx
+          - jsonpatch
         update_cache: yes
         state: latest
 
@@ -161,6 +162,11 @@
           source <(kubectl completion bash)
           alias k=kubectl
           complete -F __start_kubectl k
+
+    - name: Install k9s
+      community.general.homebrew:
+        name: k9s
+        state: present
 
     - name: Check if CPN needs initializing
       stat:
