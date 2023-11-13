@@ -183,10 +183,15 @@
         dest: ~/.kube/config
         force: false
 
+    - name: Download Calico manifest
+      get_url:
+        url: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
+        dest: ~/calico.yaml
+
     - name: Install Calico
       k8s:
         state: present
-        src: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
+        src: ~/calico.yaml
 
     - name: Generate new token with join command
       command: kubeadm token create --print-join-command
