@@ -107,19 +107,13 @@
         uris: https://apt.kubernetes.io/
         signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.asc
 
-    - name: Install k8s ansible collection dependencies
-      pip:
-        name:
-          - openshift
-          - pyyaml
-          - kubernetes
-
-    - name: Install k8s packages
+    - name: Install k8s packages and pipx
       package:
         name:
           - kubelet
           - kubeadm
           - kubectl
+          - python3-pip
         update_cache: yes
         state: latest
 
@@ -143,6 +137,13 @@
         name: kubelet
         enabled: true
         state: started
+
+    - name: Install k8s ansible collection dependencies
+      pip:
+        name:
+          - openshift
+          - pyyaml
+          - kubernetes
 
 - name: Provision Control Plane Node
   hosts: cpn
