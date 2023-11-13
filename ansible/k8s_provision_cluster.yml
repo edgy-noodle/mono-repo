@@ -133,6 +133,7 @@
     - name: Install k8s ansible collection dependency - openshift
       community.general.pipx:
         name: openshift
+        install_deps: true
     - name: Install k8s ansible collection dependency - pyyaml
       community.general.pipx:
         name: pyyaml
