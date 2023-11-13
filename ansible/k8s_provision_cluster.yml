@@ -169,7 +169,7 @@
         dest: ~/install.sh
 
     - name: Install brew
-      command: ~/install.sh
+      shell: ~/install.sh
 
     - name: Install k9s
       community.general.homebrew:
