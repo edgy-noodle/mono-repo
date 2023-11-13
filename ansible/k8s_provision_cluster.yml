@@ -198,7 +198,7 @@
         var: k8s_join_cmd.stdout_lines[0]
 
     - name: Set join command
-      set_facts:
+      set_fact:
         k8s_join_cmd: "{{ k8s_join_cmd.stdout_lines[0] }}"
 
 
