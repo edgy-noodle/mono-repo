@@ -4,7 +4,8 @@
   become: true
   become_method: su
   pre_tasks:
-    - fail:
+    - name: Fail fast if incompatible OS detected
+      fail:
         msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
       when: ansible_distribution not in ['Ubuntu', 'Debian']
 
@@ -170,7 +171,7 @@
 
     - name: Initialize CPN
       command: kubeadm init
-      when: not kubeadm_init.exists
+      when: not kubeadm_init.stat.exists
 
     - name: Create .kube directory
       file:
@@ -213,4 +214,4 @@
 
     - name: Join cluster
       command: "{{ hostvars['k8s-cpn'].k8s_join_cmd }}"
-      when: not kubeadm_join.exists
+      when: not kubeadm_join.stat.exists
