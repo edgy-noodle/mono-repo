@@ -16,3 +16,6 @@
       name: edgy
       groups: sudo
       append: true
+
+  - name: Reboot
+    reboot:
