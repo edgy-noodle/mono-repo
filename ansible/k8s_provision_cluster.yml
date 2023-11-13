@@ -1,13 +1,37 @@
 ---
-- name: Install k8s packages
-  hosts: k8s
+- name: Preliminary tasks and checks
+  hosts: all
   become: true
-  tasks:
+  become_method: su
+  pre_tasks:
+    - fail:
+        msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
+      when: ansible_distribution not in ['Ubuntu', 'Debian']
+
+    - name: Install sudo
+      package:
+        name: sudo
+        state: latest
+        update_cache: yes
+
+    - name: Add account to sudoers
+      user:
+        name: edgy
+        groups: sudo
+        append: true
+
     - name: Install updates
       apt:
         upgrade: true
         update_cache: yes
 
+    - name: Reboot
+      reboot:
+
+- name: Provision all nodes
+  hosts: k8s
+  become: true
+  tasks:
     - name: Disable SWAP
       command: swapoff -a
 
