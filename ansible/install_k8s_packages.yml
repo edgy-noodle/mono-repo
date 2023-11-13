@@ -31,7 +31,6 @@
         - cloud-utils
         - containerd
         - ca-certificates
-        - gnupg
       update_cache: yes
       state: latest
 
