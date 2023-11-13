@@ -85,8 +85,8 @@
           - kubeadm
           - kubectl
           - python3-kubernetes
+          - python3-jsonpatch
           - pipx
-          - jsonpatch
         update_cache: yes
         state: latest
 
