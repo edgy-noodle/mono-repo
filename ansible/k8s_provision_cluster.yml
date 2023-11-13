@@ -131,13 +131,13 @@
         state: started
 
     - name: Install k8s ansible collection dependency - openshift
-      pipx:
+      community.general.pipx:
         name: openshift
     - name: Install k8s ansible collection dependency - pyyaml
-      pipx:
+      community.general.pipx:
         name: pyyaml
     - name: Install k8s ansible collection dependency - kubernetes
-      pipx:
+      community.general.pipx:
         name: kubernetes
 
 
