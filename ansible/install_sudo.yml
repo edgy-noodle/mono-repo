@@ -1,7 +1,8 @@
 ---
 - name: Install Sudo
   hosts: all
-  remote_user: root
+  become: true
+  become_method: su
   tasks:
 
   - name: Install sudo
