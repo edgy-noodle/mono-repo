@@ -64,12 +64,18 @@
   - name: Change SystemdCgroup to true in containerd config
     replace:
       path: /etc/containerd/config.toml
-      regexp: '            SystemdCgroup = false'
-      replace: '            SystemdCgroup = true'
+      regexp: 'SystemdCgroup = false'
+      replace: 'SystemdCgroup = true'
 
   - name: Reload configs
     systemd:
       daemon_reload: true
+
+  - name: Enable containerd service
+    systemd:
+      name: containerd
+      enabled: true
+      state: restarted
 
   - name: Create keyrings directory
     file:
@@ -121,9 +127,3 @@
       name: kubelet
       enabled: true
       state: started
-
-  - name: Enable containerd service
-    systemd:
-      name: containerd
-      enabled: true
-      state: restarted
