@@ -1,5 +1,5 @@
 ---
-- name: General provisioning
+- name: Install Sudo
   hosts: all
   remote_user: root
   tasks:
