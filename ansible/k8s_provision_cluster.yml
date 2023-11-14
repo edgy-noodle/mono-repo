@@ -169,6 +169,7 @@
 
     - name: Install k9s
       shell: curl -sS https://webi.sh/k9s | sh
+      become: false
 
     - name: Check if CPN needs initializing
       stat:
@@ -189,7 +190,6 @@
         remote_src: true
         src: /etc/kubernetes/admin.conf
         dest: /home/edgy/.kube/config
-        force: false
 
     - name: Download Calico manifest
       get_url:
