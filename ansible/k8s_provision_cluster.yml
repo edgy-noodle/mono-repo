@@ -146,7 +146,6 @@
 
 - name: Provision Control Plane Node
   hosts: cpn
-  become: true
   tasks:
     - name: Install util packages
       package:
@@ -158,6 +157,7 @@
           - curl
         update_cache: yes
         state: latest
+      become: true
 
     - name: Configure kubectl completion and alias
       blockinfile:
@@ -169,16 +169,17 @@
 
     - name: Install k9s
       shell: curl -sS https://webi.sh/k9s | sh
-      become: false
 
     - name: Check if CPN needs initializing
       stat:
         path: /etc/kubernetes/admin.conf
       register: kubeadm_init
+      become: true
 
     - name: Initialize CPN
       command: kubeadm init
       when: not kubeadm_init.stat.exists
+      become: true
 
     - name: Create .kube directory
       file:
@@ -190,6 +191,7 @@
         remote_src: true
         src: /etc/kubernetes/admin.conf
         dest: /home/edgy/.kube/config
+      become: true
 
     - name: Download Calico manifest
       get_url:
@@ -200,7 +202,6 @@
       k8s:
         state: present
         src: /home/edgy/calico.yaml
-      become: false
 
     - name: Generate new token with join command
       command: kubeadm token create --print-join-command
