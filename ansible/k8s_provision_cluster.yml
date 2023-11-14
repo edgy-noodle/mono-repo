@@ -167,9 +167,6 @@
       get_url:
         url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
         dest: ~/install.sh
-        owner: root
-        group: root
-        mode: 644
 
     - name: Install brew
       shell: ~/install.sh
