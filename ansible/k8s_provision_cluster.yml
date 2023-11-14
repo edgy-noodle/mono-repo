@@ -172,7 +172,7 @@
         dest: /home/edgy/install.sh
         owner: edgy
         group: edgy
-        mode: 777
+        mode: 0777
 
     - name: Install brew
       command: /home/edgy/install.sh
