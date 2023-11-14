@@ -20,14 +20,17 @@
         name: edgy
         groups: sudo
         append: true
+      register: is_sudo
 
     - name: Install updates
       apt:
         upgrade: true
         update_cache: yes
+      register: updated
 
     - name: Reboot
       reboot:
+      when: is_sudo.changed or updated.changed
 
 
 - name: Provision all nodes
