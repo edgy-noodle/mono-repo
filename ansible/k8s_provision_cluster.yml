@@ -166,22 +166,8 @@
           alias k=kubectl
           complete -F __start_kubectl k
 
-    - name: Download brew installer
-      get_url:
-        url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-        dest: /home/edgy/install.sh
-        owner: edgy
-        group: edgy
-        mode: 0777
-
-    - name: Install brew
-      command: /home/edgy/install.sh
-      become: false
-
     - name: Install k9s
-      community.general.homebrew:
-        name: k9s
-        state: present
+      shell: curl -sS https://webi.sh/k9s | sh
 
     - name: Check if CPN needs initializing
       stat:
