@@ -163,13 +163,8 @@
           alias k=kubectl
           complete -F __start_kubectl k
 
-    - name: Download brew installer
-      get_url:
-        url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-        dest: ~/install.sh
-
     - name: Install brew
-      shell: ~/install.sh
+      shell: $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
 
     - name: Install k9s
       community.general.homebrew:
