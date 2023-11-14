@@ -167,6 +167,9 @@
       get_url:
         url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
         dest: /home/edgy/install.sh
+        owner: edgy
+        group: edgy
+        mode: 777
 
     - name: Install brew
       command: /home/edgy/install.sh
