@@ -166,10 +166,10 @@
     - name: Download brew installer
       get_url:
         url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-        dest: ~/install.sh
+        dest: /home/edgy/install.sh
 
     - name: Install brew
-      command: /root/install.sh
+      command: /home/edgy/install.sh
 
     - name: Install k9s
       community.general.homebrew:
@@ -187,25 +187,25 @@
 
     - name: Create .kube directory
       file:
-        path: ~/.kube/
+        path: /home/edgy/.kube/
         state: directory
 
     - name: Copy k8s config
       copy:
         remote_src: true
         src: /etc/kubernetes/admin.conf
-        dest: ~/.kube/config
+        dest: /home/edgy/.kube/config
         force: false
 
     - name: Download Calico manifest
       get_url:
         url: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
-        dest: ~/calico.yaml
+        dest: /home/edgy/calico.yaml
 
     - name: Install Calico
       k8s:
         state: present
-        src: ~/calico.yaml
+        src: /home/edgy/calico.yaml
 
     - name: Generate new token with join command
       command: kubeadm token create --print-join-command
