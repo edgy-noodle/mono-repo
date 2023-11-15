@@ -1,38 +1,4 @@
 ---
-- name: Preliminary tasks and checks
-  hosts: all
-  become: true
-  become_method: su
-  pre_tasks:
-    - name: Fail fast if incompatible OS detected
-      fail:
-        msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
-      when: ansible_distribution not in ['Ubuntu', 'Debian']
-
-    - name: Install sudo
-      package:
-        name: sudo
-        state: latest
-        update_cache: yes
-
-    - name: Add account to sudoers
-      user:
-        name: edgy
-        groups: sudo
-        append: true
-      register: is_sudo
-
-    - name: Install updates
-      apt:
-        upgrade: true
-        update_cache: yes
-      register: updated
-
-    - name: Reboot
-      reboot:
-      when: is_sudo.changed or updated.changed
-
-
 - name: Provision all nodes
   hosts: k8s
   become: true
@@ -169,6 +135,8 @@
 
     - name: Install k9s
       shell: curl -sS https://webi.sh/k9s | sh
+    - name: Install flux
+      shell: curl -s https://fluxcd.io/install.sh | sh
 
     - name: Check if CPN needs initializing
       stat:

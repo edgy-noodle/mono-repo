@@ -1,0 +1,43 @@
+---
+- name: Bootstrap VMs, preliminary tasks and checks
+  hosts: all
+  become: true
+  become_method: su
+  pre_tasks:
+    - name: Fail fast if incompatible OS detected
+      fail:
+        msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
+      when: ansible_distribution not in ['Ubuntu', 'Debian']
+
+    - name: Install sudo
+      package:
+        name: sudo
+        state: latest
+        update_cache: yes
+
+    - name: Create ansible user
+      user:
+        name: ansible
+        groups: root
+
+    - name: Add SSH key for ansible user
+      authorized_key:
+        user: ansible
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqWyHzwXS1oXk+Ir04eULYLBFT1nLIu7yoYGWlfq9Hy ansible"
+
+    - name: Add account to sudoers
+      user:
+        name: ansible
+        groups: sudo
+        append: true
+      register: is_sudo
+
+    - name: Install updates
+      apt:
+        upgrade: true
+        update_cache: yes
+      register: updated
+
+    - name: Reboot
+      reboot:
+      when: is_sudo.changed or updated.changed
