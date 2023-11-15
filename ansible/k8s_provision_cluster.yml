@@ -2,6 +2,11 @@
 - name: Provision all nodes
   hosts: k8s
   become: true
+  pre_tasks:
+    - name: Fail fast if incompatible OS detected
+      fail:
+        msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
+      when: ansible_distribution not in ['Ubuntu', 'Debian']
   tasks:
     - name: Disable SWAP
       shell: swapoff -a
