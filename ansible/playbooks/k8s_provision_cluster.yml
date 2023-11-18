@@ -139,7 +139,7 @@
           complete -F __start_kubectl k
 
     - name: Install flux
-      shell: curl -s https://fluxcd.io/install.sh | sh
+      shell: curl -s https://fluxcd.io/install.sh | bash
 
     - name: Check if CPN needs initializing
       stat:
