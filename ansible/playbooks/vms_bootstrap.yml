@@ -24,6 +24,7 @@
         name: ansible
         group: ansible
         nopassword: true
+        commands: ALL
 
     - name: Add SSH key for ansible user
       authorized_key:
