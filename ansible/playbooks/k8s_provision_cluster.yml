@@ -29,7 +29,7 @@
 
     - name: Copy 99-kubernetes-cri.conf CRI config
       copy:
-        src: mono-repo/resources/configs/k8s/99-kubernetes-cri.conf
+        src: ~/mono-repo/resources/configs/k8s/99-kubernetes-cri.conf
         dest: /etc/sysctl.d/99-kubernetes-cri.conf
 
     - name: Create keyrings directory
