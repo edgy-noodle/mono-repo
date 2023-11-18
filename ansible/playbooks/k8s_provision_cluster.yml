@@ -29,7 +29,7 @@
 
     - name: Copy 99-kubernetes-cri.conf CRI config
       copy:
-        src: ../configs/k8s/99-kubernetes-cri.conf
+        src: ..resources/configs/k8s/99-kubernetes-cri.conf
         dest: /etc/sysctl.d/99-kubernetes-cri.conf
 
     - name: Create keyrings directory
@@ -138,8 +138,6 @@
           alias k=kubectl
           complete -F __start_kubectl k
 
-    - name: Install k9s
-      shell: curl -sS https://webi.sh/k9s | sh
     - name: Install flux
       shell: curl -s https://fluxcd.io/install.sh | sh
 
@@ -158,12 +156,14 @@
       file:
         path: /home/edgy/.kube/
         state: directory
+        force: false
 
     - name: Copy k8s config
       copy:
         remote_src: true
         src: /etc/kubernetes/admin.conf
         dest: /home/edgy/.kube/config
+        force: false
       become: true
 
     - name: Download Calico manifest
@@ -177,14 +177,17 @@
         src: /home/edgy/calico.yaml
 
     - name: Generate new token with join command
+      tags: k8s_join_cluster
       command: kubeadm token create --print-join-command
       register: k8s_join_cmd
 
     - name: Display join command
+      tags: k8s_join_cluster
       debug:
         var: k8s_join_cmd.stdout_lines[0]
 
     - name: Set join command
+      tags: k8s_join_cluster
       set_fact:
         k8s_join_cmd: "{{ k8s_join_cmd.stdout_lines[0] }}"
 
@@ -194,10 +197,12 @@
   become: true
   tasks:
     - name: Check if worker node has joined cluster
+      tags: k8s_join_cluster
       stat:
         path: /etc/kubernetes/kubelet.conf
       register: kubeadm_join
 
     - name: Join cluster
+      tags: k8s_join_cluster
       command: "{{ hostvars[groups['cpn'].0].k8s_join_cmd }}"
       when: not kubeadm_join.stat.exists
