@@ -162,18 +162,18 @@
       copy:
         remote_src: true
         src: /etc/kubernetes/admin.conf
-        dest: ~/.kube/config
+        dest: /home/ansible/.kube/config
       become: true
 
     - name: Download Calico manifest
       get_url:
         url: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
-        dest: ~/calico.yaml
+        dest: /home/ansible/calico.yaml
 
     - name: Install Calico
       k8s:
         state: present
-        src: ~/calico.yaml
+        src: /home/ansible/calico.yaml
 
     - name: Generate new token with join command
       tags: k8s_join_cluster
