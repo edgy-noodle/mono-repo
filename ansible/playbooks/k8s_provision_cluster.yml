@@ -1,7 +1,6 @@
 ---
 - name: Provision all nodes
   hosts: k8s
-  become: true
   pre_tasks:
     - name: Fail fast if incompatible OS detected
       fail:
