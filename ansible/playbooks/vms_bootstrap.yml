@@ -20,7 +20,7 @@
       register: ansible
 
     - name: Run sudo without password
-      sudoers:
+      community.general.sudoers:
         group: ansible
         nopassword: true
 
