@@ -17,6 +17,7 @@
         groups:
           - ansible
           - sudo
+      register: ansible
 
     - name: Run sudo without password
       sudoers:
@@ -33,3 +34,7 @@
         upgrade: true
         update_cache: yes
       register: updated
+
+    - name: Restart if updated
+      reboot:
+      when: ansible.changed or updated.changed
