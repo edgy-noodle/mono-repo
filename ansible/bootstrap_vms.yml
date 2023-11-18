@@ -2,6 +2,7 @@
 - name: Bootstrap VMs, preliminary tasks and checks
   hosts: all
   become: true
+  become_user: edgy
   become_method: su
   tasks:
     - name: Install sudo
