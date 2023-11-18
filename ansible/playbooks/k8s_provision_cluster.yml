@@ -154,7 +154,7 @@
 
     - name: Create .kube directory
       file:
-        path: /home/edgy/.kube/
+        path: ~/.kube/
         state: directory
         force: false
 
@@ -162,7 +162,7 @@
       copy:
         remote_src: true
         src: /etc/kubernetes/admin.conf
-        dest: /home/edgy/.kube/config
+        dest: ~/.kube/config
         force: false
       become: true
 
@@ -174,7 +174,7 @@
     - name: Install Calico
       k8s:
         state: present
-        src: /home/edgy/calico.yaml
+        src: ~/calico.yaml
 
     - name: Generate new token with join command
       tags: k8s_join_cluster
