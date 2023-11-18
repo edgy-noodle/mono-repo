@@ -163,7 +163,6 @@
         remote_src: true
         src: /etc/kubernetes/admin.conf
         dest: ~/.kube/config
-        force: false
       become: true
 
     - name: Download Calico manifest
