@@ -14,26 +14,17 @@
     - name: Create ansible user
       user:
         name: ansible
-        groups: root
+        groups:
+          - root
+          - sudo
 
     - name: Add SSH key for ansible user
       authorized_key:
         user: ansible
         key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqWyHzwXS1oXk+Ir04eULYLBFT1nLIu7yoYGWlfq9Hy ansible"
 
-    - name: Add account to sudoers
-      user:
-        name: ansible
-        groups: sudo
-        append: true
-      register: is_sudo
-
     - name: Install updates
       apt:
         upgrade: true
         update_cache: yes
       register: updated
-
-    - name: Reboot
-      reboot:
-      when: is_sudo.changed or updated.changed
