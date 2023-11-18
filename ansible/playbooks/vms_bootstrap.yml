@@ -17,6 +17,7 @@
         groups:
           - ansible
           - sudo
+        shell: /bin/bash
       register: ansible
 
     - name: Run sudo without password
