@@ -21,6 +21,7 @@
 
     - name: Run sudo without password
       community.general.sudoers:
+        name: ansible
         group: ansible
         nopassword: true
 
