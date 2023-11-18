@@ -169,7 +169,7 @@
     - name: Download Calico manifest
       get_url:
         url: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
-        dest: /home/edgy/calico.yaml
+        dest: ~/calico.yaml
 
     - name: Install Calico
       k8s:
