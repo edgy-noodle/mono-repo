@@ -147,6 +147,17 @@
       register: kubeadm_init
       become: true
 
+    - name: Preflight checks
+      command: kubeadm init phase preflight
+      when: not kubeadm_init.stat.exists
+      register: kubeadm_checks
+      become: true
+
+    - name: Print preflight checks
+      debug:
+        var:
+          kubeadm_checks.stdout_lines
+
     - name: Initialize CPN
       command: kubeadm init
       when: not kubeadm_init.stat.exists
@@ -180,10 +191,10 @@
       command: kubeadm token create --print-join-command
       register: k8s_join_cmd
 
-    - name: Display join command
+    - name: Print join command
       tags: k8s_join_cluster
       debug:
-        var: k8s_join_cmd.stdout_lines[0]
+        var: k8s_join_cmd.stdout_lines
 
     - name: Set join command
       tags: k8s_join_cluster
