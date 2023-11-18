@@ -15,8 +15,13 @@
       user:
         name: ansible
         groups:
-          - root
+          - ansible
           - sudo
+
+    - name: Run sudo without password
+      sudoers:
+        group: ansible
+        nopassword: true
 
     - name: Add SSH key for ansible user
       authorized_key:
