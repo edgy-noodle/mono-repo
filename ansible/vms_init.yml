@@ -1,0 +1,8 @@
+---
+- name: Bootstrap VMs
+  hosts: all
+  become: true
+  remote_user: edgy
+  become_method: su
+  roles:
+    - vms_init

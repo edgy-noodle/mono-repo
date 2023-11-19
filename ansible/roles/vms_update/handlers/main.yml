@@ -1,0 +1,4 @@
+# roles/vms_update
+---
+- name: Restart VMs
+  reboot:
