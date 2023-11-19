@@ -20,8 +20,13 @@
       alias k=kubectl
       complete -F __start_kubectl k
 
+- name: Check flux install
+  command: which flux
+  register: flux
+
 - name: Install flux
   shell: curl -s https://fluxcd.io/install.sh | bash
+  when: flux.stdout | length == 0
 
 - name: Check if CPN needs initializing
   stat:
