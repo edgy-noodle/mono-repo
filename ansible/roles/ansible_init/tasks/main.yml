@@ -1,0 +1,4 @@
+# roles/ansible_init
+---
+- name: Install dependencies
+  local_action: command ansible-galaxy install -r requirements.yml

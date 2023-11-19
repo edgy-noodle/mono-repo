@@ -1,0 +1,18 @@
+# roles/ansible_init
+---
+galaxy_info:
+  author: edgy_noodle
+  description: Install ansible collections
+  role_name: ansible_init
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions: all
+    - name: Debian
+      versions: all
+
+  galaxy_tags: []
+
+dependencies: []
