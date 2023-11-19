@@ -56,6 +56,7 @@
       debug:
         var:
           kubeadm_checks.stdout
+      when: not kubeadm_init.stat.exists
 
     - name: Initialize CPN
       command: kubeadm init
