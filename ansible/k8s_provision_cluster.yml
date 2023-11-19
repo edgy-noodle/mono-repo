@@ -10,6 +10,7 @@
 
 - name: Provision all nodes
   hosts: k8s
+  become: true
   roles:
     - k8s_all
 
