@@ -28,4 +28,5 @@
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqWyHzwXS1oXk+Ir04eULYLBFT1nLIu7yoYGWlfq9Hy ansible"
 
 - name: Update VMs
-  include_role: vms_update
+  include_role:
+    name: vms_update
