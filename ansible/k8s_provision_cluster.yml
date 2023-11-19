@@ -9,6 +9,7 @@
       when: ansible_distribution not in ['Ubuntu', 'Debian']
 
 - name: Provision all nodes
+  hosts: k8s
   roles:
     - k8s_all
 
