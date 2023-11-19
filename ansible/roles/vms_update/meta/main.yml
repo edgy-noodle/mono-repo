@@ -13,7 +13,6 @@ galaxy_info:
     - name: Debian
       versions: all
 
-  galaxy_tags:
-    - k8s
+  galaxy_tags: []
 
 dependencies: []
