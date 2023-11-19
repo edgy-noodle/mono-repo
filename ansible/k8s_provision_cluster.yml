@@ -1,0 +1,115 @@
+---
+- name: Preliminary tasks and checks
+  hosts: k8s
+  become: true
+  pre_tasks:
+    - name: Fail fast if incompatible OS detected
+      fail:
+        msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
+      when: ansible_distribution not in ['Ubuntu', 'Debian']
+
+- name: Provision all nodes
+  roles:
+    - k8s_all
+
+- name: Provision Control Plane Node
+  hosts: cpn
+  tasks:
+    - name: Install util packages
+      package:
+        name:
+          - bash-completion
+          - bridge-utils
+          - net-tools
+          - cloud-utils
+          - curl
+        update_cache: yes
+        state: latest
+      become: true
+
+    - name: Configure kubectl completion and alias
+      blockinfile:
+        path: ~/.bashrc
+        block: |
+          source <(kubectl completion bash)
+          alias k=kubectl
+          complete -F __start_kubectl k
+
+    - name: Install flux
+      shell: curl -s https://fluxcd.io/install.sh | bash
+
+    - name: Check if CPN needs initializing
+      stat:
+        path: /etc/kubernetes/admin.conf
+      register: kubeadm_init
+      become: true
+
+    - name: Preflight checks
+      command: kubeadm init phase preflight
+      when: not kubeadm_init.stat.exists
+      register: kubeadm_checks
+      become: true
+
+    - name: Print preflight checks
+      debug:
+        var:
+          kubeadm_checks.stdout
+
+    - name: Initialize CPN
+      command: kubeadm init
+      when: not kubeadm_init.stat.exists
+      become: true
+
+    - name: Create .kube directory
+      file:
+        path: ~/.kube/
+        state: directory
+        force: false
+
+    - name: Copy k8s config
+      copy:
+        remote_src: true
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ansible/.kube/config
+      become: true
+
+    - name: Download Calico manifest
+      get_url:
+        url: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
+        dest: /home/ansible/calico.yaml
+
+    - name: Install Calico
+      k8s:
+        state: present
+        src: /home/ansible/calico.yaml
+
+    - name: Generate new token with join command
+      tags: k8s_join_cluster
+      command: kubeadm token create --print-join-command
+      register: k8s_join_cmd
+
+    - name: Print join command
+      tags: k8s_join_cluster
+      debug:
+        var: k8s_join_cmd.stdout
+
+    - name: Set join command
+      tags: k8s_join_cluster
+      set_fact:
+        k8s_join_cmd: "{{ k8s_join_cmd.stdout_lines[0] }}"
+
+
+- name: Provision worker nodes
+  hosts: workers
+  become: true
+  tasks:
+    - name: Check if worker node has joined cluster
+      tags: k8s_join_cluster
+      stat:
+        path: /etc/kubernetes/kubelet.conf
+      register: kubeadm_join
+
+    - name: Join cluster
+      tags: k8s_join_cluster
+      command: "{{ hostvars[groups['cpn'].0].k8s_join_cmd }}"
+      when: not kubeadm_join.stat.exists
