@@ -23,7 +23,7 @@ Ansible-provisioned k8s cluster managed by Flux.
 - add VMs to your hosts file for easy SSH access
 
 ### Get started
-1. Fork `mono-repo` to your own account.
+1. Fork `mono-repo` to your own account and update the `inventory` file with your managed nodes.
 2. SSH into your Ansible Control Node and switch to _root_ user with `su -`.
 3. Create a `vms.txt` file containing a space-separated list of your managed node's IPs.
 4. Copy the `ansible_init.sh` script found under `resources\scripts` and edit the _USER_ and _REPO_ vars to match your SSH user.
@@ -31,6 +31,7 @@ Ansible-provisioned k8s cluster managed by Flux.
 6. Run `./ansible_init.sh` and follow the directions until finished.
 7. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc` to set up keychain.
 8. Run `git pull` to add repo fingerprint.
+9. Run `ansible-playbook ansible-init`.
 
 
 ## Useful links
