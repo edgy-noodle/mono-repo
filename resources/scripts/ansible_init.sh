@@ -1,34 +1,39 @@
 #!/bin/bash
 # VARS
-ANSIBLE_VER=2.1
-PIP_VER=23.0.1
-PIPX_VER=1.1.0
 REPO=git@github.com:edgy-noodle/mono-repo.git
-VMS=~/vms.txt
+ANSIBLE_PATH=/home/ansible
+VMS=vms.txt
+USER=edgy
+
+echo "Creating ansible user..."
+useradd -m -s /bin/bash -g sudo ansible
+passwd ansible
 
 echo "Installing pip, pipx and keychain..."
-sudo apt install -y python3-pip=$PIP_VER pipx=$PIPX_VER keychain
+apt update -y
+apt install -y python3-pip pipx keychain git sudo
 python3 -m pipx ensurepath
-eval "$(register-python-argcomplete pipx)"
 
 echo "Installing ansible-core..."
-pipx install --include-deps ansible-core==$ANSIBLE_VER
-pipx inject --include-apps ansible argcomplete
-activate-global-python-argcomplete --user
+mkdir /etc/bash_completion.d
+PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible-core
+PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx inject --include-apps ansible-core argcomplete
+activate-global-python-argcomplete
 
 echo "Generating an Ansible key..."
-ssh-keygen -t ed25519 -C "ansible ssh" -f ~/.ssh/ansible -N ""
+mkdir -p $ANSIBLE_PATH/.ssh ~/.ssh
+ssh-keygen -t ed25519 -C "ansible ssh" -f $ANSIBLE_PATH/.ssh/ansible -N ""
 
 echo "Copying the key to managed VMs..."
-for ip in $(cat $VMS); do
-  ssh-copy-id -i ~/.ssh/ansible "$ip"
+for ip in $(cat ~/$VMS); do
+  ssh-copy-id -i $ANSIBLE_PATH/.ssh/ansible "$USER@$ip"
 done
 
-echo "Generating a GitHub key..."
-ssh-keygen -t github -C "ansible github" -f ~/.ssh/github
+echo "Generating a GitHub key..."yes
+ssh-keygen -t ed25519 -C "ansible github" -f $ANSIBLE_PATH/.ssh/github
 
 echo "Here is your GitHub key:"
-cat ~/.ssh/id_ed25519
+cat $ANSIBLE_PATH/.ssh/github.pub
 
 # Wait until key is added to GitHub
 echo "Add the key to your GitHub account as per the instructions:
@@ -37,24 +42,17 @@ echo "Once done, press any key to continue..."
 read -rs -n 1
 
 echo "Cloning the repository."
-git clone $REPO
+git clone -c core.sshCommand="/usr/bin/ssh -i $ANSIBLE_PATH/.ssh/github" $REPO $ANSIBLE_PATH/mono-repo
+chown -R ansible $ANSIBLE_PATH/mono-repo $ANSIBLE_PATH/.ssh
 
 echo "Setting repository as default login location..."
-cat << EOF >> ~/.profile
+cat << EOF >> $ANSIBLE_PATH/.profile
 # Open mono-repo on login
 cd ~/mono-repo/ansible
 EOF
 
-echo "Setting up keychain..."
-echo "eval $(keychain -q --agents ssh --eval ansible github)" >> ~/.bashrc
-
 echo "Setting up a periodic git pull..."
-crontab -l | { cat; echo "* * * * * ~/mono-repo/resources/scripts/minute_pull.sh"; } | crontab -
+crontab -u ansible -l | { cat; echo "* * * * * ~/mono-repo/resources/scripts/minute_pull.sh"; } | crontab -u ansible -
 
-echo "Reloading bash profile..."
-source ~/.bashrc
-
-echo "Opening the ansible directory..."
-cd ~/mono-repo/ansible || return
-
-echo "All done!"
+echo "Switching to ansible user..."
+su - ansible
