@@ -29,7 +29,7 @@ Ansible-provisioned k8s cluster managed by Flux.
 4. Copy the `ansible_init.sh` script found under `resources\scripts` and edit the _USER_ and _REPO_ vars to match your SSH user.
 5. Run `chmod u+x ansible_init.sh` to make script executable.
 6. Run `./ansible_init.sh` and follow the directions until finished.
-7. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc` to set up keychain.
+7. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc; source ~/.bashrc` to set up keychain.
 8. Run `git pull` to add repo fingerprint.
 9. Run `ansible-playbook ansible-init`.
 
