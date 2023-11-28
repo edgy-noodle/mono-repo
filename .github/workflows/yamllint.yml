@@ -13,6 +13,6 @@ jobs:
         with:
           yamllint_file_or_dir: .yamllint
           yamllint_strict: false
-          yamllint_comment: false
+          yamllint_comment: true
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
