@@ -1,0 +1,3 @@
+# roles/vms_init
+---
+ssh_key_path: /home/ansible/.ssh/ansible.pub

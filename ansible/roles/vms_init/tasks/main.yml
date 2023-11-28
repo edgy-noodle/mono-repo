@@ -22,10 +22,14 @@
     nopassword: true
     commands: ALL
 
+- name: Get ansible SSK key
+  local_action: command cat {{ ssh_key_path }}
+  register: ssh_key
+
 - name: Add SSH key for ansible user
   authorized_key:
     user: ansible
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqWyHzwXS1oXk+Ir04eULYLBFT1nLIu7yoYGWlfq9Hy ansible"
+    key: "{{ ssh_key.stdout }}"
 
 - name: Update VMs
   include_role:
