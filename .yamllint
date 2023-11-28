@@ -1,0 +1,11 @@
+---
+extends: default
+
+ignore: |
+  resources/
+  .github/
+
+# TODO
+rules:
+  new-line-at-end-of-file:
+    level: warning
