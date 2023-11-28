@@ -4,5 +4,5 @@ ignore: |
   resources/
   .github/
 
-rules:
-  #
+#TODO
+#rules:
