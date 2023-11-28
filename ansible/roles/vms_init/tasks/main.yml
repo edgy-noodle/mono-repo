@@ -9,10 +9,9 @@
 - name: Create ansible user
   user:
     name: ansible
-    groups:
-      - ansible
-      - sudo
+    groups: sudo
     shell: /bin/bash
+    append: true
   register: ansible
 
 - name: Run sudo without password
