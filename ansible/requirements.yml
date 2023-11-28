@@ -1,0 +1,9 @@
+# roles/ansible_init
+---
+collections:
+  - name: kubernetes.core
+    version: ">=2.4.0"
+  - name: community.general
+    version: ">=8.0.0"
+  - name: ansible.posix
+    version: ">=1.5"

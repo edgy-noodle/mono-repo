@@ -1,0 +1,7 @@
+# roles/vms_update
+---
+- name: Install updates
+  apt:
+    upgrade: true
+    update_cache: yes
+  notify: Restart VMs

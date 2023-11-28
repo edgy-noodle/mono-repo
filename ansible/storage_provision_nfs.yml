@@ -1,0 +1,4 @@
+---
+- name: Bootstrap storage, preliminary tasks and checks
+  hosts: storage
+  become: true

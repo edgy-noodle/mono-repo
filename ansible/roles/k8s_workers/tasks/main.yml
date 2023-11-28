@@ -1,0 +1,12 @@
+# roles/k8s_workers
+---
+- name: Check if worker node has joined cluster
+  tags: k8s_join_cluster
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubeadm_join
+
+- name: Join cluster
+  tags: k8s_join_cluster
+  command: "{{ hostvars[groups['cpn'].0].k8s_join_cmd }}"
+  when: not kubeadm_join.stat.exists

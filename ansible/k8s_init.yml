@@ -1,0 +1,26 @@
+---
+- name: Preliminary tasks and checks
+  hosts: k8s
+  become: true
+  pre_tasks:
+    - name: Fail fast if incompatible OS detected
+      fail:
+        msg: "OS should be Debian/Ubuntu, not {{ ansible_distribution }}"
+      when: ansible_distribution not in ['Ubuntu', 'Debian']
+
+- name: Provision all nodes
+  hosts: k8s
+  become: true
+  roles:
+    - k8s_all
+
+- name: Provision Control Plane Node
+  hosts: cpn
+  roles:
+    - k8s_cpn
+
+- name: Provision worker nodes
+  hosts: workers
+  become: true
+  roles:
+    - k8s_workers

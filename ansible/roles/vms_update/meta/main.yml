@@ -1,0 +1,18 @@
+# roles/vms_update
+---
+galaxy_info:
+  author: edgy_noodle
+  description: Update VMs
+  role_name: vms_update
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions: all
+    - name: Debian
+      versions: all
+
+  galaxy_tags: []
+
+dependencies: []

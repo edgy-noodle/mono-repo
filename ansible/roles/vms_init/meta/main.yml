@@ -1,0 +1,19 @@
+# roles/vms_init
+---
+galaxy_info:
+  author: edgy_noodle
+  description: Bootstrap VMs with sudo and updates, create ansible user
+  role_name: vms_init
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions: all
+    - name: Debian
+      versions: all
+
+  galaxy_tags: []
+
+dependencies:
+  - role: vms_update

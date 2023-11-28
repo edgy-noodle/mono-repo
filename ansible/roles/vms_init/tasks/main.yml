@@ -1,0 +1,35 @@
+# roles/vms_init
+---
+- name: Install sudo
+  package:
+    name: sudo
+    state: latest
+    update_cache: yes
+
+- name: Create ansible user
+  user:
+    name: ansible
+    groups: sudo
+    shell: /bin/bash
+    append: true
+  register: ansible
+
+- name: Run sudo without password
+  community.general.sudoers:
+    name: ansible
+    group: ansible
+    nopassword: true
+    commands: ALL
+
+- name: Get ansible SSK key
+  local_action: command cat {{ ssh_key_path }}
+  register: ssh_key
+
+- name: Add SSH key for ansible user
+  authorized_key:
+    user: ansible
+    key: "{{ ssh_key.stdout }}"
+
+- name: Update VMs
+  include_role:
+    name: vms_update

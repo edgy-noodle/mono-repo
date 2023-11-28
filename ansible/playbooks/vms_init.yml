@@ -1,0 +1,7 @@
+---
+- name: Bootstrap VMs
+  hosts: all
+  become: true
+  become_method: su
+  roles:
+    - vms_init
