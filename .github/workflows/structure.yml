@@ -22,8 +22,10 @@ jobs:
         with:
           path: ./structure.txt
       - name: 'Prepend to README'
-        run: echo "$ {steps.structure.outputs.content}" | sed '/^## Structure$/r /dev/stdin' README.md > temp 
-          && mv temp README.md
+        run: |
+          if ! grep -q '^\$ {steps.structure.outputs.content}$' README.md; then
+            echo "$ {steps.structure.outputs.content}" | sed '/^# Structure$/r /dev/stdin' README.md > temp && mv temp README.md
+          fi
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:

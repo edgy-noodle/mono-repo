@@ -10,8 +10,6 @@ Ansible-provisioned k8s cluster managed by Flux.
 
 ## Structure
 $ {steps.structure.outputs.content}
-$ {steps.structure.outputs.content}
-
 
 ---
 
