@@ -18,7 +18,7 @@ jobs:
         run: echo "STRUCT=$(tree -d --noreport)" >> $GITHUB_ENV
       - name: 'Prepend to README'
         run: |
-            echo "${{env.STRUCT}}" | sed '/^# Structure$/r /dev/stdin' README.md > temp && mv temp README.md
+            echo "${{env.STRUCT}}" | sed '/^## Structure$/r /dev/stdin' README.md > temp && mv temp README.md
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:
