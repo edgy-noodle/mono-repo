@@ -7,6 +7,9 @@ jobs:
   update-readme:
     name: 'structure'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v2
