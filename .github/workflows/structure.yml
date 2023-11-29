@@ -15,11 +15,10 @@ jobs:
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
-        run: tree -d --noreport --charset ascii
-        id: structure
+        run: echo "STRUCT=$(tree -d --noreport)" >> $GITHUB_ENV
       - name: 'Prepend to README'
         run: |
-            echo "${{steps.structure.outputs.content}}" | sed '/^# Structure$/r /dev/stdin' README.md > temp && mv temp README.md
+            echo "${{env.STRUCT}}" | sed '/^# Structure$/r /dev/stdin' README.md > temp && mv temp README.md
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:
