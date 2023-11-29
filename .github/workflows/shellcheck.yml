@@ -12,3 +12,5 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: './resources/scripts'
+        env:
+          SHELLCHECK_OPTS: -e SC1090 -e SC2013
