@@ -1,8 +1,6 @@
 name: 'yamllint_gha'
 on:
-  pull_request:
-    branches: [ main ]
-
+  - pull_request
 jobs:
   yamllint:
     name: 'yamllint'
