@@ -23,7 +23,7 @@ jobs:
           } >> "$GITHUB_ENV"
       - name: 'Replace/add in README'
         run: |
-          echo "${{env.STRUCT}}" | sed -i '/^```struct$/,/```/r /dev/stdin' README.md
+          echo "${{env.STRUCT}}" | sed -i "/^```struct$/,/```/r /dev/stdin" README.md
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:
