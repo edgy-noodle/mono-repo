@@ -17,8 +17,8 @@ jobs:
       - name: 'Generate structure'
         run: |
           {
-            echo 'STRUCT<<EOF'
-            $(tree -d --noreport)
+            echo "STRUCT<<EOF"
+            echo "$(tree -d --noreport)"
             echo EOF
           } >> "$GITHUB_ENV"
       - name: 'Prepend to README'
