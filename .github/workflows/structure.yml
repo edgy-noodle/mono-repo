@@ -15,7 +15,12 @@ jobs:
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
-        run: echo "STRUCT=$(tree -d --noreport)" >> $GITHUB_ENV
+        run: |
+          {
+            echo "STRUCT<<EOF"
+            $(tree -d --noreport)
+            echo EOF
+          } >> $GITHUB_ENV
       - name: 'Prepend to README'
         run: |
             echo "${{env.STRUCT}}" | sed '/^## Structure$/r /dev/stdin' README.md > temp && mv temp README.md
