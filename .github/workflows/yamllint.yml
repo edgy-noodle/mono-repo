@@ -5,6 +5,8 @@ jobs:
   yamllint:
     name: 'yamllint'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
