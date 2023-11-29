@@ -15,12 +15,8 @@ jobs:
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
-        run: tree -tf --noreport -I '*~' --charset ascii > structure.txt
-      - name: 'Read structure'
+        run: tree -d --noreport --charset ascii
         id: structure
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./structure.txt
       - name: 'Prepend to README'
         run: |
             echo "${{steps.structure.outputs.content}}" | sed '/^# Structure$/r /dev/stdin' README.md > temp && mv temp README.md
