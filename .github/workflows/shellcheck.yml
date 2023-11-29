@@ -1,6 +1,8 @@
 name: 'shellcheck_gha'
 on:
-  - pull_request
+  pull_request:
+    branches: [ main ]
+
 jobs:
   shellcheck:
     name: 'shellcheck'

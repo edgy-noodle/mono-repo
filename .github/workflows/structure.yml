@@ -1,0 +1,35 @@
+name: 'structure_gha'
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  update-readme:
+    name: 'structure'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+      - name: 'Install tree'
+        run: sudo apt-get install tree
+      - name: 'Generate structure'
+        run: tree -tf --noreport -I '*~' --charset ascii > structure.txt
+      - name: 'Read structure'
+        id: structure
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./structure.txt
+      - name: 'Prepend to README'
+        run: |
+          if ! grep -q '^\$ {steps.structure.outputs.content}$' README.md; then
+            echo "$ {steps.structure.outputs.content}" | sed '/^# Structure$/r /dev/stdin' README.md > temp && mv temp README.md
+          fi
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: edgy_noodle
+          author_email: aleksander.lawresz@gmail.com
+          message: "docs: update README with repo structure"
+          add: "README.md"
