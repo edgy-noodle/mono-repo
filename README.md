@@ -2,6 +2,7 @@
 
 [![yamllint_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml)
 [![shellcheck_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml)
+[![structure_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/structure.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/structure.yml)
 
 One repo to rule them all.  
 Ansible-provisioned k8s cluster managed by Flux.
@@ -9,32 +10,6 @@ Ansible-provisioned k8s cluster managed by Flux.
 ---
 
 ## Structure
-.
-├── ansible
-│   ├── playbooks
-│   └── roles
-│       ├── k8s_all
-│       │   ├── defaults
-│       │   ├── files
-│       │   ├── meta
-│       │   ├── tasks
-│       │   └── vars
-│       ├── k8s_cpn
-│       │   ├── meta
-│       │   └── tasks
-│       ├── k8s_workers
-│       │   ├── meta
-│       │   └── tasks
-│       ├── vms_init
-│       │   ├── meta
-│       │   ├── tasks
-│       │   └── vars
-│       └── vms_update
-│           ├── handlers
-│           ├── meta
-│           └── tasks
-└── resources
-    └── scripts
 
 ---
 
