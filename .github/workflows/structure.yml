@@ -17,17 +17,17 @@ jobs:
       - name: 'Generate structure'
         run: |
           {
-            echo "STRUCT<<EOF"
+            echo 'STRUCT<<EOF'
             $(tree -d --noreport)
             echo EOF
-          } >> $GITHUB_ENV
+          } >> "$GITHUB_ENV"
       - name: 'Prepend to README'
         run: |
             echo "${{env.STRUCT}}" | sed '/^## Structure$/r /dev/stdin' README.md > temp && mv temp README.md
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:
-          author_name: edgy_noodle
-          author_email: aleksander.lawresz@gmail.com
+          author_name: structure_gha
+          author_email: mono-repo@edgy-noodle.com
           message: "docs: update README with repo structure"
           add: "README.md"
