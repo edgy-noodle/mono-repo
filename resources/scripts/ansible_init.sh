@@ -1,4 +1,6 @@
 #!/bin/bash
+set -eou pipefail
+
 # VARS
 REPO=git@github.com:edgy-noodle/mono-repo.git
 ANSIBLE_PATH=/home/ansible
