@@ -1,3 +1,4 @@
+$ {steps.structure.outputs.content}
 # mono-repo
 
 [![yamllint_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml)
