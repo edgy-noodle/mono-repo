@@ -18,7 +18,8 @@ jobs:
         run: |
           {
             echo "STRUCT<<EOF"
-            echo "$(sed 's\|\ \g'<<<\"$(tree -d --noreport --charset=unicode)\")"
+            TEMP=$(sed 's\|\ \g'<<<\"$(tree -d --noreport --charset=unicode)\")
+            echo "$TEMP"
             echo EOF
           } >> "$GITHUB_ENV"
       - name: 'Remove previous struct block'
