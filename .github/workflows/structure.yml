@@ -23,8 +23,10 @@ jobs:
           } >> "$GITHUB_ENV"
       - name: 'Remove previous struct block'
         run: sed -ie '/```struct/,/```/c ```struct' README.md
+      - name: 'Replace the dreaded pipes'
+        run: sed 's\|\ \g'<<<"${{env.STRUCT}}" > temp
       - name: 'Add new structure'
-        run: printf "%s" "${{env.STRUCT}}" > temp | sed -ie "/```struct/r temp" README.md
+        run: sed -ie "/```struct/r temp" README.md
       - name: 'Finish struct block'
         run: sed -ie '/## Usage/i ```\n' README.md
       - name: Commit and push changes
