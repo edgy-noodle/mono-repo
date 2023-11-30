@@ -21,11 +21,12 @@ jobs:
             echo "$(tree -d --noreport --charset=unicode)"
             echo EOF
           } >> "$GITHUB_ENV"
-      - name: 'Replace/add in README'
-        run: |
-          sed -ie '/```struct/,/```/c ```struct' README.md
-          echo "${{env.STRUCT}}" | sed -ie '/```struct/r /dev/stdin/' README.md
-          sed -ie '/## Usage/i ```\n' README.md
+      - name: 'Remove previous struct block'
+        run: sed -ie '/```struct/,/```/c ```struct' README.md
+      - name: 'Add new structure'
+        run: echo "${{env.STRUCT}}" | sed -ie '/```struct/r /dev/stdin/' README.md
+      - name: 'Finish struct block'
+        run: sed -ie '/## Usage/i ```\n' README.md
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:
