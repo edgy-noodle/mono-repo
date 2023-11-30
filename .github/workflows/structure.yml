@@ -18,7 +18,7 @@ jobs:
         run: |
           {
             echo "STRUCT<<EOF"
-            TEMP=$(sed 's\|\ \g'<<<"$(tree -d --noreport --charset=unicode)")
+            TEMP=$(sed 's\|\ \g'<<<"$(tree -d --noreport)")
             echo "$TEMP"
             echo EOF
           } >> "$GITHUB_ENV"
