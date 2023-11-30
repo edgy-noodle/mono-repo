@@ -24,7 +24,7 @@ jobs:
       - name: 'Remove previous struct block'
         run: sed -ie '/```struct/,/```/c ```struct' README.md
       - name: 'Add new structure'
-        run: echo "${{env.STRUCT}}" | sed -ie '/```struct/r /dev/stdin/' README.md
+        run: echo "${{env.STRUCT}}" | sed -ie "/```struct/r /dev/stdin/" README.md
       - name: 'Finish struct block'
         run: sed -ie '/## Usage/i ```\n' README.md
       - name: Commit and push changes
