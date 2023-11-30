@@ -15,17 +15,16 @@ jobs:
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
-        run: |
-          {
-            echo "STRUCT<<EOF"
-            TEMP=$(sed 's\|\ \g'<<<"$(tree -d --noreport)")
-            echo "$TEMP"
-            echo EOF
-          } >> "$GITHUB_ENV"
+        run: tree -d --noreport > structure.txt
+      - name: Read repo structure
+        id: structure
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./structure.txt
       - name: 'Remove previous struct block'
         run: sed -ie '/```struct/,/```/c ```struct' README.md
       - name: 'Add new structure'
-        run: echo "${{env.STRUCT}}" | sed -ie "/```struct/r /dev/stdout" README.md
+        run: echo "${steps.structure.outputs.content}" | sed -ie "/```struct/r /dev/stdout" README.md
       - name: 'Finish struct block'
         run: sed -ie '/## Usage/i ```\n' README.md
       - name: Commit and push changes
