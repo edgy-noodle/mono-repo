@@ -20,6 +20,7 @@
     - k8s/k8s_cpn
 
 - name: Provision worker nodes
+  become: true
   hosts: workers
   roles:
     - k8s/k8s_workers
