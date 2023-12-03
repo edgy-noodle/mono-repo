@@ -30,8 +30,7 @@ Ansible-provisioned k8s cluster managed by Flux.
 `-- resources
     |-- gha
     `-- scripts
-```## Usage
-### Prerequisites
+```### Prerequisites
 
 - a Debian/Ubuntu VM for Ansible Control Node
 - Debian/Ubuntu VMs for k8s cluster
