@@ -16,5 +16,5 @@ with fileinput.input('README.md', inplace=True) as readme:
         else:
             if '```' in line:
                 with open(os.environ["STRUCTURE"]) as f:
-                    print(f.read(), end='```')
+                    print(f.read(), end='```\n')
                 replace_struct = False

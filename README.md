@@ -9,6 +9,7 @@ Ansible-provisioned k8s cluster managed by Flux.
 
 
 ## Structure
+
 ```struct
 .
 |-- ansible
@@ -31,6 +32,10 @@ Ansible-provisioned k8s cluster managed by Flux.
     |-- gha
     `-- scripts
 ```
+
+## Usage
+### Prerequisites
+
 - a Debian/Ubuntu VM for Ansible Control Node
 - Debian/Ubuntu VMs for k8s cluster
 - network connectivity and SSH accessibility on all VMs
