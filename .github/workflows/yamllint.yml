@@ -1,6 +1,8 @@
 name: 'yamllint_gha'
 on:
-  - pull_request
+  pull_request:
+    branches: [ main ]
+
 jobs:
   yamllint:
     name: 'yamllint'
@@ -14,7 +16,7 @@ jobs:
       - name: 'Lint'
         uses: karancode/yamllint-github-action@master
         with:
-          yamllint_file_or_dir: .yamllint
+          yamllint_file_or_dir: resources/gha/.yamllint
           yamllint_strict: false
           yamllint_comment: true
         env:
