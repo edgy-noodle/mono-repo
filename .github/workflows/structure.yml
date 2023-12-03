@@ -1,7 +1,5 @@
 name: 'structure_gha'
 on:
-  pull_request:
-    branches: [ main ]
   push:
     branches: [ main ]
 
@@ -12,15 +10,8 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: 'Checkout for PR'
+      - name: 'Checkout'
         uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
-        if: ${{ github.event_name == 'pull_request' }}
-      - name: 'Checkout for other events'
-        uses: actions/checkout@v4
-        if: ${{ github.event_name != 'pull_request' }}
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
