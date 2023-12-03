@@ -53,7 +53,7 @@
       - python3-kubernetes
       - python3-jsonpatch
       - pipx
-    update_cache: yes
+    update_cache: true
     state: latest
 
 - name: Create containerd directory
