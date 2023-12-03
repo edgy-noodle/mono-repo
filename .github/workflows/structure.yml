@@ -25,6 +25,7 @@ jobs:
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:
+          fetch: true
           author_name: structure_gha
           author_email: mono-repo@edgy-noodle.com
           message: "docs: update README with repo structure"
