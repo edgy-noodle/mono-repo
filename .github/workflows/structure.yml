@@ -18,6 +18,8 @@ jobs:
         run: tree -d --noreport --charset=unicode > structure.txt
       - name: 'Replace structure'
         run: python resources/gha/structure.py
+        env:
+          STRUCTURE: structure.txt
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7
         with:

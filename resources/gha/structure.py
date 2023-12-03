@@ -1,5 +1,6 @@
 # Import the fileinput module
 import fileinput
+import os
 # Loop through the lines of README.md
 with fileinput.input('README.md', inplace=True) as readme:
     replace_struct = False
@@ -14,6 +15,6 @@ with fileinput.input('README.md', inplace=True) as readme:
                 print(line, end='')
         else:
             if '```' in line:
-                with open('tree.txt') as f:
+                with open(os.environ["STRUCTURE"]) as f:
                     print(f.read(), end='```')
                 replace_struct = False
