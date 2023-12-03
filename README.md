@@ -57,7 +57,12 @@ Ansible-provisioned k8s cluster managed by Flux.
 7. Run `git pull` to accept repo fingerprint; needed for the minute pull cronjob to work correctly.
 8. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
 9. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
-10. Run `ansible-playbook ./playbooks/k8s_init.yml` to provision the k8s cluster.
+10. Generate PAT as described [in this guide](https://fluxcd.io/flux/installation/bootstrap/github/#github-personal-account).
+11. Run `ansible-playbook ./playbooks/k8s_init.yml -e '<EXTRA_VARS>'` to provision the k8s cluster. Specify the following variables as a space-separated list of _key=value_ pairs to use with Flux bootstrap:
+    - `flux_gh_owner` - repo owner username (`--owner`)
+    - `flux_gh_repo` - repo name (`--repository`)
+    - `flux_gh_cluster` - cluster path (`--path`)
+    - `flux_gh_token` - PAT generated in previous step
 
 
 ## Useful links
@@ -66,4 +71,5 @@ Ansible-provisioned k8s cluster managed by Flux.
 - [k8s Docs](https://kubernetes.io/docs/concepts/)
   - [Kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
 - [Flux Docs](https://fluxcd.io/flux/)
+  - [Flux Bootstrap](https://fluxcd.io/flux/installation/bootstrap/github/)
 - [Helm Docs](https://helm.sh/docs/)
