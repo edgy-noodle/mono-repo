@@ -12,15 +12,4 @@
   hosts: k8s
   become: true
   roles:
-    - k8s_all
-
-- name: Provision Control Plane Node
-  hosts: cpn
-  roles:
-    - k8s_cpn
-
-- name: Provision worker nodes
-  hosts: workers
-  become: true
-  roles:
-    - k8s_workers
+    - k8s_init

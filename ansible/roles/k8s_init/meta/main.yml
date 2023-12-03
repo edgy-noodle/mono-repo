@@ -1,9 +1,9 @@
-# roles/k8s_workers
+# roles/k8s_init
 ---
 galaxy_info:
   author: edgy_noodle
-  description: Join worker VMs to k8s cluster
-  role_name: k8s_workers
+  description: Provisions VMs to run k8s
+  role_name: k8s_init
 
   min_ansible_version: "2.1"
 
