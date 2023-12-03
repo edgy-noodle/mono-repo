@@ -4,6 +4,7 @@ extends: default
 ignore: |
   resources/
   .github/
+  flux/clusters/*/flux-system/
 
 # TODO
 rules:
