@@ -16,15 +16,10 @@ jobs:
         run: sudo apt-get install tree
       - name: 'Generate structure'
         run: tree -d --noreport --charset=ascii > structure.txt
-      - name: Read repo structure
-        id: structure
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./structure.txt
       - name: 'Remove previous struct block'
         run: sed -ie '/```struct/,/```/c ```struct' README.md
       - name: 'Add new structure'
-        run: echo "${{steps.structure.outputs.content}}" | sed -ie "/```struct/r /dev/stdout" README.md
+        run: sed -ie "/```struct/r structure.txt" README.md
       - name: 'Finish struct block'
         run: sed -ie '/## Usage/i ```\n' README.md
       - name: Commit and push changes
