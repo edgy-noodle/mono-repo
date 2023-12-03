@@ -3,11 +3,11 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - "**.sh"
+      - '**.sh'
   push:
     branches: [ main ]
     paths:
-      - "**.sh"
+      - '**.sh'
 
 jobs:
   shellcheck:

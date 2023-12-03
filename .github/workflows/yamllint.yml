@@ -2,12 +2,16 @@ name: 'yamllint_gha'
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '.github/**'
     paths:
-      - "**.yml"
+      - '**.yml'
   push:
     branches: [ main ]
+    paths-ignore:
+      - '.github/**'
     paths:
-      - "**.yml"
+      - '**.yml'
 
 jobs:
   yamllint:
