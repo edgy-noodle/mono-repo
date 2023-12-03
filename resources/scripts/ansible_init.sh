@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eou pipefail
+#set -eou pipefail
 
 # VARS
 REPO=git@github.com:edgy-noodle/mono-repo.git
