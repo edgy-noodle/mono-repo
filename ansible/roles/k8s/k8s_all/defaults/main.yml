@@ -1,0 +1,4 @@
+# roles/k8s_all
+---
+k8s_cri_conf: 99-kubernetes-cri.conf
+k8s_key_url: https://packages.cloud.google.com/apt/doc/apt-key.gpg

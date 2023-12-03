@@ -1,4 +1,4 @@
-# roles/k8s_init
+# roles/k8s_cpn
 ---
 - name: Install util packages
   package:

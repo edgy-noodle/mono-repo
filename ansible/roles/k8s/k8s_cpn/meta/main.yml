@@ -1,9 +1,9 @@
-# roles/k8s_init
+# roles/k8s_all
 ---
 galaxy_info:
   author: edgy_noodle
-  description: Provisions VMs to run k8s
-  role_name: k8s_init
+  description: Provisions CPN
+  role_name: k8s_cpn
 
   min_ansible_version: "2.1"
 

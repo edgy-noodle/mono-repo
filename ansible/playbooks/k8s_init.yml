@@ -9,6 +9,17 @@
       when: ansible_distribution not in ['Ubuntu', 'Debian']
 
 - name: Provision all nodes
+  hosts: k8s
   become: true
   roles:
-    - k8s_init
+    - k8s_all
+
+- name: Provision CPN
+  hosts: cpn
+  roles:
+    - k8s_cpn
+
+- name: Provision worker nodes
+  hosts: workers
+  roles:
+    - workers

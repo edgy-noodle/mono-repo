@@ -1,0 +1,19 @@
+# roles/k8s_all
+---
+galaxy_info:
+  author: edgy_noodle
+  description: Provisions VMs to run k8s
+  role_name: k8s_all
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions: all
+    - name: Debian
+      versions: all
+
+  galaxy_tags:
+    - k8s
+
+dependencies: []
