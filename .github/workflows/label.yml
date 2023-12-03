@@ -2,10 +2,14 @@ name: 'label_gha'
 on:
   pull_request:
     branches: [ main ]
+
 jobs:
   label:
     runs-on: ubuntu-latest
     name: 'label'
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: codelytv/pr-size-labeler@v1
         with:
