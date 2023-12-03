@@ -15,11 +15,19 @@ Ansible-provisioned k8s cluster managed by Flux.
 |-- ansible
 |   |-- playbooks
 |   `-- roles
-|       |-- k8s_init
-|       |   |-- defaults
-|       |   |-- files
-|       |   |-- meta
-|       |   `-- tasks
+|       |-- k8s
+|       |   |-- k8s_all
+|       |   |   |-- defaults
+|       |   |   |-- files
+|       |   |   |-- meta
+|       |   |   `-- tasks
+|       |   |-- k8s_cpn
+|       |   |   |-- defaults
+|       |   |   |-- meta
+|       |   |   `-- tasks
+|       |   `-- k8s_workers
+|       |       |-- meta
+|       |       `-- tasks
 |       |-- vms_init
 |       |   |-- meta
 |       |   |-- tasks
