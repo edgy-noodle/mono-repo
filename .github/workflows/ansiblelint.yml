@@ -1,0 +1,22 @@
+name: 'ansiblelint_gha'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ansible/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'ansible/**'
+
+jobs:
+  ansiblelint:
+    name: 'ansiblelint'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Chekout'
+        uses: actions/checkout@v4
+      - name: 'Lint'
+        uses: ansible/ansible-lint@main
+        with:
+          path: 'ansible/'
