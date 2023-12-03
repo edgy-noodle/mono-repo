@@ -45,6 +45,7 @@ read -rs -n 1
 
 echo "Cloning the repository."
 git clone -c core.sshCommand="/usr/bin/ssh -i $ANSIBLE_PATH/.ssh/github" $REPO $ANSIBLE_PATH/mono-repo
+git config --local core.filemode false
 chown -R ansible $ANSIBLE_PATH/mono-repo $ANSIBLE_PATH/.ssh
 
 echo "Setting repository as default login location..."
