@@ -38,7 +38,6 @@ Ansible-provisioned k8s cluster managed by Flux.
     |-- gha
     `-- scripts
 ```
-
 ## Usage
 ### Prerequisites
 
