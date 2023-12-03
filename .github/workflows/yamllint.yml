@@ -2,8 +2,14 @@ name: 'yamllint_gha'
 on:
   pull_request:
     branches: [ main ]
+    paths:
+      - '**.yml'
+      - '!.github/**'
   push:
     branches: [ main ]
+    paths:
+      - '**.yml'
+      - '!.github/**'
 
 jobs:
   yamllint:
@@ -18,7 +24,7 @@ jobs:
       - name: 'Lint'
         uses: karancode/yamllint-github-action@master
         with:
-          yamllint_file_or_dir: resources/gha/.yamllint
+          yamllint_config_filepath: resources/gha/.yamllint
           yamllint_strict: false
           yamllint_comment: true
         env:

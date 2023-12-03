@@ -26,5 +26,5 @@ jobs:
           fetch: true
           author_name: structure_gha
           author_email: mono-repo@edgy-noodle.com
-          message: "docs: update README with repo structure"
-          add: "README.md"
+          message: 'docs: update README with repo structure'
+          add: README.md
