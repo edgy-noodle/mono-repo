@@ -12,14 +12,14 @@
   hosts: k8s
   become: true
   roles:
-    - k8s_all
+    - k8s/k8s_all
 
 - name: Provision CPN
   hosts: cpn
   roles:
-    - k8s_cpn
+    - k8s/k8s_cpn
 
 - name: Provision worker nodes
   hosts: workers
   roles:
-    - workers
+    - k8s/k8s_workers
