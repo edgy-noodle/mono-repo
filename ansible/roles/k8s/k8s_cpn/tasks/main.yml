@@ -62,11 +62,11 @@
     url: "{{ k8s_net_manifest }}"
     dest: /home/ansible/network.yaml
 
-- name: Install Calico
+- name: Install k8s networking solution
   tags: k8s_networking
   k8s:
     state: present
-    src: /home/ansible/calico.yaml
+    src: /home/ansible/network.yaml
 
 - name: Check flux install
   tags: k8s_flux
