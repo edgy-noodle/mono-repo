@@ -17,30 +17,12 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |   `-- roles
 |       |-- k8s
 |       |   |-- k8s_all
-|       |   |   |-- defaults
-|       |   |   |-- files
-|       |   |   |-- meta
-|       |   |   `-- tasks
 |       |   |-- k8s_cpn
-|       |   |   |-- defaults
-|       |   |   |-- meta
-|       |   |   `-- tasks
 |       |   |-- k8s_flux
-|       |   |   |-- defaults
-|       |   |   |-- meta
-|       |   |   `-- tasks
 |       |   `-- k8s_workers
-|       |       |-- meta
-|       |       `-- tasks
 |       `-- unix
 |           |-- vms_init
-|           |   |-- meta
-|           |   |-- tasks
-|           |   `-- vars
 |           `-- vms_update
-|               |-- handlers
-|               |-- meta
-|               `-- tasks
 |-- flux
 |   `-- clusters
 |       `-- dev
