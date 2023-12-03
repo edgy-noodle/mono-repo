@@ -2,8 +2,12 @@ name: 'yamllint_gha'
 on:
   pull_request:
     branches: [ main ]
+    paths:
+      - "**.yml"
   push:
     branches: [ main ]
+    paths:
+      - "**.yml"
 
 jobs:
   yamllint:

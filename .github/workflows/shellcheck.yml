@@ -2,8 +2,12 @@ name: 'shellcheck_gha'
 on:
   pull_request:
     branches: [ main ]
+    paths:
+      - "**.sh"
   push:
     branches: [ main ]
+    paths:
+      - "**.sh"
 
 jobs:
   shellcheck:
