@@ -28,14 +28,15 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |       |   `-- k8s_workers
 |       |       |-- meta
 |       |       `-- tasks
-|       |-- vms_init
-|       |   |-- meta
-|       |   |-- tasks
-|       |   `-- vars
-|       `-- vms_update
-|           |-- handlers
-|           |-- meta
-|           `-- tasks
+|       `-- unix
+|           |-- vms_init
+|           |   |-- meta
+|           |   |-- tasks
+|           |   `-- vars
+|           `-- vms_update
+|               |-- handlers
+|               |-- meta
+|               `-- tasks
 `-- resources
     |-- gha
     `-- scripts
