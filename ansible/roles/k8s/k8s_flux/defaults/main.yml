@@ -1,0 +1,5 @@
+# roles/k8s_flux
+---
+flux_gh_owner: edgy-noodle
+flux_gh_repo: mono-repo
+flux_token_auth: false

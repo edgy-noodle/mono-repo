@@ -1,0 +1,24 @@
+# roles/k8s_flux
+---
+- name: Check flux install
+  command: which flux
+  ignore_errors: true
+  register: flux
+
+- name: Install flux
+  shell: curl -s https://fluxcd.io/install.sh | bash
+  when: flux.stdout | length == 0
+
+- name: Check if there are nodes to run flux
+  k8s_info:
+    kind: Node
+  register: nodes
+
+- name: Bootstrap flux
+  shell: |
+    echo {{ flux_gh_token }} | flux bootstrap github --token-auth={{ flux_token_auth }} --owner={{ flux_gh_owner }} \
+    --repository={{ flux_gh_repo }} --branch=main --path={{ flux_gh_cluster }} --personal
+  when:
+    - nodes.resources | length > 1
+    - flux_gh_token is defined
+    - flux_gh_cluster is defined

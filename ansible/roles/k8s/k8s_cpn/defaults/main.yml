@@ -1,6 +1,3 @@
 # roles/k8s_cpn
 ---
 k8s_net_manifest: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
-flux_gh_owner: edgy-noodle
-flux_gh_repo: mono-repo
-flux_token_auth: false
