@@ -23,6 +23,11 @@
   copy:
     src: "{{ k8s_cri_conf }}"
     dest: /etc/sysctl.d/99-kubernetes-cri.conf
+  register: sysctl_config
+
+- name: Reload sysctl
+  command: sysctl --system
+  when: sysctl_config.changed
 
 - name: Create keyrings directory
   file:
