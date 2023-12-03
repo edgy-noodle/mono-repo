@@ -1,4 +1,4 @@
-# roles/k8s_all
+# roles/k8s_init
 ---
 - name: Disable SWAP
   shell: swapoff -a

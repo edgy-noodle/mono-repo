@@ -1,4 +1,4 @@
-# roles/k8s_workers
+# roles/k8s_init
 ---
 - name: Check if worker node has joined cluster
   tags: k8s_join_cluster

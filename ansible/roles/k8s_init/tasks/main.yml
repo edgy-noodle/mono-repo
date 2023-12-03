@@ -1,0 +1,5 @@
+# roles/k8s_init
+---
+- include_tasks: k8s_all.yml
+- include_tasks: k8s_cpn.yml
+- include_tasks: k8s_workers.yml
