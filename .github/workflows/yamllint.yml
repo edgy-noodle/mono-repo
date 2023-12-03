@@ -10,6 +10,7 @@ on:
     paths:
       - '**.yml'
       - '!.github/**'
+  workflow_dispatch:
 
 jobs:
   yamllint:
