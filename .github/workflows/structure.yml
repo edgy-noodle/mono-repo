@@ -15,7 +15,7 @@ jobs:
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
-        run: tree -d --noreport --charset=unicode > structure.txt
+        run: tree -d -L 4 --noreport --charset=unicode > structure.txt
       - name: 'Replace structure'
         run: python resources/gha/structure.py
         env:
