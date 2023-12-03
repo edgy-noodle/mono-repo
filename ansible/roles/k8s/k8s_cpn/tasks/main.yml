@@ -71,6 +71,7 @@
 - name: Check flux install
   tags: k8s_flux
   command: which flux
+  ignore_errors: true
   register: flux
 
 - name: Install flux
