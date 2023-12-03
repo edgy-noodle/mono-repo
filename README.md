@@ -7,7 +7,6 @@
 One repo to rule them all.  
 Ansible-provisioned k8s cluster managed by Flux.
 
----
 
 ## Structure
 ```struct
@@ -39,6 +38,7 @@ Ansible-provisioned k8s cluster managed by Flux.
     |-- gha
     `-- scripts
 ```
+
 ## Usage
 ### Prerequisites
 
@@ -65,6 +65,11 @@ Ansible-provisioned k8s cluster managed by Flux.
 9. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
 10. Run `ansible-playbook ./playbooks/k8s_init.yml` to provision the k8s cluster.
 
----
 
 ## Useful links
+
+- [Ansible Docs](https://docs.ansible.com/)
+- [k8s Docs](https://kubernetes.io/docs/concepts/)
+  - [Kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
+- [Flux Docs](https://fluxcd.io/flux/)
+- [Helm Docs](https://helm.sh/docs/)
