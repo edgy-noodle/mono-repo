@@ -37,6 +37,10 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |               |-- handlers
 |               |-- meta
 |               `-- tasks
+|-- flux
+|   `-- clusters
+|       `-- dev
+|           `-- flux-system
 `-- resources
     |-- gha
     `-- scripts
