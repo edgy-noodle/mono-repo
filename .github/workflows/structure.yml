@@ -12,8 +12,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2
+      - name: 'Checkout for PR'
+        uses: actions/checkout@v4
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
+        if: ${{ github.event_name == 'pull_request' }}
+      - name: 'Checkout for push'
+        uses: actions/checkout@v4
+        if: ${{ github.event_name == 'push' }}
       - name: 'Install tree'
         run: sudo apt-get install tree
       - name: 'Generate structure'
