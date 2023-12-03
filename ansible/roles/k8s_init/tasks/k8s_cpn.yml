@@ -20,14 +20,6 @@
       alias k=kubectl
       complete -F __start_kubectl k
 
-- name: Check flux install
-  command: which flux
-  register: flux
-
-- name: Install flux
-  shell: curl -s https://fluxcd.io/install.sh | bash
-  when: flux.stdout | length == 0
-
 - name: Check if CPN needs initializing
   stat:
     path: /etc/kubernetes/admin.conf
@@ -65,14 +57,35 @@
   become: true
 
 - name: Download networking manifest
+  tags: k8s_networking
   get_url:
     url: "{{ k8s_net_manifest }}"
     dest: /home/ansible/network.yaml
 
 - name: Install Calico
+  tags: k8s_networking
   k8s:
     state: present
     src: /home/ansible/calico.yaml
+
+- name: Check flux install
+  tags: k8s_flux
+  command: which flux
+  register: flux
+
+- name: Install flux
+  tags: k8s_flux
+  shell: curl -s https://fluxcd.io/install.sh | bash
+  when: flux.stdout | length == 0
+
+- name: Bootstrap flux
+  tags: k8s_flux
+  shell: |
+    echo {{ flux_gh_token }} | flux bootstrap github --token-auth={{ flux_token_auth }} --owner={{ flux_gh_owner }} \
+    --repository={{ flux_gh_repo }} --branch=main --path={{ flux_gh_cluster }} --personal
+  when:
+    - flux_gh_token is defined
+    - flux_gh_cluster is defined
 
 - name: Generate new token with join command
   tags: k8s_join_cluster

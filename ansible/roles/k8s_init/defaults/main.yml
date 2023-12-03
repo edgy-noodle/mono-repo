@@ -3,3 +3,6 @@
 k8s_cri_conf: 99-kubernetes-cri.conf
 k8s_key_url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
 k8s_net_manifest: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
+flux_gh_owner: edgy-noodle
+flux_gh_repo: mono-repo
+flux_token_auth: false
