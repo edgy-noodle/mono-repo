@@ -4,4 +4,4 @@
   become: true
   become_method: su
   roles:
-    - vms_init
+    - unix/vms_init

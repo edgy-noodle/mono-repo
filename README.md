@@ -5,7 +5,7 @@
 [![structure_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/structure.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/structure.yml)
 
 One repo to rule them all.  
-Ansible-provisioned k8s cluster managed by Flux.
+Ansible-provisioned bare-metal k8s cluster managed by Flux.
 
 
 ## Structure
@@ -55,12 +55,15 @@ Ansible-provisioned k8s cluster managed by Flux.
 - add VMs to your hosts file for easy SSH access
 
 ### Getting started
+
 1. Fork `mono-repo` to your own account and update the `inventory` file with your managed nodes.
 2. SSH into your Ansible Control Node and switch to _root_ user with `su -`.
 3. Create a `vms.txt` file containing a space-separated list of your managed node's IPs.
 4. Copy the contents of `ansible_init.sh` script found under `resources\scripts` and edit the _USER_ and _REPO_ vars to match your SSH user and fork.
 5. Run `chmod u+x ansible_init.sh` to make it executable, then run `./ansible_init.sh` and follow the directions until finished.
+
 > You should now be switched to the newly created `ansible` account.
+
 6. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc; source ~/.bashrc` to set up keychain.
 7. Run `git pull` to accept repo fingerprint; needed for the minute pull cronjob to work correctly.
 8. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
