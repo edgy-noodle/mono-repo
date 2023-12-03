@@ -1,5 +1,8 @@
 # roles/k8s_init
 ---
 - include_tasks: k8s_all.yml
+  hosts: k8s
 - include_tasks: k8s_cpn.yml
+  hosts: cpn
 - include_tasks: k8s_workers.yml
+  hosts: workers
