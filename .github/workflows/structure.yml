@@ -21,9 +21,10 @@ jobs:
         env:
           STRUCTURE: structure.txt
       - name: Commit and push changes
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v9
         with:
           fetch: true
+          push: 'origin main --force'
           author_name: structure_gha
           author_email: mono-repo@edgy-noodle.com
           message: 'docs: update README with repo structure'
