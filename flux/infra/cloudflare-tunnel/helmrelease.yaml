@@ -16,4 +16,5 @@ spec:
       interval: 12h
   values:
     replicaCount: 2
+    tunnelId: b6c51afc-86b9-4550-9cee-dcc4be74be57
     existingSecret: cloudflared
