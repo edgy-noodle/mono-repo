@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cloudflare-tunnel
+  namespace: flux-system
   labels:
     - name: cloudflare-tunnel
 spec:
@@ -11,6 +12,7 @@ spec:
       pod: cloudflared
   template:
     metadata:
+      namespace: flux-system
       labels:
         pod: cloudflared
     spec:
