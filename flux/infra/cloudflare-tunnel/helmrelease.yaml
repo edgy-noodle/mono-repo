@@ -8,7 +8,7 @@ spec:
   interval: 60m
   chart:
     spec:
-      chart: cloudflare-tunnel
+      chart: cloudflare-tunnel-remote
       version: "*"
       sourceRef:
         kind: HelmRepository
@@ -23,7 +23,3 @@ spec:
       limits:
         cpu: 200m
         memory: 256Mi
-
-    cloudflare:
-      tunnelName: flux-dev
-      secretName: cloudflared
