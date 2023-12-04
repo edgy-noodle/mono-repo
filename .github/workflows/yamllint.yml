@@ -4,11 +4,13 @@ on:
     branches: [ main ]
     paths:
       - '**.yml'
+      - '**.yaml'
       - '!.github/**'
   push:
     branches: [ main ]
     paths:
       - '**.yml'
+      - '**.yaml'
       - '!.github/**'
   workflow_dispatch:
 
