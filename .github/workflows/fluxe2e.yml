@@ -40,12 +40,12 @@ jobs:
           kubectl wait -n flux-system kustomization --all --for=condition=ready --timeout=3m
       - name: 'Get helmreleases'
         run: |
-          kubectl get -A helmrelease
+          echo "errors=$(kubectl get -A helmrelease 2>&1)" >> $GITHUB_OUTPUT
         id: helmreleases
       - name: 'Verify helm reconciliation'
         run: |
           kubectl wait -A helmrelease --all --for=condition=ready --timeout=5m
-        if: steps.helmreleases.outcome == 'success'
+        if: ${{ steps.helmreleases.outputs.errors != 'No resources found' }}
       - name: 'Debug failure'
         if: failure()
         run: |
