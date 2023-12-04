@@ -9,12 +9,17 @@ on:
       - ready_for_review
       - reopened
       - unlocked
+  check_suite:
+    types:
+      - completed
+    status: {}
 
 jobs:
   automerge:
     name: 'automerge'
     runs-on: ubuntu-latest
     permissions:
+      checks: read
       contents: write
       pull-requests: write
     steps:
