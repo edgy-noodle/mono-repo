@@ -2,7 +2,6 @@
 
 [![yamllint_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml)
 [![shellcheck_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml)
-[![structure_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/structure.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/structure.yml)
 [![sqlreview_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/sqlreview.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/sqlreview.yml)
 [![fluxe2e_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/fluxe2e.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/fluxe2e.yml)
 
