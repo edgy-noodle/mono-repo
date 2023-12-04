@@ -3,11 +3,11 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - 'flux/'
+      - 'flux/**'
   push:
     branches: [ main ]
     paths:
-      - 'flux/'
+      - 'flux/**'
   workflow_dispatch:
 
 jobs:
