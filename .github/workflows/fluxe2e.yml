@@ -45,7 +45,7 @@ jobs:
       - name: 'Verify helm reconciliation'
         run: |
           kubectl wait -A helmrelease --all --for=condition=ready --timeout=5m
-        if: ${{ steps.helmreleases.outputs }} != 'No resources found'
+        if: steps.helmreleases.outputs != 'No resources found'
       - name: 'Debug failure'
         if: failure()
         run: |
