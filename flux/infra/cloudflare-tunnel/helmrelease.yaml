@@ -16,7 +16,6 @@ spec:
       interval: 12h
   values:
     replicaCount: 2
-    secretName: cloudflared
     resources:
       requests:
         cpu: 100m
@@ -24,3 +23,6 @@ spec:
       limits:
         cpu: 200m
         memory: 256Mi
+
+    cloudflare:
+      secretName: cloudflared
