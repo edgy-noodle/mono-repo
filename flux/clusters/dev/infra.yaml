@@ -11,6 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/infrastructure/weave-gitops
+  path: ./flux/infra/weave-gitops
   prune: true
   wait: true
