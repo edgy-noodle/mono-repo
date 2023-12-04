@@ -25,9 +25,12 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |           |-- vms_init
 |           `-- vms_update
 |-- flux
-|   `-- clusters
-|       `-- dev
-|           `-- flux-system
+|   |-- clusters
+|   |   `-- dev
+|   |       `-- flux-system
+|   `-- infra
+|       |-- cloudflare-tunnel
+|       `-- weave-gitops
 `-- resources
     |-- gha
     `-- scripts
