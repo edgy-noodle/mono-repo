@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
@@ -20,12 +21,16 @@ jobs:
         run: python resources/gha/structure.py
         env:
           STRUCTURE: structure.txt
-      - name: Commit and push changes
-        uses: EndBug/add-and-commit@v9
+      - name: 'Create PR'
+        uses: peter-evans/create-pull-request@v5
         with:
-          fetch: true
-          push: 'origin main --force'
-          author_name: structure_gha
-          author_email: mono-repo@edgy-noodle.com
-          message: 'docs: update README with repo structure'
-          add: README.md
+          add-paths: 'README.md'
+          commit-message: 'docs: update README with repo structure'
+          author: 'structure_gha <mono-repo@edgy-noodle.com>'
+          branch: 'structure_gha'
+          labels: 'automerge'
+      - name: 'Merge'
+        uses: pascalgn/automerge-action@v0.15.6
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN })'
+          MERGE_METHOD: 'squash'
