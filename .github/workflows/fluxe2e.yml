@@ -40,7 +40,7 @@ jobs:
           kubectl wait -n flux-system kustomization --all --for=condition=ready --timeout=3m
       - name: 'Get helmreleases'
         run: |
-          echo "errors=$(kubectl get -A helmrelease 2>&1)" >> $GITHUB_OUTPUT
+          echo "errors=$(kubectl get -A helmrelease 2>&1 1>>0)" >> $GITHUB_OUTPUT
         id: helmreleases
       - name: 'Verify helm reconciliation'
         run: |
