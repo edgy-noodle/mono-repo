@@ -1,0 +1,23 @@
+name: 'sqlreview_gha'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.sql'
+  push:
+    branches: [ main ]
+    paths:
+      - '**.sql'
+  workflow_dispatch:
+
+jobs:
+  sql-review:
+    runs-on: ubuntu-latest
+    name: SQL Review
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+      - name: 'Review'
+        uses: bytebase/sql-review-action@main
+        with:
+          database-type: 'POSTGRES'
