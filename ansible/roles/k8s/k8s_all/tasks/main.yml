@@ -114,8 +114,8 @@
 - name: Add storage IP to hosts for PV config
   lineinfile:
     dest: /etc/hosts
-    regexp: '{{ hostvars[item].ip }}.*{{ item }}$'
-    line: "{{ hostvars[item].ip }} {{ item }}"
+    regexp: '^{{ item }}.*'
+    line: "{{ item }} hostvars[item].group_names }} {{ item }}"
     state: present
-  when: hostvars[item].ip is defined
+  when: hostvars[item].group_names is defined
   with_items: "{{ groups.storage }}"
