@@ -2,8 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: weaveworks
+  name: secrets-store-csi-driver
 spec:
-  type: oci
   interval: 1h0m0s
-  url: oci://ghcr.io/weaveworks/charts
+  url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
