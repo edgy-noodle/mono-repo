@@ -39,3 +39,11 @@ spec:
         maxUnavailable: 0
       storage: 1Gi
       storageClass: consul
+
+    priorityClassName: system-node-critical
+
+    tolerations: |
+      - key: node-role.kubernetes.io/control-plane
+        operator: Equal
+        value: true
+        effect: NoSchedule
