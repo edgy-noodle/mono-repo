@@ -115,7 +115,7 @@
   lineinfile:
     dest: /etc/hosts
     regexp: '^{{ item }}.*'
-    line: "{{ item }} hostvars[item].group_names }} {{ item }}"
+    line: "{{ item }}\t{{ hostvars[item].group_names }}"
     state: present
   when: hostvars[item].group_names is defined
   with_items: "{{ groups.storage }}"
