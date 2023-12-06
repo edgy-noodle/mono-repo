@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: weave-gitops
-      version: "4.0.35"
+      version: 4.0.35
       sourceRef:
         kind: HelmRepository
         name: weaveworks
@@ -22,6 +22,7 @@ spec:
       limits:
         cpu: 200m
         memory: 256Mi
+
     securityContext:
       capabilities:
         drop:
@@ -31,6 +32,7 @@ spec:
       runAsUser: 1000
     service:
       type: NodePort
+
     adminUser:
       create: true
       username: admin
