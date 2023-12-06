@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: consul
+  name: storage
   namespace: flux-system
 spec:
   interval: 1h0m0s
@@ -11,8 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/infra/consul
+  path: ./flux/infra/storage
   prune: true
   wait: true
-  dependsOn:
-    - name: storage
