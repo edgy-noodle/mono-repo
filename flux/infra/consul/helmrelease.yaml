@@ -27,8 +27,7 @@ spec:
       datacenter: k8s
     client:
       enabled: true
-    tls:
-      enabled: true
+
     metrics:
       enabled: true
       enableAgentMetrics: true
