@@ -22,8 +22,7 @@ spec:
       priorityClassName: system-node-critical
       tolerations: |
         - key: node-role.kubernetes.io/control-plane
-          operator: Equal
-          value: "true"
+          operator: Exists
           effect: NoSchedule
 
       resources:
