@@ -1,0 +1,18 @@
+# roles/nfs_init
+---
+- name: Install NFS
+  package:
+    name: nfs-kernel-server
+    state: latest
+    update_cache: true
+
+- name: Add directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop: "{{ directories }}"
+  notify: Restart nfs-kernel-server
+
+- name: Add params for NFS
+  shell: |
+    echo "/export/volumes *(rw,no_root_squash,no_subtree_check)" > /etc/exports
