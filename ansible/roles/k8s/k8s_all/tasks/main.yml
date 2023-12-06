@@ -110,3 +110,12 @@
 - name: Install k8s ansible collection dependency - pyyaml
   community.general.pipx:
     name: pyaml
+
+- name: Add storage IP to hosts for PV config
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{ item }}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.storage }}"
