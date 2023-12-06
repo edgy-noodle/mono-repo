@@ -20,16 +20,11 @@ spec:
       disruptionBudget:
         maxUnavailable: 0
       priorityClassName: system-node-critical
-
-      storage: 1Gi
-      storageClass: consul
-
-    client:
-      enabled: true
-
-    global:
-      name: consul
-      datacenter: k8s
+      tolerations: |
+        - key: node-role.kubernetes.io/control-plane
+          operator: Equal
+          value: true
+          effect: NoSchedule
 
       resources:
         requests:
@@ -38,12 +33,21 @@ spec:
         limits:
           cpu: 200m
           memory: 256Mi
+      storage: 1Gi
+      storageClass: consul
 
-      tolerations: |
-        - key: node-role.kubernetes.io/control-plane
-          operator: Equal
-          value: true
-          effect: NoSchedule
+    client:
+      enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
+
+    global:
+      datacenter: k8s
 
       metrics:
         enabled: true
