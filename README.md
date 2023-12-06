@@ -22,6 +22,7 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |       |   |-- k8s_flux
 |       |   `-- k8s_workers
 |       `-- unix
+|           |-- nfs_init
 |           |-- vms_init
 |           `-- vms_update
 |-- flux
