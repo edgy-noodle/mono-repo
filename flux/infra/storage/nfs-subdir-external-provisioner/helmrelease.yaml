@@ -35,6 +35,4 @@ spec:
       enabled: true
       maxUnavailable: 1
 
-    podAnnotations:
-      consul.hashicorp.com/connect-inject: "true"
     priorityClassName: system-node-critical

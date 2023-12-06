@@ -45,6 +45,9 @@ spec:
           cpu: 100m
           memory: 64Mi
 
+    connectInject:
+      enabled: false
+
     global:
       datacenter: k8s
 
