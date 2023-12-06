@@ -1,9 +1,6 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: consul
 resources:
-  - namespace.yaml
-  - storageclass.yaml
   - helmrepository.yaml
   - helmrelease.yaml
