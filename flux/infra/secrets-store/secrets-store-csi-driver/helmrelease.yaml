@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: secrets-store-csi-driver
+spec:
+  chart:
+    spec:
+      chart: secrets-store-csi-driver
+      version: "1.4.0"
+      sourceRef:
+        kind: HelmRepository
+        name: secrets-store-csi-driver
+      interval: 12h0m0s
+  interval: 1h0m0s
+  values:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+    syncSecret:
+      enabled: true
+    enableSecretRotation: true
+    rotationPollInterval: 60s
+    linux:
+      priorityClassName: system-node-critical
