@@ -48,7 +48,7 @@
     uris: https://apt.kubernetes.io/
     signed_by: /etc/apt/keyrings/kubernetes-archive-keyring.asc
 
-- name: Install packages - containerd, k8s, pipx, jsonpatch
+- name: Install packages - containerd, k8s, pipx, jsonpatch, nfs-common
   package:
     name:
       - containerd
@@ -58,6 +58,7 @@
       - python3-kubernetes
       - python3-jsonpatch
       - pipx
+      - nfs-common
     update_cache: true
     state: latest
 
@@ -109,3 +110,12 @@
 - name: Install k8s ansible collection dependency - pyyaml
   community.general.pipx:
     name: pyaml
+
+- name: Add storage IP to hosts for PV config
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{ item }}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.storage }}"

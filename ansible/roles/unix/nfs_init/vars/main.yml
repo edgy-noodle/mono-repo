@@ -1,0 +1,4 @@
+# roles/nfs_init
+---
+directories:
+  - /export/volumes/

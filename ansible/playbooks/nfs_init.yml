@@ -2,3 +2,5 @@
 - name: Bootstrap storage, preliminary tasks and checks
   hosts: storage
   become: true
+  roles:
+    - unix/nfs_init
