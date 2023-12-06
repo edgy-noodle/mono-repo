@@ -114,8 +114,7 @@
 - name: Add storage IP to hosts for PV config
   lineinfile:
     dest: /etc/hosts
-    regexp: '.*{{ item }}$'
-    line: "{{ hostvars[item].ansible_host }} {{ item }}"
+    regexp: '{{ hostvars[item].ansible_default_ipv4.address }}.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ item }}"
     state: present
-  when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.storage }}"
