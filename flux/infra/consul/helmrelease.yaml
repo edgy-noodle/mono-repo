@@ -14,36 +14,37 @@ spec:
       interval: 12h0m0s
   interval: 1h0m0s
   values:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 64Mi
-      limits:
-        cpu: 200m
-        memory: 256Mi
-
-    global:
-      name: consul
-      datacenter: k8s
-    client:
-      enabled: true
-
-    metrics:
-      enabled: true
-      enableAgentMetrics: true
-
     server:
       # https://developer.hashicorp.com/consul/docs/architecture/consensus#deployment-table
       replicas: 3
       disruptionBudget:
         maxUnavailable: 0
+      priorityClassName: system-node-critical
+
       storage: 1Gi
       storageClass: consul
 
-    priorityClassName: system-node-critical
+    client:
+      enabled: true
 
-    tolerations: |
-      - key: node-role.kubernetes.io/control-plane
-        operator: Equal
-        value: true
-        effect: NoSchedule
+    global:
+      name: consul
+      datacenter: k8s
+
+      resources:
+        requests:
+          cpu: 100m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+
+      tolerations: |
+        - key: node-role.kubernetes.io/control-plane
+          operator: Equal
+          value: true
+          effect: NoSchedule
+
+      metrics:
+        enabled: true
+        enableAgentMetrics: true
