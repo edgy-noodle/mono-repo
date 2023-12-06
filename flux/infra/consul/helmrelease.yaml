@@ -23,6 +23,7 @@ spec:
         memory: 256Mi
 
     global:
+      name: consul
       datacenter: k8s
     client:
       enabled: true
@@ -37,3 +38,5 @@ spec:
       replicas: 3
       disruptionBudget:
         maxUnavailable: 0
+      storage: 1Gi
+      storageClass: consul
