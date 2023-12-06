@@ -1,8 +1,8 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: secrets-store
+  name: consul
   namespace: flux-system
 spec:
   interval: 1h0m0s
@@ -11,8 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/infra/secrets-store
+  path: ./flux/infra/consul
   prune: true
   wait: true
-  dependsOn:
-    - name: consul
