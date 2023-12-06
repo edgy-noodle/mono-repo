@@ -26,11 +26,9 @@ spec:
       server: storage
       path: /export/volumes
 
-    storageClass:
-      defaultClass: true
-      volumeBindingMode: WaitForFirstConsumer
+#    replicaCount: 2
+#    podDisruptionBudget:
+#      enabled: true
+#      maxUnavailable: 1
 
-    replicaCount: 2
-    podDisruptionBudget:
-      enabled: true
-      maxUnavailable: 1
+    priorityClassName: system-node-critical
