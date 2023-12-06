@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: secrets-store-csi-driver
-      version: "1.4.0"
+      version: 1.4.0
       sourceRef:
         kind: HelmRepository
         name: secrets-store-csi-driver
@@ -21,9 +21,11 @@ spec:
       limits:
         cpu: 200m
         memory: 256Mi
+
     syncSecret:
       enabled: true
     enableSecretRotation: true
     rotationPollInterval: 60s
+
     linux:
       priorityClassName: system-node-critical
