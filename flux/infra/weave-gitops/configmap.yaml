@@ -12,7 +12,6 @@ data:
       limits:
         cpu: 100m
         memory: 128Mi
-
       securityContext:
         capabilities:
           drop:
@@ -22,7 +21,6 @@ data:
         runAsUser: 1000
       service:
         type: NodePort
-
       adminUser:
         create: true
         username: admin
