@@ -23,6 +23,25 @@ spec:
     server:
       ha:
         enabled: true
+        config: |
+          storage "consul" {
+            path        = "vault"
+            address     = "HOST_IP:8500"
+          }
+          seal "awskms" {
+            region      = "eu-west-2"
+            kms_key_id  = "vault"
+          }
+          service_registration "kubernetes" {}
+
+      extraSecretEnvironmentVars:
+        - envName: AWS_ACCESS_KEY_ID
+          secretName: kms-creds
+          secretKey: AWS_ACCESS_KEY_ID
+        - envName: AWS_SECRET_ACCESS_KEY
+          secretName: kms-creds
+          secretKey: AWS_SECRET_ACCESS_KEY
+
       tolerations: |
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
