@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: cloudflare-tunnel
 resources:
   - namespace.yaml
+  - clusterrolebinding.yaml
   - secretproviderclass.yaml
   - deployment.yaml
