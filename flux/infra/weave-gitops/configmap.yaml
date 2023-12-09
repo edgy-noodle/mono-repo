@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weave-gitops
+data:
+  values.yaml: |
+    resources:
+      requests:
+        cpu: 5m
+        memory: 24Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+      service:
+        type: NodePort
+
+      adminUser:
+        create: true
+        username: admin
+        # Change password by generating a new hash with:
+        # https://docs.gitops.weave.works/docs/configuration/securing-access-to-the-dashboard/#login-via-a-cluster-user-account
+        passwordHash: "$2a$10$lWy9sSqaw6Vd0aOF7Wfsp.au6ikuve51p8P4xJ535eyaSYQQuAXyW"
