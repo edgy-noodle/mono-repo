@@ -9,7 +9,10 @@ data:
       priorityClassName: system-node-critical
       podDisruptionBudget:
         enabled: true
-        maxUnavailable: 0
+        maxUnavailable: 1
+      replicaCount: 2
+      statefulSet:
+        enabled: true
 
       persistentVolume:
         size: 4Gi
@@ -18,7 +21,7 @@ data:
       resources:
         requests:
           cpu: 10m
-          memory: 64Mi
+          memory: 128Mi
         limits:
           cpu: 100m
-          memory: 256Mi
+          memory: 512Mi
