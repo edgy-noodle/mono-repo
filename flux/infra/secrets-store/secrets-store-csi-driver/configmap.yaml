@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: secrets-store-csi-driver
+  namespace: secrets-store
 data:
   values.yaml: |
     resources:
