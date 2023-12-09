@@ -23,6 +23,7 @@ spec:
     server:
       ha:
         enabled: true
+        replicas: 2
         config: |
           listener "tcp" {
             tls_disable = 1
@@ -31,7 +32,7 @@ spec:
           }
           storage "consul" {
             path        = "vault"
-            address     = "consul-consul-server:8500"
+            address     = "HOST_IP:8500"
           }
           seal "awskms" {
             region      = "eu-west-2"
@@ -46,8 +47,3 @@ spec:
         - envName: AWS_SECRET_ACCESS_KEY
           secretName: kms-creds
           secretKey: AWS_SECRET_ACCESS_KEY
-
-      tolerations: |
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule
