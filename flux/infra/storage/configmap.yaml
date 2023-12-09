@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nfs-subdir-external-provisioner
+data:
+  values.yaml: |
+    resources:
+      requests:
+        cpu: 5m
+        memory: 48Mi
+      limits:
+        cpu: 100m
+        memory: 124Mi
+
+    nfs:
+      server: storage
+      path: /export/volumes
+
+    storageClass:
+      defaultClass: true
+      volumeBindingMode: WaitForFirstConsumer
+
+    replicaCount: 2
+    podDisruptionBudget:
+      enabled: true
+      maxUnavailable: 1
+
+    priorityClassName: system-node-critical
