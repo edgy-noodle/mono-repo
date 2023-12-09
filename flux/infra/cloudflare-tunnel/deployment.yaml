@@ -15,7 +15,6 @@ spec:
       labels:
         pod: cloudflared
     spec:
-      serviceAccountName: cloudflare-tunnel
       volumes:
         - name: secrets
           csi:
