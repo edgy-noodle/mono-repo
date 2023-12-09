@@ -22,9 +22,13 @@ spec:
       enabled: false
 
     server:
+      priorityClassName: system-node-critical
       ha:
         enabled: true
         replicas: 2
+        disruptionBudget:
+          maxUnavailable: 0
+
         config: |
           listener "tcp" {
             tls_disable = 1
