@@ -14,15 +14,6 @@ spec:
         namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
-  values:
-    resources:
-      requests:
-        cpu: 5m
-        memory: 48Mi
-      limits:
-        cpu: 100m
-        memory: 128Mi
-
-    podDisruptionBudget:
-      enabled: true
-      maxUnavailable: 0
+  valuesFrom:
+    - kind: ConfigMap
+      name: metrics-server

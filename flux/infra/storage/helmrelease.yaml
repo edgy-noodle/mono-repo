@@ -14,26 +14,6 @@ spec:
         namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
-  values:
-    resources:
-      requests:
-        cpu: 5m
-        memory: 48Mi
-      limits:
-        cpu: 100m
-        memory: 124Mi
-
-    nfs:
-      server: storage
-      path: /export/volumes
-
-    storageClass:
-      defaultClass: true
-      volumeBindingMode: WaitForFirstConsumer
-
-    replicaCount: 2
-    podDisruptionBudget:
-      enabled: true
-      maxUnavailable: 1
-
-    priorityClassName: system-node-critical
+  valuesFrom:
+    - kind: ConfigMap
+      name: nfs-subdir-external-provisioner

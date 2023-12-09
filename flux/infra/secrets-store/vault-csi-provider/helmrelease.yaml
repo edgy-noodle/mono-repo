@@ -15,40 +15,6 @@ spec:
         namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
-  values:
-    csi:
-      enabled: true
-    injector:
-      enabled: false
-
-    server:
-      priorityClassName: system-node-critical
-      ha:
-        enabled: true
-        replicas: 2
-        disruptionBudget:
-          maxUnavailable: 0
-
-        config: |
-          listener "tcp" {
-            tls_disable = 1
-            address = "[::]:8200"
-            cluster_address = "[::]:8201"
-          }
-          storage "consul" {
-            path        = "vault"
-            address     = "HOST_IP:8500"
-          }
-          seal "awskms" {
-            region      = "eu-west-2"
-            kms_key_id  = "73084880-8ab2-48e3-a3ab-b337afdc144c"
-          }
-          service_registration "kubernetes" {}
-
-      extraSecretEnvironmentVars:
-        - envName: AWS_ACCESS_KEY_ID
-          secretName: kms-creds
-          secretKey: AWS_ACCESS_KEY_ID
-        - envName: AWS_SECRET_ACCESS_KEY
-          secretName: kms-creds
-          secretKey: AWS_SECRET_ACCESS_KEY
+  valuesFrom:
+    - kind: ConfigMap
+      name: vault

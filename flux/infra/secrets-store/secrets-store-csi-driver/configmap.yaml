@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: secrets-store-csi-driver
+data:
+  values.yaml: |
+    resources:
+      requests:
+        cpu: 5m
+        memory: 48Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+
+    syncSecret:
+      enabled: true
+    enableSecretRotation: true
+    rotationPollInterval: 60s
+
+    linux:
+      priorityClassName: system-node-critical
