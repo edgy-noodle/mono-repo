@@ -15,6 +15,10 @@ spec:
       labels:
         pod: cloudflared
     spec:
+      volumes:
+        - name: secrets
+          secret:
+            secretName: cloudflare-tunnel
       containers:
         - name: cloudflared
           image: cloudflare/cloudflared:2023.10.0
@@ -28,6 +32,9 @@ spec:
             - --metrics
             - 0.0.0.0:2000
             - run
+          volumeMounts:
+            - mountPath: /etc/secrets
+              name: secrets
           env:
             - name: TUNNEL_TOKEN
               valueFrom:
