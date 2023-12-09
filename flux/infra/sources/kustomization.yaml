@@ -9,3 +9,5 @@ resources:
   - secrets-store-csi-driver.yaml
   - hashicorp.yaml
   - metrics-server.yaml
+  - prometheus-community.yaml
+  - grafana.yaml
