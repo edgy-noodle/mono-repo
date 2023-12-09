@@ -30,7 +30,7 @@ spec:
           }
           seal "awskms" {
             region      = "eu-west-2"
-            kms_key_id  = "vault"
+            kms_key_id  = "73084880-8ab2-48e3-a3ab-b337afdc144c"
           }
           service_registration "kubernetes" {}
 
