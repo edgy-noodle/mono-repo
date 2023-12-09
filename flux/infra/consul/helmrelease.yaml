@@ -27,7 +27,7 @@ spec:
 
       resources:
         requests:
-          cpu: 100m
+          cpu: 10m
           memory: 64Mi
         limits:
           cpu: 200m
@@ -39,11 +39,11 @@ spec:
       enabled: true
       resources:
         requests:
-          cpu: 50m
-          memory: 32Mi
+          cpu: 5m
+          memory: 48Mi
         limits:
           cpu: 100m
-          memory: 64Mi
+          memory: 128Mi
 
     connectInject:
       enabled: false
