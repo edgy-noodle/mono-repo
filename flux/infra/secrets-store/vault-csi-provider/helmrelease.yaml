@@ -25,7 +25,7 @@ spec:
         enabled: true
         config: |
           listener "tcp" {
-            tls_disable = 0
+            tls_disable = 1
             address = "[::]:8200"
             cluster_address = "[::]:8201"
           }
