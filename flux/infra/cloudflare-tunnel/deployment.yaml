@@ -45,6 +45,13 @@ spec:
                 secretKeyRef:
                   name: cloudflare-tunnel
                   key: token
+          resources:
+            requests:
+              cpu: 5m
+              memory: 24Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           livenessProbe:
             httpGet:
               # Cloudflared has a /ready endpoint which returns 200 if and only if
