@@ -12,16 +12,17 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: secrets-store-csi-driver
+        namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
   values:
     resources:
       requests:
-        cpu: 100m
-        memory: 64Mi
+        cpu: 5m
+        memory: 48Mi
       limits:
-        cpu: 200m
-        memory: 256Mi
+        cpu: 100m
+        memory: 128Mi
 
     syncSecret:
       enabled: true

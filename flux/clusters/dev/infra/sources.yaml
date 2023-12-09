@@ -2,18 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: consul
+  name: sources
   namespace: flux-system
 spec:
   interval: 1h0m0s
-  retryInterval: 10s
-  timeout: 1m0s
+  retryInterval: 5s
+  timeout: 30s
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/infra/consul
+  path: ./flux/infra/sources
   prune: true
   wait: true
-  dependsOn:
-    - name: sources
-    - name: storage

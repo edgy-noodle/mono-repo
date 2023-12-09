@@ -11,16 +11,17 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: nfs-subdir-external-provisioner
+        namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
   values:
     resources:
       requests:
-        cpu: 100m
-        memory: 64Mi
+        cpu: 5m
+        memory: 48Mi
       limits:
-        cpu: 200m
-        memory: 256Mi
+        cpu: 100m
+        memory: 124Mi
 
     nfs:
       server: storage

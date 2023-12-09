@@ -14,3 +14,5 @@ spec:
   path: ./flux/infra/weave-gitops
   prune: true
   wait: true
+  dependsOn:
+    - name: sources

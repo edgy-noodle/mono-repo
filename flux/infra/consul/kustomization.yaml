@@ -5,5 +5,4 @@ namespace: consul
 resources:
   - namespace.yaml
   - storageclass.yaml
-  - helmrepository.yaml
   - helmrelease.yaml

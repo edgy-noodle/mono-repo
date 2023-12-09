@@ -12,6 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hashicorp
+        namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
   values:
@@ -21,9 +22,13 @@ spec:
       enabled: false
 
     server:
+      priorityClassName: system-node-critical
       ha:
         enabled: true
         replicas: 2
+        disruptionBudget:
+          maxUnavailable: 0
+
         config: |
           listener "tcp" {
             tls_disable = 1

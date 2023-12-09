@@ -11,17 +11,18 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: weaveworks
+        namespace: sources
       interval: 12h
   # https://github.com/weaveworks/weave-gitops/blob/main/charts/gitops-server/values.yaml
   interval: 1h0m0s
   values:
     resources:
       requests:
-        cpu: 100m
-        memory: 64Mi
+        cpu: 5m
+        memory: 24Mi
       limits:
-        cpu: 200m
-        memory: 256Mi
+        cpu: 100m
+        memory: 128Mi
 
     securityContext:
       capabilities:
