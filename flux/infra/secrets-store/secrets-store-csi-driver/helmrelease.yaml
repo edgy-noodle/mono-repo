@@ -15,19 +15,6 @@ spec:
         namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
-  values:
-    resources:
-      requests:
-        cpu: 5m
-        memory: 48Mi
-      limits:
-        cpu: 100m
-        memory: 128Mi
-
-    syncSecret:
-      enabled: true
-    enableSecretRotation: true
-    rotationPollInterval: 60s
-
-    linux:
-      priorityClassName: system-node-critical
+  valuesFrom:
+    - kind: ConfigMap
+      name: secrets-store-csi-driver
