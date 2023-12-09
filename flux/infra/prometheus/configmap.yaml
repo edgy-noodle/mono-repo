@@ -10,11 +10,11 @@ data:
       podDisruptionBudget:
         enabled: true
         maxUnavailable: 0
-        
+
       persistentVolume:
         size: 4Gi
       retention: "7d"
-        
+
       resources:
         requests:
           cpu: 10m
