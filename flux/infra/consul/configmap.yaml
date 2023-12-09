@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consul
+data:
+  values.yaml: |
+    server:
+      # https://developer.hashicorp.com/consul/docs/architecture/consensus#deployment-table
+      replicas: 3
+      disruptionBudget:
+        maxUnavailable: 0
+      priorityClassName: system-node-critical
+      tolerations: |
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+      storage: 1Gi
+      storageClass: consul
+
+    client:
+      enabled: true
+      resources:
+        requests:
+          cpu: 5m
+          memory: 48Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+
+    connectInject:
+      enabled: false
+
+    global:
+      datacenter: k8s
+
+      metrics:
+        enabled: true
+        enableAgentMetrics: true
