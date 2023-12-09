@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: secrets-store-csi-driver
+  name: grafana
 spec:
   interval: 1h0m0s
-  url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+  url: https://grafana.github.io/helm-charts
