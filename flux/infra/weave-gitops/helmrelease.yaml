@@ -18,11 +18,11 @@ spec:
   values:
     resources:
       requests:
-        cpu: 100m
-        memory: 64Mi
+        cpu: 5m
+        memory: 24Mi
       limits:
-        cpu: 200m
-        memory: 256Mi
+        cpu: 100m
+        memory: 128Mi
 
     securityContext:
       capabilities:
