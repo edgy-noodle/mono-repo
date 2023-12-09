@@ -7,4 +7,3 @@ resources:
   - namespace.yaml
   - secrets-store-csi-driver
   - vault-csi-provider
-  - secretproviderclass.yaml
