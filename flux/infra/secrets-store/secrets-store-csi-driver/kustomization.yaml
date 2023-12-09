@@ -4,5 +4,4 @@ kind: Kustomization
 metadata:
   namespace: secrets-store
 resources:
-  - ../../sources/secrets-store-csi-driver.yaml
   - helmrelease.yaml
