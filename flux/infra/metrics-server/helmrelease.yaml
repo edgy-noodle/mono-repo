@@ -11,6 +11,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metrics-server
+        namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
   values:

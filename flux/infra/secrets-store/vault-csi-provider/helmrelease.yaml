@@ -12,6 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hashicorp
+        namespace: sources
       interval: 12h0m0s
   interval: 1h0m0s
   values:

@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: storage
 resources:
   - namespace.yaml
-  - nfs-subdir-external-provisioner
+  - helmrelease.yaml

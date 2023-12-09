@@ -14,3 +14,5 @@ spec:
   path: ./flux/infra/metrics-server
   prune: true
   wait: true
+  dependsOn:
+    - name: sources

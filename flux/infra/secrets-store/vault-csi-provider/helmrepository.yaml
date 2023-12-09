@@ -1,9 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: hashicorp
-  namespace: secrets-store
-spec:
-  interval: 1h0m0s
-  url: https://helm.releases.hashicorp.com

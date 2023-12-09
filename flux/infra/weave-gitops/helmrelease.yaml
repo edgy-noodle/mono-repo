@@ -11,6 +11,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: weaveworks
+        namespace: sources
       interval: 12h
   # https://github.com/weaveworks/weave-gitops/blob/main/charts/gitops-server/values.yaml
   interval: 1h0m0s

@@ -4,5 +4,5 @@ kind: Kustomization
 metadata:
   namespace: secrets-store
 resources:
-  - helmrepository.yaml
+  - ../../sources/hashicorp.yaml
   - helmrelease.yaml
