@@ -19,6 +19,7 @@ python3 -m pipx ensurepath
 echo "Installing ansible-core..."
 mkdir /etc/bash_completion.d
 PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible-core
+PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps jmespath
 PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx inject --include-apps ansible-core argcomplete
 activate-global-python-argcomplete
 
