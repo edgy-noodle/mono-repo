@@ -6,4 +6,5 @@ resources:
   - namespace.yaml
   - values.yaml
   - datasources.yaml
+  - dashboardproviders.yaml
   - helmrelease.yaml
