@@ -19,11 +19,11 @@ data:
     persistence:
       size: 6Gi
 
-    extraVolumeMounts:
+    extraSecretMounts:
       - name: secrets
         mountPath: /etc/secrets
-        csi: true
-        data:
+        readOnly: true
+        csi:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
