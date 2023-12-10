@@ -71,7 +71,7 @@ data:
 
     persistence:
       storageClass: postgresql
-      size: 4GB
+      size: 4Gi
 
     metrics:
       enabled: true
