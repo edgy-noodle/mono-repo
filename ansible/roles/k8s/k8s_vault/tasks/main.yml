@@ -41,6 +41,7 @@
     command: vault operator init
   register: vault_init
   when:
+    - secret | length > 0
     - vault_running.resources[0] is defined
     - (vault_running | json_query("resources[0].status.conditions[?type=='Ready'].status"))[0] == "False"
     - vault_status.stdout_lines[3] is defined
