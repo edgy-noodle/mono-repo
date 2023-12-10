@@ -30,6 +30,7 @@
     namespace: secrets-store
     command: vault status
   register: vault_status
+  failed_when: vault_status.rc not in [0, 2]
 
 - name: Initialize vault
   kubernetes.core.k8s_exec:
@@ -37,7 +38,11 @@
     namespace: secrets-store
     command: vault init
   register: vault_init
-  when: vault_running.resources[0] | json_query(status.conditions[?type=="Ready"].status) == "False"
+  when:
+    - vault_running.resources[0] is defined
+    - vault_running.resources[0] | json_query(status.conditions[?type=="Ready"].status) == "False"
+    - vault_status.stdout_lines[4] is defined
+    - "false" is search(vault_status.stdout_lines[4])
 
 - name: Print codes and root token
   debug:
