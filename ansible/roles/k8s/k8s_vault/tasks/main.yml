@@ -44,7 +44,30 @@
     - vault_status.stdout_lines[3] is defined
     - vault_status.stdout_lines[3] is search("false")
 
-- name: Print codes and root token
-  debug:
-    var: vault_init.stdout
+- name: Save recovery keys
+  local_action:
+    module: copy
+    dest: ~/mono-repo/ansible/.vault-keys
+    content: |
+      "{{ recovery_key_1 }}"
+      "{{ recovery_key_2 }}"
+      "{{ recovery_key_3 }}"
+      "{{ recovery_key_4 }}"
+      "{{ recovery_key_5 }}"
+      "{{ root_token }}"
   when: vault_init.changed
+  vars:
+    recovery_key_1: "{{ (vault_init.stdout_lines[0] | split(':'))[1] | vault(secret, vault_id='vault') }}"
+    recovery_key_2: "{{ (vault_init.stdout_lines[1] | split(':'))[1] | vault(secret, vault_id='vault') }}"
+    recovery_key_3: "{{ (vault_init.stdout_lines[2] | split(':'))[1] | vault(secret, vault_id='vault') }}"
+    recovery_key_4: "{{ (vault_init.stdout_lines[3] | split(':'))[1] | vault(secret, vault_id='vault') }}"
+    recovery_key_5: "{{ (vault_init.stdout_lines[4] | split(':'))[1] | vault(secret, vault_id='vault') }}"
+
+- name: Save root token
+  local_action:
+    module: copy
+    dest: ~/mono-repo/ansible/.vault-token
+    content: "{{ root_token }}"
+  when: vault_init.changed
+  vars:
+    root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | vault(secret, vault_id='vault') }}"
