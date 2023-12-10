@@ -54,7 +54,6 @@
       "{{ recovery_key_3 }}"
       "{{ recovery_key_4 }}"
       "{{ recovery_key_5 }}"
-      "{{ root_token }}"
   when: vault_init.changed
   vars:
     recovery_key_1: "{{ (vault_init.stdout_lines[0] | split(':'))[1] | vault(secret, vault_id) }}"
