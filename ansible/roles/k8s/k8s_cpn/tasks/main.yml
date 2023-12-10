@@ -65,7 +65,7 @@
 
 - name: Install k8s networking solution
   tags: k8s_networking
-  k8s:
+  kubernetes.core.k8s:
     state: present
     src: /home/ansible/network.yaml
 
