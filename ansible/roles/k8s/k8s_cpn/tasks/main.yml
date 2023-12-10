@@ -8,6 +8,7 @@
       - net-tools
       - cloud-utils
       - curl
+      - jq
     update_cache: true
     state: latest
   become: true
