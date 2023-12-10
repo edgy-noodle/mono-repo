@@ -42,7 +42,7 @@
     - vault_running.resources[0] is defined
     - vault_running.resources[0] | json_query(status.conditions[?type=="Ready"].status) == "False"
     - vault_status.stdout_lines[4] is defined
-    - "false" is search(vault_status.stdout_lines[4])
+    - vault_status.stdout_lines[4] | search("false")
 
 - name: Print codes and root token
   debug:
