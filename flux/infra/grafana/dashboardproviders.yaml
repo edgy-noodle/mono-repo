@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboardproviders
+data:
+  dashboardproviders.yaml: |
+    apiVersion: 1
+    providers:
+      - name: K8s
+        orgId: 1
+        folder: k8s
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards

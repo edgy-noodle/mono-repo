@@ -15,4 +15,10 @@ spec:
   interval: 1h0m0s
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-values
+      name: values
+    - kind: ConfigMap
+      name: datasources
+      valuesKey: datasources.yaml
+    - kind: ConfigMap
+      name: dashboardproviders
+      valuesKey: dashboardproviders.yaml

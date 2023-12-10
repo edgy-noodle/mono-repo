@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: grafana
 resources:
   - namespace.yaml
-  - configmap.yaml
+  - values.yaml
+  - datasources.yaml
   - helmrelease.yaml
