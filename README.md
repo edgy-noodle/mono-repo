@@ -35,6 +35,7 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |       |-- consul
 |       |-- grafana
 |       |-- metrics-server
+|       |-- postgresql
 |       |-- prometheus
 |       |-- secrets-store
 |       |   |-- secrets-store-csi-driver
