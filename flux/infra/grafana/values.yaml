@@ -18,3 +18,16 @@ data:
 
     persistence:
       size: 6Gi
+      
+    extraVolumeMounts:
+      - name: secrets
+        mountPath: /etc/secrets
+        csi: true
+        data:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: grafana
+
+    admin:
+      existingSecret: grafana
