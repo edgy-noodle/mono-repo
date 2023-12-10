@@ -34,5 +34,5 @@
 - name: K8s vault init
   hosts: cpn
   roles:
-    - name: k8s/k8s_vault_init
+    - name: k8s/k8s_vault
       tags: k8s_vault
