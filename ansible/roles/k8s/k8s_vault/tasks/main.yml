@@ -1,0 +1,45 @@
+# roles/k8s_vault
+---
+- name: Define AWS KMS secret
+  k8s:
+    state: present
+    api_version: v1
+    kind: Secret
+    name: kms-creds
+    namespace: secrets-store
+    resource_definition:
+      data:
+        AWS_ACCESS_KEY_ID: "{{ vault_aws_access_key_id }}"
+        AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key }}"
+
+- name: Check if vault is running
+  k8s_info:
+    kind: Pod
+    name: vault-0
+    namespace: secrets-store
+    wait: true
+    wait_condition:
+      status: True
+      type: Initialized
+    wait_timeout: 180
+  register: vault_running
+
+- name: Verify vault connectivity
+  k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault status
+  register: vault_status
+
+- name: Initialize vault
+  k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault init
+  register: vault_init
+  when: vault_running.resources[0] | json_query(status.conditions[?type=="Ready"].status) == "False"
+
+- name: Print codes and root token
+  debug:
+    var: vault_init.stdout
+  when: vault_init.changed

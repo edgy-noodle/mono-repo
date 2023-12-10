@@ -30,3 +30,9 @@
   roles:
     - name: k8s/k8s_flux
       tags: k8s_flux
+
+- name: K8s vault init
+  hosts: cpn
+  roles:
+    - name: k8s/k8s_vault_init
+      tags: k8s_vault
