@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: consul
+  name: values
 data:
   values.yaml: |
     server:

@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: consul
 resources:
   - namespace.yaml
-  - configmap.yaml
+  - values.yaml
   - storageclass.yaml
   - helmrelease.yaml

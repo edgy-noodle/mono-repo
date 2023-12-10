@@ -16,4 +16,4 @@ spec:
   interval: 1h0m0s
   valuesFrom:
     - kind: ConfigMap
-      name: nfs-subdir-external-provisioner
+      name: values

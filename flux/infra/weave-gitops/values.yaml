@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: weave-gitops
+  name: values
 data:
   values.yaml: |
     resources:

@@ -15,4 +15,4 @@ spec:
   interval: 1h0m0s
   valuesFrom:
     - kind: ConfigMap
-      name: consul
+      name: values
