@@ -40,7 +40,7 @@
   register: vault_init
   when:
     - vault_running.resources[0] is defined
-    - vault_running | json_query("resources[0].status.conditions[?type=='Ready'].status") == "False"
+    - (vault_running | json_query("resources[0].status.conditions[?type=='Ready'].status"))[0] == "False"
     - vault_status.stdout_lines[3] is defined
     - vault_status.stdout_lines[3] is search("false")
 
