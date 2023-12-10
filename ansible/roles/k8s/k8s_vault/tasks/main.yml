@@ -11,6 +11,8 @@
       data:
         AWS_ACCESS_KEY_ID: "{{ vault_aws_access_key_id | b64encode }}"
         AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key | b64encode }}"
+        AWS_REGION: "{{ vault_aws_region | b64encode }}"
+        AWS_KMS_KEY_ID: "{{ vault_aws_kms_key_id | b64encode }}"
 
 - name: Check if vault is running
   kubernetes.core.k8s_info:

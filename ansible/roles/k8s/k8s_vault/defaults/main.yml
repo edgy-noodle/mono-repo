@@ -1,4 +1,5 @@
 # roles/k8s_vault
 ---
+vault_aws_region: eu-west-2
 secret: "{{ lookup('file', '~/mono-repo/ansible/.vault-password') }}"
-vault_id: "vault"
+vault_id: vault
