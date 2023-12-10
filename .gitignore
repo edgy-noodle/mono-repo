@@ -3,3 +3,5 @@
 /.idea/*
 
 /ansible/.vault-password
+/ansible/.vault-keys
+/ansible/.vault-token
