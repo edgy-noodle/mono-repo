@@ -1,3 +1,4 @@
 # roles/k8s_vault
 ---
 secret: "{{ lookup('file', '~/mono-repo/ansible/.vault_password') }}"
+vault_id: "vault"
