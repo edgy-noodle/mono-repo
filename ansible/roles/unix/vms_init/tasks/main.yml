@@ -5,6 +5,7 @@
     name: sudo
     state: latest
     update_cache: true
+  ignore_errors: true
 
 - name: Create ansible user
   user:
