@@ -30,7 +30,7 @@
     namespace: secrets-store
     command: vault status
   register: vault_status
-  failed_when: vault_status.rc not in [0, 2]
+  failed_when: vault_status.result.rc not in [0, 2]
 
 - name: Initialize vault
   kubernetes.core.k8s_exec:
