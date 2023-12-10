@@ -5,7 +5,7 @@ metadata:
   name: datasources
 data:
   datasources.yaml: |
-    datasources: |
+    datasources:
       datasources.yaml:
         apiVersion: 1
         datasources:
