@@ -135,9 +135,12 @@
   when: not vault_kv.stdout is search("secret")
 
 - name: Copy policy file
-  copy:
-    src: "{{ vault_policy }}"
-    dest: ~/secrets-store.hcl
+  kubernetes.core.k8s_cp:
+    pod: vault-0
+    namespace: secrets-store
+    state: to_pod
+    local_path: "{{ vault_policy }}"
+    remote_path: ~/secrets-store.hcl
 
 - name: Create secrets-store policy
   kubernetes.core.k8s_exec:
