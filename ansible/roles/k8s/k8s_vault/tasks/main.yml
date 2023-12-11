@@ -131,11 +131,8 @@
     pod: vault-0
     namespace: secrets-store
     command: >
-      vault policy write secrets-store - <<EOF
-      path "secret/*" {
-        capabilities = ["read", "list"]
-      }
-      EOF
+      vault policy write secrets-store {{ vault_policy }}
+  vars:
 
 - name: Create default role
   kubernetes.core.k8s_exec:
