@@ -124,7 +124,7 @@
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
-    command: sh -ec 'vault secrets list -format="json"
+    command: vault secrets list -format="json"
   register: vault_kv
 
 - name: Enable kv engine
