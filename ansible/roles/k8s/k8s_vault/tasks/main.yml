@@ -101,7 +101,7 @@
     pod: vault-0
     namespace: secrets-store
     command: vault auth enable kubernetes
-  when: vault_auth.stdout | json_query("kubernetes/") | length == 0
+  when: vault_auth.stdout | json_query("'kubernetes/'") | length == 0
 
 - name: Get k8s API data
   kubernetes.core.k8s_exec:
