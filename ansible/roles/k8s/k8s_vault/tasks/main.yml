@@ -13,6 +13,11 @@
         AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key | b64encode }}"
         AWS_REGION: "{{ vault_aws_region | b64encode }}"
         AWS_KMS_KEY_ID: "{{ vault_aws_kms_key_id | b64encode }}"
+  when:
+    - vault_aws_access_key_id is defined
+    - vault_aws_secret_access_key is defined
+    - vault_aws_region is defined
+    - vault_aws_kms_key_id is defined
 
 - name: Check if vault is running
   kubernetes.core.k8s_info:
@@ -88,7 +93,7 @@
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
-    command: vault login {{ root_token }}
+    command: vault auth enable kubernetes
 
 - name: Get k8s API data
   kubernetes.core.k8s_exec:
