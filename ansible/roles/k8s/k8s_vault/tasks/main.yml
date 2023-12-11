@@ -139,7 +139,7 @@
     pod: vault-0
     namespace: secrets-store
     state: to_pod
-    remote_path: ~/secrets-store.hcl
+    remote_path: /vault/config/secrets-store.hcl
     content: |
       path "secret/*" {
         capabilities = ["read", "list"]
@@ -149,7 +149,7 @@
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
-    command: vault policy write secrets-store ~/secrets-store.hcl
+    command: vault policy write secrets-store /vault/config/secrets-store.hcl
 
 - name: Create default role
   kubernetes.core.k8s_exec:
