@@ -139,8 +139,11 @@
     pod: vault-0
     namespace: secrets-store
     state: to_pod
-    local_path: ~/mono-repo/ansible/roles/k8s/k8s_vault/files/secrets-store.hcl
     remote_path: ~/secrets-store.hcl
+    content: |
+      path "secret/*" {
+        capabilities = ["read", "list"]
+      }
 
 - name: Create secrets-store policy
   kubernetes.core.k8s_exec:
