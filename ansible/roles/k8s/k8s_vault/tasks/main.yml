@@ -136,7 +136,7 @@
 
 - name: Copy policy file
   copy:
-    src: {{ vault_policy }}
+    src: "{{ vault_policy }}"
     dest: ~/secrets-store.hcl
 
 - name: Create secrets-store policy
