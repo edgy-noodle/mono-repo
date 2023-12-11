@@ -41,7 +41,6 @@
     command: vault operator init
   register: vault_init
   when:
-    - secret | length > 0
     - vault_running.resources[0] is defined
     - (vault_running | json_query("resources[0].status.conditions[?type=='Ready'].status"))[0] == "False"
     - vault_status.stdout_lines[3] is defined
@@ -69,7 +68,17 @@
   local_action:
     module: copy
     dest: ~/mono-repo/ansible/.vault-token
-    content: "{{ root_token }}"
+    content: |
+      {{ root_token }}
   when: vault_init.changed
   vars:
-    root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | vault(secret, vault_id) }}"
+    root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | trim | vault(secret, vault_id) }}"
+
+- name: Vault login
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault login {{ root_token }}
+  register: vault_login
+  vars:
+    root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
