@@ -140,7 +140,7 @@
     namespace: secrets-store
     state: to_pod
     remote_path: /vault/config/secrets-store.hcl
-    content: |
+    content:
       path "secret/*" {
         capabilities = ["read", "list"]
       }
