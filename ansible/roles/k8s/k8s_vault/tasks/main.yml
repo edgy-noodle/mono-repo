@@ -33,6 +33,8 @@
     command: vault status
   register: vault_status
   ignore_errors: true
+  failed_when: false
+  no_log: True
 
 - name: Initialize vault
   kubernetes.core.k8s_exec:
@@ -79,6 +81,27 @@
     pod: vault-0
     namespace: secrets-store
     command: vault login {{ root_token }}
-  register: vault_login
   vars:
     root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
+
+- name: Enable k8s auth
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault login {{ root_token }}
+
+- name: Get k8s API data
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: env | grep -E 'KUBERNETES_PORT_443_TCP_(PORT|ADDR)' | sort
+  register: k8s_api
+
+- name: Configure k8s auth
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault write auth/kubernetes/config kubernetes_host="https://{{addr}}:{{port}}"
+  vars:
+    addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
+    port: "{{ (k8s_api.stdout_lines[1] | split('='))[1] }}"
