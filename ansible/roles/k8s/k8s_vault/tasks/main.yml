@@ -134,12 +134,16 @@
     command: vault secrets enable -path=secret kv
   when: not vault_kv.stdout is search("secret")
 
+- name: Copy policy file
+  copy:
+    src: {{ vault_policy }}
+    dest: ~/secrets-store.hcl
+
 - name: Create secrets-store policy
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
-    command: >
-      sh -ec 'vault policy write secrets-store {{ vault_policy }}'
+    command: vault policy write secrets-store ~/secrets-store.hcl
 
 - name: Create default role
   kubernetes.core.k8s_exec:
