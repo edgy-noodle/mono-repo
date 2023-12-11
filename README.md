@@ -63,7 +63,9 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 
 ### Getting started
 
-1. Fork `mono-repo` to your own account and update the `inventory` file with your managed nodes.
+##### VMs
+
+1. Fork `mono-repo` and update the `inventory` file with your managed nodes.
 2. SSH into your Ansible Control Node and switch to _root_ user with `su -`.
 3. Create a `vms.txt` file containing a space-separated list of your managed node's IPs.
 4. Copy the contents of `ansible_init.sh` script found under `resources\scripts` and edit the _USER_ and _REPO_ vars to match your SSH user and fork.
@@ -71,17 +73,40 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 
 > You should now be switched to the newly created `ansible` account.
 
-6. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc; source ~/.bashrc` to set up keychain.
-7. Run `git pull` to accept repo fingerprint; needed for the minute pull cronjob to work correctly.
-8. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
-9. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
-10. Generate PAT as described [in this guide](https://fluxcd.io/flux/installation/bootstrap/github/#github-personal-account).
-11. Run `ansible-playbook ./playbooks/k8s_init.yml -e '<EXTRA_VARS>'` to provision the k8s cluster. Specify the following variables as a space-separated list of _key=value_ pairs to use with Flux bootstrap:
-    - `flux_gh_owner` - repo owner username (`--owner`)
-    - `flux_gh_repo` - repo name (`--repository`)
-    - `flux_gh_cluster` - cluster path (`--path`)
-    - `flux_gh_token` - PAT generated in previous step
+##### Ansible
 
+1. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc; source ~/.bashrc` to set up keychain.
+2. Run `git pull` to accept repo fingerprint; needed for the minute pull cronjob to work correctly.
+3. Generate a secure password and save it under `~/mono-repo/ansible/.vault-password`.
+4. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
+5. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
+
+> Remaining playbooks can now be executed with `ansible-playbook ./playbooks/<PLAYBOOK_NAME> <OPTIONS>`.  
+> Extra variables can be added with `-e ''` option as a space-separated list of _key=value_ pairs between the brackets.
+
+##### K8s and Flux
+
+1. Generate PAT as described [in this guide](https://fluxcd.io/flux/installation/bootstrap/github/#github-personal-account).
+2. Run `k8s_init.yml` playbook with the following variables for Flux bootstrap:
+   - `flux_gh_owner` - repo owner username (`--owner`)
+   - `flux_gh_repo` - repo name (`--repository`)
+   - `flux_gh_cluster` - cluster path (`--path`)
+   - `flux_gh_token` - PAT generated in previous step
+
+> The cluster is now ready and can be interacted with from any of the k8s nodes. You can easily ssh through the ansible user on the Ansible Controle Node.
+
+##### HashiCorp Vault
+
+1. Create/login to your AWS root account and under _IAM_ create a policy with the following permissions for _KMS_ service:
+   - _Read/DescribeKey_
+   - _Write/Decrypt_
+2. Create a user and assign it to the policy. In _Users_ view under _IAM_, create an access key.
+3. Under _KMS_, create a new key with the default config and name it `vault`. Pay attention to the region.
+4. Run `k8s_init.yml` playbook with `--tags k8s_vault` and the following variables:
+   - `vault_aws_access_key_id` - generated in _Step 2_
+   - `vault_aws_secret_access_key` - generated in _Step 2_
+   - `vault_aws_region` - chosen in _Step 3_
+   - `vault_aws_kms_key_id` - generated in _Step 3_
 
 ## Useful links
 
@@ -91,3 +116,6 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 - [Flux Docs](https://fluxcd.io/flux/)
   - [Flux Bootstrap](https://fluxcd.io/flux/installation/bootstrap/github/)
 - [Helm Docs](https://helm.sh/docs/)
+- [AWS Docs](https://docs.aws.amazon.com/)
+  - [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started.html)
+  - [AWS KMS](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html)
