@@ -108,6 +108,8 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
    - `vault_aws_region` - chosen in _Step 3_
    - `vault_aws_kms_key_id` - generated in _Step 3_
 
+> NOTE: You might need to re-run _Step 4_, as sometimes first try will fail during _Vault login_ task with a 500 error.
+
 ## Useful links
 
 - [Ansible Docs](https://docs.ansible.com/)
