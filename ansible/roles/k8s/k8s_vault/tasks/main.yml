@@ -119,3 +119,28 @@
   vars:
     addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
     port: "{{ (k8s_api.stdout_lines[1] | split('='))[1] }}"
+
+- name: Enable kv engine
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault secrets enable -path=secret kv
+
+- name: Create secrets-store policy
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: >
+      vault policy write secrets-store - <<EOF
+      path "secret/*" {
+        capabilities = ["read", "list"]
+      }
+      EOF
+
+- name: Create default role
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: >
+      vault write auth/kubernetes/role/default bound_service_account_names=default \
+      bound_service_account_namespaces=grafana,cloudflare-tunnel,postgresql policies=secrets-store ttl=20m
