@@ -89,17 +89,26 @@
   vars:
     root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
+- name: Check for k8s auth
+  kubernetes.core.k8s_exec:
+    pod: vault-0
+    namespace: secrets-store
+    command: vault auth list -format="json"
+  register: vault_auth
+
 - name: Enable k8s auth
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
     command: vault auth enable kubernetes
+  when: vault_auth.stdout | json_query("kubernetes/") | length == 0
 
 - name: Get k8s API data
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
-    command: env | grep -E 'KUBERNETES_PORT_443_TCP_(PORT|ADDR)' | sort
+    command: >
+      sh env | grep -E 'KUBERNETES_PORT_443_TCP_(PORT|ADDR)' | sort
   register: k8s_api
 
 - name: Configure k8s auth
