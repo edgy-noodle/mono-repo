@@ -10,7 +10,7 @@
   when: flux.stdout | length == 0
 
 - name: Check if there are nodes to run flux
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: Node
   register: nodes
 

@@ -1,0 +1,19 @@
+# roles/k8s_vault
+---
+galaxy_info:
+  author: edgy_noodle
+  description: Initialize HashiCorp Vault
+  role_name: k8s_vault
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions: all
+    - name: Debian
+      versions: all
+
+  galaxy_tags:
+    - k8s
+
+dependencies: []

@@ -30,8 +30,8 @@ data:
             address     = "HOST_IP:8500"
           }
           seal "awskms" {
-            region      = "eu-west-2"
-            kms_key_id  = "73084880-8ab2-48e3-a3ab-b337afdc144c"
+            region      = "$AWS_REGION"
+            kms_key_id  = "$AWS_KMS_KEY_ID"
           }
           service_registration "kubernetes" {}
 
@@ -42,3 +42,9 @@ data:
         - envName: AWS_SECRET_ACCESS_KEY
           secretName: kms-creds
           secretKey: AWS_SECRET_ACCESS_KEY
+        - envName: AWS_REGION
+          secretName: kms-creds
+          secretKey: AWS_REGION
+        - envName: AWS_KMS_KEY_ID
+          secretName: kms-creds
+          secretKey: AWS_KMS_KEY_ID
