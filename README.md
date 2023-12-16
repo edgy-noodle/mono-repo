@@ -72,15 +72,14 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 4. Copy the contents of `ansible_init.sh` script found under `resources\scripts` and edit the _USER_ and _REPO_ vars to match your SSH user and fork.
 5. Run `chmod u+x ansible_init.sh` to make it executable, then run `./ansible_init.sh` and follow the directions until finished.
 
-> You should now be switched to the newly created `ansible` account.
+> You should now be switched to the newly created `ansible` account.  
+> If you need to add another VM in the future, simply switch to _root_, add it to `vms.txt` and run the script again.
 
 ##### Ansible
 
-1. Run `echo "eval $(keychain -q --agents ssh --eval ~/.ssh/ansible ~/.ssh/github)" >> ~/.bashrc; source ~/.bashrc` to set up keychain.
-2. Run `git pull` to accept repo fingerprint; needed for the minute pull cronjob to work correctly.
-3. Generate a secure password and save it under `~/mono-repo/ansible/.vault-password`.
-4. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
-5. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
+1. Generate a secure password and save it under `~/mono-repo/ansible/.vault-password`.
+2. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
+3. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
 
 > Remaining playbooks can now be executed with `ansible-playbook ./playbooks/<PLAYBOOK_NAME> <OPTIONS>`.  
 > Extra variables can be added with `-e ''` option as a space-separated list of _key=value_ pairs between the brackets.
