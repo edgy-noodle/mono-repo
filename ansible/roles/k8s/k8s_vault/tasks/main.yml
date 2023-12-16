@@ -50,7 +50,7 @@
 
 - name: Print status
   debug:
-    var: "{{ vault_init.content | json_query('initialized') }}"
+    var: vault_init.content | json_query('initialized')
 
 - name: Initialize vault
   kubernetes.core.k8s_exec:
