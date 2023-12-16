@@ -19,6 +19,9 @@ data:
         disruptionBudget:
           maxUnavailable: 1
 
+      service:
+        type: NodePort
+
         config: |
           listener "tcp" {
             tls_disable = 1
