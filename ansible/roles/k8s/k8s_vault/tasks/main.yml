@@ -31,15 +31,25 @@
     wait_timeout: 180
   register: vault_running
 
-- name: Verify vault connectivity
-  kubernetes.core.k8s_exec:
-    pod: vault-0
+- name: Get vault svc
+  kubernetes.core.k8s_info:
+    kind: Service
+    name: vault
     namespace: secrets-store
-    command: vault status
-  register: vault_status
-  ignore_errors: true
-  failed_when: false
-  no_log: True
+  register: vault_svc
+
+- name: Register vault svc address
+  set_fact:
+    vault_address: "{{ vault_svc | json_query('resources[0].spec.clusterIP') }}:{{ vault_svc | json_query('resources[0].spec.ports[?name == `http`].port | [0]') }}"
+
+- name: Verify vault status
+  ansible.builtin.uri:
+    url: vault_address
+  register: vault_init
+
+- name: Print status
+  debug:
+    var: "{{ vault_init.content | json_query('initialized') }}"
 
 - name: Initialize vault
   kubernetes.core.k8s_exec:
@@ -152,7 +162,7 @@
     command: vault secrets enable -path=secret kv
   when:
     - vault_ready
-    - not vault_kv.stdout is search("secret")
+    - not vault_kv.stdout is search("secret/")
 
 - name: Copy policy file
   kubernetes.core.k8s_cp:
