@@ -11,10 +11,6 @@ data:
       disruptionBudget:
         maxUnavailable: 0
       priorityClassName: system-node-critical
-      tolerations: |
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule
 
       resources:
         requests:
