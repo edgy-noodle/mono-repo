@@ -48,10 +48,6 @@
     return_content: true
   register: vault_init
 
-- name: Print status
-  debug:
-    var: vault_init.content | json_query('initialized')
-
 - name: Initialize vault
   kubernetes.core.k8s_exec:
     pod: vault-0
@@ -59,8 +55,7 @@
     command: vault operator init
   register: vault_init
   when:
-    - vault_running.resources[0] is defined
-    - (vault_running | json_query("resources[0].status.conditions[?type=='Ready'].status"))[0] == "False"
+    - vault_init.content | from_json | json_query('initialized') is false
     - vault_status.stdout_lines[3] is defined
     - vault_status.stdout_lines[3] is search("false")
 
