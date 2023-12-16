@@ -42,6 +42,10 @@
   set_fact:
     vault_address: "{{ vault_svc | json_query('resources[0].spec.clusterIP') }}:{{ vault_svc | json_query('resources[0].spec.ports[?name == `http`].port | [0]') }}"
 
+- name: Print svc address
+  debug:
+    var: "{{ vault address }}"
+
 - name: Verify vault status
   ansible.builtin.uri:
     url: "{{ vault_address }}"
