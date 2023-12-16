@@ -19,7 +19,7 @@
     - vault_aws_region is defined
     - vault_aws_kms_key_id is defined
 
-- name: Check if vault is running
+- name: Wait for vault to be running
   kubernetes.core.k8s_info:
     kind: Pod
     name: vault-0
@@ -81,11 +81,24 @@
   vars:
     root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | trim | vault(secret, vault_id) }}"
 
+- name: Wait for vault to be ready
+  kubernetes.core.k8s_info:
+    kind: Pod
+    name: vault-0
+    namespace: secrets-store
+    wait: true
+    wait_condition:
+      status: True
+      type: Ready
+    wait_timeout: 180
+  register: vault_ready
+
 - name: Vault login
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
     command: vault login {{ root_token }}
+  when: vault_ready
   vars:
     root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
@@ -94,6 +107,7 @@
     pod: vault-0
     namespace: secrets-store
     command: vault auth list -format="json"
+  when: vault_ready
   register: vault_auth
 
 - name: Enable k8s auth
@@ -101,7 +115,9 @@
     pod: vault-0
     namespace: secrets-store
     command: vault auth enable kubernetes
-  when: not vault_auth.stdout is search("kubernetes")
+  when:
+    - vault_ready
+    - not vault_auth.stdout is search("kubernetes")
 
 - name: Get k8s API data
   kubernetes.core.k8s_exec:
@@ -119,6 +135,7 @@
   vars:
     addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
     port: "{{ (k8s_api.stdout_lines[1] | split('='))[1] }}"
+  when: vault_ready
 
 - name: Check for kv engine
   kubernetes.core.k8s_exec:
@@ -126,13 +143,16 @@
     namespace: secrets-store
     command: vault secrets list -format="json"
   register: vault_kv
+  when: vault_ready
 
 - name: Enable kv engine
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
     command: vault secrets enable -path=secret kv
-  when: not vault_kv.stdout is search("secret")
+  when:
+    - vault_ready
+    - not vault_kv.stdout is search("secret")
 
 - name: Copy policy file
   kubernetes.core.k8s_cp:
@@ -144,12 +164,14 @@
       path "secret/*" {
         capabilities = ["read", "list"]
       }
+  when: vault_ready
 
 - name: Create secrets-store policy
   kubernetes.core.k8s_exec:
     pod: vault-0
     namespace: secrets-store
     command: vault policy write secrets-store /vault/config/secrets-store.hcl
+  when: vault_ready
 
 - name: Create default role
   kubernetes.core.k8s_exec:
@@ -158,3 +180,4 @@
     command: >
       vault write auth/kubernetes/role/default bound_service_account_names=default \
       bound_service_account_namespaces=grafana,cloudflare-tunnel,postgresql policies=secrets-store ttl=20m
+  when: vault_ready
