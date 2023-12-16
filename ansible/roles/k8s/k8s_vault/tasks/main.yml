@@ -48,7 +48,8 @@
 
 - name: Verify vault status
   ansible.builtin.uri:
-    url: "{{ vault_address }}"
+    url: http://{{ vault_address }}
+    return_content: true
   register: vault_init
 
 - name: Print status
