@@ -79,7 +79,7 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 
 1. Generate a secure password and save it under `~/mono-repo/ansible/.vault-password`.
 2. Run `ansible-playbook ./playbooks/ansible_init.yml` to initialize Ansible itself. 
-3. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -e 'ansible-user=<USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
+3. Run `ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --ask-become-pass ./playbooks/vms_init.yml -u <USER>'` to initialize managed nodes. Set `<USER>` to the initial account you created across all VMs.
 
 > Remaining playbooks can now be executed with `ansible-playbook ./playbooks/<PLAYBOOK_NAME> <OPTIONS>`.  
 > Extra variables can be added with `-e ''` option as a space-separated list of _key=value_ pairs between the brackets.
