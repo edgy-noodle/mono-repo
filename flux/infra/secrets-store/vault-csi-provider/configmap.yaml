@@ -30,10 +30,15 @@ data:
             address     = "HOST_IP:8500"
           }
           seal "awskms" {
-            region      = "$AWS_REGION"
-            kms_key_id  = "$AWS_KMS_KEY_ID"
+            region      = "AWS_REGION"
+            kms_key_id  = "AWS_KMS_KEY_ID"
           }
           service_registration "kubernetes" {}
+
+      postStart:
+        - /bin/sh
+        - -c
+        - sed -i -e "s/AWS_REGION/$AWS_REGION/g" -e "s/AWS_KMS_KEY_ID/$AWS_KMS_KEY_ID/g" /tmp/storageconfig.hcl
 
       extraSecretEnvironmentVars:
         - envName: AWS_ACCESS_KEY_ID
