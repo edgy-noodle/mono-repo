@@ -68,7 +68,7 @@
     module: copy
     dest: ~/mono-repo/ansible/.vault-token
     content: |
-      {{ root_token }}
+      "{{ root_token }}"
   when: vault_init is succeeded
   vars:
     root_token: "{{ vault_init.content | from_json | json_query('root_token') | vault(secret, vault_id) }}"
@@ -78,13 +78,17 @@
     key: "{{ item | vault(secret, vault_id) }}"
   loop: "{{ vault_init.content | from_json | json_query('recovery_keys') }}"
   register: encrypted_keys
+  when: vault_init is succeeded
 
-- name: Save recovery keys
+- name: Create a file for recovery keys
   local_action:
     module: copy
     dest: ~/mono-repo/ansible/.vault-keys
-    content: |
-      "{{ item }}"
+    content: ""
+  when: vault_init is succeeded
+
+- name: Save recovery keys
+  local_action: shell echo "\$ANSIBLE_VAULT{{ item }}" >> ~/mono-repo/ansible/.vault-keys
   when: vault_init is succeeded
   loop: "{{ encrypted_keys | json_query('results[*].[ansible_facts.key] | []')  }}"
 
