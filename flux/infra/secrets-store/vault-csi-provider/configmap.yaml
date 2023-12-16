@@ -15,9 +15,9 @@ data:
       priorityClassName: system-node-critical
       ha:
         enabled: true
-        replicas: 2
+        replicas: 3
         disruptionBudget:
-          maxUnavailable: 0
+          maxUnavailable: 1
 
         config: |
           listener "tcp" {
