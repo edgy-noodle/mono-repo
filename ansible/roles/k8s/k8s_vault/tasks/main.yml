@@ -44,7 +44,7 @@
 
 - name: Print svc address
   debug:
-    var: "{{ vault address }}"
+    var: "{{ vault_address }}"
 
 - name: Verify vault status
   ansible.builtin.uri:
