@@ -52,6 +52,7 @@
   ansible.builtin.uri:
     url: http://{{ vault_address }}/v1/sys/init
     method: POST
+    return_content: true
     body_format: json
     body: |
       {
@@ -62,24 +63,6 @@
   register: vault_init
   when: (vault_init.content | from_json | json_query('initialized')) is false
 
-- name: Save recovery keys
-  local_action:
-    module: copy
-    dest: ~/mono-repo/ansible/.vault-keys
-    content: |
-      "{{ recovery_key_1 }}"
-      "{{ recovery_key_2 }}"
-      "{{ recovery_key_3 }}"
-      "{{ recovery_key_4 }}"
-      "{{ recovery_key_5 }}"
-  when: vault_init is succeeded
-  vars:
-    recovery_key_1: "{{ (vault_init.stdout_lines[0] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_2: "{{ (vault_init.stdout_lines[1] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_3: "{{ (vault_init.stdout_lines[2] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_4: "{{ (vault_init.stdout_lines[3] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_5: "{{ (vault_init.stdout_lines[4] | split(':'))[1] | vault(secret, vault_id) }}"
-
 - name: Save root token
   local_action:
     module: copy
@@ -88,7 +71,22 @@
       {{ root_token }}
   when: vault_init is succeeded
   vars:
-    root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | trim | vault(secret, vault_id) }}"
+    root_token: "{{ vault_init.content | from_json | json_query('root_token') | vault(secret, vault_id) }}"
+
+- name: Encrypt recovery keys
+  set_fact:
+    key: "{{ item | vault(secret, vault_id) }}"
+  loop: "{{ vault_init.content | from_json | json_query('recovery_keys') }}"
+  register: encrypted_keys
+
+- name: Save recovery keys
+  local_action:
+    module: copy
+    dest: ~/mono-repo/ansible/.vault-keys
+    content: |
+      "{{ item }}"
+  when: vault_init is succeeded
+  loop: "{{ encrypted_keys | json_query('results[*].[ansible_facts.key] | []')  }}"
 
 - name: Wait for vault to be ready
   kubernetes.core.k8s_info:
