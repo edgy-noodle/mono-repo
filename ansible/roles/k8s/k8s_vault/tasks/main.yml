@@ -49,15 +49,18 @@
   register: vault_init
 
 - name: Initialize vault
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault operator init
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/init
+    method: POST
+    body_format: json
+    body: |
+      {
+        "stored_shares": 10,
+        "recovery_shares": 10,
+        "recovery_threshold": 5
+      }
   register: vault_init
-  when:
-    - vault_init.content | from_json | json_query('initialized') is false
-    - vault_status.stdout_lines[3] is defined
-    - vault_status.stdout_lines[3] is search("false")
+  when: (vault_init.content | from_json | json_query('initialized')) is false
 
 - name: Save recovery keys
   local_action:
@@ -69,7 +72,7 @@
       "{{ recovery_key_3 }}"
       "{{ recovery_key_4 }}"
       "{{ recovery_key_5 }}"
-  when: vault_init.changed
+  when: vault_init is succeeded
   vars:
     recovery_key_1: "{{ (vault_init.stdout_lines[0] | split(':'))[1] | vault(secret, vault_id) }}"
     recovery_key_2: "{{ (vault_init.stdout_lines[1] | split(':'))[1] | vault(secret, vault_id) }}"
@@ -83,7 +86,7 @@
     dest: ~/mono-repo/ansible/.vault-token
     content: |
       {{ root_token }}
-  when: vault_init.changed
+  when: vault_init is succeeded
   vars:
     root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | trim | vault(secret, vault_id) }}"
 
