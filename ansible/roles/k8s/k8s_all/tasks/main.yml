@@ -57,6 +57,7 @@
       - kubectl
       - python3-kubernetes
       - python3-jsonpatch
+      - python3-hvac
       - pipx
       - nfs-common
     update_cache: true
@@ -106,10 +107,6 @@
 - name: Install k8s ansible collection dependency - openshift
   community.general.pipx:
     name: openshift
-    install_deps: true
-- name: Install k8s ansible collection dependency - hvac
-  community.general.pipx:
-    name: hvac
     install_deps: true
 - name: Install k8s ansible collection dependency - pyyaml
   community.general.pipx:
