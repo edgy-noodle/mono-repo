@@ -105,29 +105,29 @@
     wait_timeout: 180
   register: vault_ready
 
-- name: Vault login
-  community.hashi_vault.vault_login:
-    url: http://{{ vault_address }}
-    auth_method: token
-    token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
+- name: Get vault root token
+  set_fact:
+    root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
 - name: Check for k8s auth
-  community.hashi_vault.vault_list:
-    url: http://{{ vault_address }}
-    path: /sys/auth
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/auth/kubernetes
+    return_content: true
+    headers:
+      X-Vault-Token: "{{ root_token }}"
   register: vault_auth
+  ignore_errors: true
 
 - name: Enable k8s auth
   community.hashi_vault.vault_write:
     url: http://{{ vault_address }}
-    path: /sys/auth
+    path: sys/auth/kubernetes
+    token: "{{ root_token }}"
     data: |
       {
         "type": "kubernetes"
       }
-  when:
-    - vault_ready
-    - not vault_auth.stdout is search("kubernetes")
+  when: vault_auth is failed
 
 - name: Get k8s API data
   kubernetes.core.k8s_exec:
@@ -136,16 +136,20 @@
     command: >
       sh -ec 'env | grep -E "KUBERNETES_PORT_443_TCP_(PORT|ADDR)" | sort'
   register: k8s_api
+  when: vault_auth is failed
 
 - name: Configure k8s auth
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault write auth/kubernetes/config kubernetes_host="https://{{addr}}:{{port}}"
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: auth/kubernetes/config
+    data: |
+      {
+        "kubernetes_host": "https://{{addr}}:{{port}}",
+      }
+  when: vault_auth is failed
   vars:
     addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
     port: "{{ (k8s_api.stdout_lines[1] | split('='))[1] }}"
-  when: vault_ready
 
 - name: Check for kv engine
   kubernetes.core.k8s_exec:
