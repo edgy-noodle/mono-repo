@@ -164,7 +164,7 @@
     path: sys/mounts/secret
     token: "{{ root_token }}"
     data:
-      type: kv,
+      type: kv
       options: {
         version: "2"
       }
@@ -189,7 +189,7 @@
     path: auth/kubernetes/role/default
     token: "{{ root_token }}"
     data:
-      name: default,
+      name: default
       bound_service_account_names:
         - default
         - grafana
