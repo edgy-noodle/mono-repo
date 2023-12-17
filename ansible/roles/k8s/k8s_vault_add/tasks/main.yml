@@ -11,6 +11,7 @@
 - name: Add secret
   community.hashi_vault.vault_write:
     path: "secret/data/{{ vault_secret_name }}"
+    token: "{{ root_token }}"
     data:
       data:
         "{{ vault_secret_key }}: {{ vault_secret_value }}"
