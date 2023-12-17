@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: flux-grafana-ha
   secretRef:
     name: flux-system
   url: ssh://git@github.com/edgy-noodle/mono-repo
