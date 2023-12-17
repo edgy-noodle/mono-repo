@@ -109,11 +109,13 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
    - `vault_aws_region` - chosen in _Step 3_
    - `vault_aws_kms_key_id` - generated in _Step 3_
 
+> Failures are expected during check tasks on the first run. These indicate lack of resource and trigger its creation.
+
 ##### Adding secrets
 
 1. Run `k8s_vault_add.yml` playbook with the following variables:
    - `vault_secret_name`
-   - `vault_secret_data` - a JSON dict object containing _"key":"value"_ pairs
+   - `vault_secret_data` - a JSON object containing a dict {} of _"key":"value"_ pairs
 
 
 ## Useful links
