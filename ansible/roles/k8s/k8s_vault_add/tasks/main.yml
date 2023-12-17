@@ -16,12 +16,11 @@
     root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
 - name: Add secret
-  community.hashi_vault.vault_write:
-    path: "secret/data/{{ vault_secret_name }}"
+  community.hashi_vault.vault_kv2_write:
+    path: "{{ vault_secret_name }}"
     token: "{{ root_token }}"
     data:
-      data:
-        "{{ vault_secret_key }}: {{ vault_secret_value }}"
+      "{{ vault_secret_key }}": "{{ vault_secret_value }}"
   when:
     - vault_secret_name is defined
     - vault_secret_key is defined
