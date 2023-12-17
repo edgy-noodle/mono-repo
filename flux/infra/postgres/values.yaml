@@ -12,7 +12,7 @@ data:
     service:
       type: NodePort
       nodePorts:
-        postgresql: 35432
+        postgresql: 32345
 
     metrics:
       enabled: true
