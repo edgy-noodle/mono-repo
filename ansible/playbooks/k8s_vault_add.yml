@@ -1,0 +1,5 @@
+---
+- name: Run k8s_vault_add role
+  hosts: cpn
+  roles:
+    - name: k8s/k8s_vault_add

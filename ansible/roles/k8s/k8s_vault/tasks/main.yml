@@ -31,55 +31,63 @@
     wait_timeout: 180
   register: vault_running
 
-- name: Verify vault connectivity
-  kubernetes.core.k8s_exec:
-    pod: vault-0
+- name: Get vault svc
+  kubernetes.core.k8s_info:
+    kind: Service
+    name: vault
     namespace: secrets-store
-    command: vault status
+  register: vault_svc
+
+- name: Register vault svc address
+  set_fact:
+    vault_address: "{{ vault_svc | json_query('resources[0].spec.clusterIP') }}:{{ vault_svc | json_query('resources[0].spec.ports[?name == `http`].port | [0]') }}"
+
+- name: Verify vault status
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/init
+    return_content: true
   register: vault_status
-  ignore_errors: true
-  failed_when: false
-  no_log: True
 
 - name: Initialize vault
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault operator init
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/init
+    method: POST
+    return_content: true
+    body_format: json
+    body: |
+      {
+        "stored_shares": 10,
+        "recovery_shares": 10,
+        "recovery_threshold": 5
+      }
   register: vault_init
-  when:
-    - vault_running.resources[0] is defined
-    - (vault_running | json_query("resources[0].status.conditions[?type=='Ready'].status"))[0] == "False"
-    - vault_status.stdout_lines[3] is defined
-    - vault_status.stdout_lines[3] is search("false")
+  when: (vault_status.content | from_json | json_query('initialized')) is false
 
-- name: Save recovery keys
+- name: Save root token
+  local_action: shell echo "\$ANSIBLE_VAULT{{ root_token }}" > ~/mono-repo/ansible/.vault-token
+  when: vault_init is not skipped
+  vars:
+    root_token: "{{ vault_init.content | from_json | json_query('root_token') | vault(secret, vault_id) }}"
+
+- name: Encrypt recovery keys
+  set_fact:
+    key: "{{ item | vault(secret, vault_id) }}"
+  loop: "{{ vault_init.content | from_json | json_query('recovery_keys') }}"
+  register: encrypted_keys
+  when: vault_init is not skipped
+
+- name: Create a file for recovery keys
   local_action:
     module: copy
     dest: ~/mono-repo/ansible/.vault-keys
-    content: |
-      "{{ recovery_key_1 }}"
-      "{{ recovery_key_2 }}"
-      "{{ recovery_key_3 }}"
-      "{{ recovery_key_4 }}"
-      "{{ recovery_key_5 }}"
-  when: vault_init.changed
-  vars:
-    recovery_key_1: "{{ (vault_init.stdout_lines[0] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_2: "{{ (vault_init.stdout_lines[1] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_3: "{{ (vault_init.stdout_lines[2] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_4: "{{ (vault_init.stdout_lines[3] | split(':'))[1] | vault(secret, vault_id) }}"
-    recovery_key_5: "{{ (vault_init.stdout_lines[4] | split(':'))[1] | vault(secret, vault_id) }}"
+    content: ""
+  when: vault_init is not skipped
 
-- name: Save root token
-  local_action:
-    module: copy
-    dest: ~/mono-repo/ansible/.vault-token
-    content: |
-      {{ root_token }}
-  when: vault_init.changed
-  vars:
-    root_token: "{{ (vault_init.stdout_lines[6] | split(':'))[1] | trim | vault(secret, vault_id) }}"
+- name: Save recovery keys
+  local_action: shell echo "\$ANSIBLE_VAULT{{ item }}" >> ~/mono-repo/ansible/.vault-keys
+  when: vault_init is not skipped
+  loop: "{{ encrypted_keys | json_query('results[*].[ansible_facts.key] | []') }}"
+  ignore_errors: true
 
 - name: Wait for vault to be ready
   kubernetes.core.k8s_info:
@@ -93,31 +101,32 @@
     wait_timeout: 180
   register: vault_ready
 
-- name: Vault login
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault login {{ root_token }}
-  when: vault_ready
-  vars:
+- name: Get vault root token
+  set_fact:
     root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
+- name: Wait for vault leader election saved in etcd
+  wait_for:
+    timeout: 15
+  when: vault_init is not skipped
+
 - name: Check for k8s auth
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault auth list -format="json"
-  when: vault_ready
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/auth/kubernetes
+    return_content: true
+    headers:
+      X-Vault-Token: "{{ root_token }}"
   register: vault_auth
+  ignore_errors: true
 
 - name: Enable k8s auth
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault auth enable kubernetes
-  when:
-    - vault_ready
-    - not vault_auth.stdout is search("kubernetes")
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: sys/auth/kubernetes
+    token: "{{ root_token }}"
+    data:
+      type: kubernetes
+  when: vault_auth is failed
 
 - name: Get k8s API data
   kubernetes.core.k8s_exec:
@@ -126,58 +135,67 @@
     command: >
       sh -ec 'env | grep -E "KUBERNETES_PORT_443_TCP_(PORT|ADDR)" | sort'
   register: k8s_api
+  when: vault_auth is failed
 
 - name: Configure k8s auth
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault write auth/kubernetes/config kubernetes_host="https://{{addr}}:{{port}}"
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: auth/kubernetes/config
+    token: "{{ root_token }}"
+    data:
+      kubernetes_host: "https://{{addr}}:{{port}}"
+  when: vault_auth is failed
   vars:
     addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
     port: "{{ (k8s_api.stdout_lines[1] | split('='))[1] }}"
-  when: vault_ready
 
 - name: Check for kv engine
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault secrets list -format="json"
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/mounts/secret
+    return_content: true
+    headers:
+      X-Vault-Token: "{{ root_token }}"
   register: vault_kv
-  when: vault_ready
+  ignore_errors: true
 
 - name: Enable kv engine
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault secrets enable -path=secret kv
-  when:
-    - vault_ready
-    - not vault_kv.stdout is search("secret")
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: sys/mounts/secret
+    token: "{{ root_token }}"
+    data:
+      type: kv
+      options: {
+        version: "2"
+      }
+  when: vault_kv is failed
 
-- name: Copy policy file
-  kubernetes.core.k8s_cp:
-    pod: vault-0
-    namespace: secrets-store
-    state: to_pod
-    remote_path: /vault/config/secrets-store.hcl
+- name: Add policy
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: sys/policy/secrets-store
+    token: "{{ root_token }}"
+    data:
+      policy: "{{ content }}"
+  vars:
     content:
       path "secret/*" {
         capabilities = ["read", "list"]
       }
-  when: vault_ready
-
-- name: Create secrets-store policy
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault policy write secrets-store /vault/config/secrets-store.hcl
-  when: vault_ready
 
 - name: Create default role
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: >
-      vault write auth/kubernetes/role/default bound_service_account_names=default \
-      bound_service_account_namespaces=grafana,cloudflare-tunnel,postgresql policies=secrets-store ttl=20m
-  when: vault_ready
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: auth/kubernetes/role/default
+    token: "{{ root_token }}"
+    data:
+      name: default
+      bound_service_account_names:
+        - default
+        - grafana
+      bound_service_account_namespaces:
+        - secrets-store
+        - grafana
+        - cloudflare-tunnel
+        - postgresql
+      policies: secrets-store

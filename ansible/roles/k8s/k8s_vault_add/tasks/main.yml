@@ -1,0 +1,28 @@
+# roles/k8s_vault_add
+---
+- name: Get vault svc
+  kubernetes.core.k8s_info:
+    kind: Service
+    name: vault
+    namespace: secrets-store
+  register: vault_svc
+
+- name: Register vault svc address
+  set_fact:
+    vault_address: "{{ vault_svc | json_query('resources[0].spec.clusterIP') }}:{{ vault_svc | json_query('resources[0].spec.ports[?name == `http`].port | [0]') }}"
+
+- name: Get vault root token
+  set_fact:
+    root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
+
+- name: Add secret
+  community.hashi_vault.vault_kv2_write:
+    url: http://{{ vault_address }}
+    path: "{{ vault_secret_name }}"
+    token: "{{ root_token }}"
+    data:
+      "{{ vault_secret_key }}": "{{ vault_secret_value }}"
+  when:
+    - vault_secret_name is defined
+    - vault_secret_key is defined
+    - vault_secret_value is defined

@@ -57,6 +57,7 @@
       - kubectl
       - python3-kubernetes
       - python3-jsonpatch
+      - python3-hvac
       - pipx
       - nfs-common
     update_cache: true
