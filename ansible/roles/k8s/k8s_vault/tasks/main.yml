@@ -13,6 +13,7 @@
         AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key | b64encode }}"
         AWS_REGION: "{{ vault_aws_region | b64encode }}"
         AWS_KMS_KEY_ID: "{{ vault_aws_kms_key_id | b64encode }}"
+  register: kms_creds
   when:
     - vault_aws_access_key_id is defined
     - vault_aws_secret_access_key is defined
@@ -30,6 +31,11 @@
       type: Initialized
     wait_timeout: 180
   register: vault_running
+
+- name: Wait for secret rotation for kms_creds
+  wait_for:
+    timeout: 10
+  when: kms_creds.changed
 
 - name: Get vault svc
   kubernetes.core.k8s_info:
