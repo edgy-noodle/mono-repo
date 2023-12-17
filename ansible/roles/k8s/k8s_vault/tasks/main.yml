@@ -143,7 +143,7 @@
     path: auth/kubernetes/config
     token: "{{ root_token }}"
     data:
-      kubernetes_host: "https://{{addr}}:{{port}}",
+      kubernetes_host: "https://{{addr}}:{{port}}"
   when: vault_auth is failed
   vars:
     addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
