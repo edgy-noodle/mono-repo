@@ -43,10 +43,10 @@
   become: true
   copy:
     src: "{{ k8s_kubeadm_conf }}"
-    dest: /home/root/kubeadm_config.yaml
+    dest: /home/ansible/kubeadm_config.yaml
 
 - name: Initialize CPN
-  command: kubeadm init --config /home/root/kubeadm_config.yaml
+  command: kubeadm init --config /home/ansible/kubeadm_config.yaml
   when: not kubeadm_init.stat.exists
   become: true
   vars:
