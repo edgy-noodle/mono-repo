@@ -109,6 +109,10 @@
   set_fact:
     root_token: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
+- name: Wait for vault leader election saved in etcd
+  wait_for:
+    interval: 5
+
 - name: Check for k8s auth
   ansible.builtin.uri:
     url: http://{{ vault_address }}/v1/sys/auth/kubernetes
@@ -142,6 +146,7 @@
   community.hashi_vault.vault_write:
     url: http://{{ vault_address }}
     path: auth/kubernetes/config
+    token: "{{ root_token }}"
     data: |
       {
         "kubernetes_host": "https://{{addr}}:{{port}}",
