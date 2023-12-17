@@ -124,10 +124,8 @@
     url: http://{{ vault_address }}
     path: sys/auth/kubernetes
     token: "{{ root_token }}"
-    data: |
-      {
-        "type": "kubernetes"
-      }
+    data:
+      type: kubernetes
   when: vault_auth is failed
 
 - name: Get k8s API data
@@ -144,10 +142,8 @@
     url: http://{{ vault_address }}
     path: auth/kubernetes/config
     token: "{{ root_token }}"
-    data: |
-      {
-        "kubernetes_host": "https://{{addr}}:{{port}}",
-      }
+    data:
+      kubernetes_host: "https://{{addr}}:{{port}}",
   when: vault_auth is failed
   vars:
     addr: "{{ (k8s_api.stdout_lines[0] | split('='))[1] }}"
@@ -167,12 +163,10 @@
     url: http://{{ vault_address }}
     path: sys/mounts/secret
     token: "{{ root_token }}"
-    data: |
-      {
-        "type": "kv",
-        "options": {
-          "version": "2"
-        }
+    data:
+      type: kv,
+      options: {
+        version: "2"
       }
   when: vault_kv is failed
 
@@ -181,10 +175,8 @@
     url: http://{{ vault_address }}
     path: sys/policy/secrets-store
     token: "{{ root_token }}"
-    data: |
-      {
-        "policy": "{{ content }}"
-      }
+    data:
+      policy: "{{ content }}"
   vars:
     content:
       path "secret/*" {
@@ -196,10 +188,14 @@
     url: http://{{ vault_address }}
     path: auth/kubernetes/role/default
     token: "{{ root_token }}"
-    data: |
-      {
-        "name": "default",
-        "bound_service_account_names": "default,grafana",
-        "bound_service_account_namespaces": "secrets-store,grafana,cloudflare-tunnel,postgresql",
-        "policies": "secrets-store"
-      }
+    data:
+      name: default,
+      bound_service_account_names:
+        - default
+        - grafana
+      bound_service_account_namespaces:
+        - secrets-store
+        - grafana
+        - cloudflare-tunnel
+        - postgresql
+      policies: secrets-store
