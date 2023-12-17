@@ -17,6 +17,7 @@
 
 - name: Add secret
   community.hashi_vault.vault_kv2_write:
+    url: http://{{ vault_address }}
     path: "{{ vault_secret_name }}"
     token: "{{ root_token }}"
     data:
