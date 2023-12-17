@@ -4,10 +4,11 @@ kind: Kustomization
 namespace: sources
 resources:
   - namespace.yaml
-  - weaveworks.yaml
+  - kubelet-csr-approver.yaml
   - nfs-subdir-external-provisioner.yaml
   - secrets-store-csi-driver.yaml
   - hashicorp.yaml
+  - weaveworks.yaml
   - metrics-server.yaml
   - prometheus-community.yaml
   - grafana.yaml
