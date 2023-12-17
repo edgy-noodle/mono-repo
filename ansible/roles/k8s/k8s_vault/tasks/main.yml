@@ -203,5 +203,5 @@
         - secrets-store
         - grafana
         - cloudflare-tunnel
-        - postgresql
+        - postgres
       policies: secrets-store
