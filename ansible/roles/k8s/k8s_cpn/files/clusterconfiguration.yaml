@@ -1,4 +1,5 @@
 apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
 bootstrapTokens:
   - groups:
       - system:bootstrappers:kubeadm:default-node-token
@@ -7,7 +8,6 @@ bootstrapTokens:
     usages:
       - signing
       - authentication
-kind: InitConfiguration
 localAPIEndpoint:
   advertiseAddress: 1.2.3.4
   bindPort: 6443
@@ -17,23 +17,23 @@ nodeRegistration:
   name: node
   taints: null
 ---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: 1.28.0
 apiServer:
   timeoutForControlPlane: 4m0s
-apiVersion: kubeadm.k8s.io/v1beta3
 certificatesDir: /etc/kubernetes/pki
 clusterName: mono-repo
-controllerManager: {}
-dns: {}
 etcd:
   local:
     dataDir: /var/lib/etcd
 imageRepository: registry.k8s.io
-kind: ClusterConfiguration
-kubernetesVersion: 1.28.0
 networking:
   dnsDomain: cluster.local
   serviceSubnet: 10.96.0.0/12
+dns: {}
 scheduler: {}
+controllerManager: {}
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
