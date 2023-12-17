@@ -22,12 +22,12 @@ data:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: postgresql
+              secretProviderClass: postgres
       extraVolumeMounts:
         - name: secrets
           mountPath: /etc/secrets
           readOnly: true
-      existingSecret: postgresql
+      existingSecret: postgres
       
       resources:
         requests:
