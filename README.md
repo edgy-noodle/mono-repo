@@ -88,7 +88,7 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 ##### K8s and Flux
 
 1. Generate PAT as described [in this guide](https://fluxcd.io/flux/installation/bootstrap/github/#github-personal-account).
-2. Run `k8s_init.yml` playbook with the following variables for Flux bootstrap:
+2. Run `k8s_init.yml` playbook with `--tags k8s_init` and the following variables for Flux bootstrap:
    - `flux_gh_owner` - repo owner username (`--owner`)
    - `flux_gh_repo` - repo name (`--repository`)
    - `flux_gh_cluster` - cluster path (`--path`)
