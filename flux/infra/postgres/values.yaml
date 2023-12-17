@@ -9,6 +9,11 @@ data:
       storageClass: postgres
       size: 4Gi
 
+    service:
+      type: NodePort
+      nodePorts:
+        postgresql: 35432
+
     metrics:
       enabled: true
       resources:
