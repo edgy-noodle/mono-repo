@@ -107,7 +107,7 @@
 
 - name: Wait for vault leader election saved in etcd
   wait_for:
-    interval: 5
+    timeout: 5
 
 - name: Check for k8s auth
   ansible.builtin.uri:
