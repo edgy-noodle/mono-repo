@@ -19,9 +19,6 @@ data:
         disruptionBudget:
           maxUnavailable: 1
 
-      service:
-        type: NodePort
-
         config: |
           listener "tcp" {
             tls_disable = 1
@@ -37,6 +34,9 @@ data:
             kms_key_id  = "AWS_KMS_KEY_ID"
           }
           service_registration "kubernetes" {}
+
+      service:
+        type: NodePort
 
       postStart:
         - /bin/sh
