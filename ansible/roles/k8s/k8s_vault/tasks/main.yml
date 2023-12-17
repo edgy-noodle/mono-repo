@@ -107,7 +107,7 @@
 
 - name: Wait for vault leader election saved in etcd
   wait_for:
-    timeout: 10
+    timeout: 15
   when: vault_init is not skipped
 
 - name: Check for k8s auth
@@ -154,46 +154,52 @@
     port: "{{ (k8s_api.stdout_lines[1] | split('='))[1] }}"
 
 - name: Check for kv engine
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault secrets list -format="json"
+  ansible.builtin.uri:
+    url: http://{{ vault_address }}/v1/sys/mounts/secret
+    return_content: true
+    headers:
+      X-Vault-Token: "{{ root_token }}"
   register: vault_kv
-  when: vault_ready
+  ignore_errors: true
 
 - name: Enable kv engine
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault secrets enable -path=secret kv
-  when:
-    - vault_ready
-    - not vault_kv.stdout is search("secret/")
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: sys/mounts/secret
+    token: "{{ root_token }}"
+    data: |
+      {
+        "type": "kv",
+        "options": {
+          "version": "2"
+        }
+      }
+  when: vault_kv is failed
 
-- name: Copy policy file
-  kubernetes.core.k8s_cp:
-    pod: vault-0
-    namespace: secrets-store
-    state: to_pod
-    remote_path: /vault/config/secrets-store.hcl
+- name: Add policy
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: sys/policy/secrets-store
+    token: "{{ root_token }}"
+    data: |
+      {
+        "policy": "{{ content }}"
+      }
+  vars:
     content:
       path "secret/*" {
         capabilities = ["read", "list"]
       }
-  when: vault_ready
-
-- name: Create secrets-store policy
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: vault policy write secrets-store /vault/config/secrets-store.hcl
-  when: vault_ready
 
 - name: Create default role
-  kubernetes.core.k8s_exec:
-    pod: vault-0
-    namespace: secrets-store
-    command: >
-      vault write auth/kubernetes/role/default bound_service_account_names=default \
-      bound_service_account_namespaces=grafana,cloudflare-tunnel,postgresql policies=secrets-store ttl=20m
-  when: vault_ready
+  community.hashi_vault.vault_write:
+    url: http://{{ vault_address }}
+    path: auth/kubernetes/role/default
+    token: "{{ root_token }}"
+    data: |
+      {
+        "name": "default",
+        "bound_service_account_names": "default,grafana",
+        "bound_service_account_namespaces": "secrets-store,grafana,cloudflare-tunnel,postgresql",
+        "policies": "secrets-store"
+      }
