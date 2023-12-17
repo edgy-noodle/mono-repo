@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: postgresql
+  name: postgres
   namespace: flux-system
 spec:
   interval: 1h0m0s
@@ -11,7 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/infra/postgresql
+  path: ./flux/infra/postgres
   prune: true
   wait: true
   dependsOn:

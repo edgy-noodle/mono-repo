@@ -17,3 +17,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: values
+    - kind: ConfigMap
+      name: postgresql
+      valuesKey: postgresql.yaml
+    - kind: ConfigMap
+      name: pgpool
+      valuesKey: pgpool.yaml
