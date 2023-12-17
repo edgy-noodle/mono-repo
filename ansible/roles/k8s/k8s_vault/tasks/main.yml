@@ -64,11 +64,7 @@
   when: (vault_status.content | from_json | json_query('initialized')) is false
 
 - name: Save root token
-  local_action:
-    module: copy
-    dest: ~/mono-repo/ansible/.vault-token
-    content: |
-      {{ root_token }}
+  local_action: shell echo "\$ANSIBLE_VAULT{{ root_token }}" >> ~/mono-repo/ansible/.vault-token
   when: vault_init is not skipped
   vars:
     root_token: "{{ vault_init.content | from_json | json_query('root_token') | vault(secret, vault_id) }}"
