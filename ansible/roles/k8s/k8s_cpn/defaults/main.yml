@@ -1,3 +1,4 @@
 # roles/k8s_cpn
 ---
 k8s_net_manifest: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
+k8s_kubeadm_conf: clusterconfiguration.yaml
