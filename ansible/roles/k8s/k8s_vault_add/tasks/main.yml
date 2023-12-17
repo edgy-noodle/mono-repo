@@ -20,9 +20,7 @@
     url: http://{{ vault_address }}
     path: "{{ vault_secret_name }}"
     token: "{{ root_token }}"
-    data:
-      "{{ vault_secret_key }}": "{{ vault_secret_value }}"
+    data: "{{ vault_secret_data | from_yaml }}"
   when:
     - vault_secret_name is defined
-    - vault_secret_key is defined
-    - vault_secret_value is defined
+    - vault_secret_data is defined
