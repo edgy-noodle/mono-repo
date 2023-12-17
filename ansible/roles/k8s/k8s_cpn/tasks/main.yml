@@ -49,8 +49,6 @@
   command: kubeadm init --config /home/ansible/kubeadm_config.yaml
   when: not kubeadm_init.stat.exists
   become: true
-  vars:
-    kubeadm_config: "{{ lookup('file', '~/mono-repo/ansible/.vault-token') }}"
 
 - name: Create .kube directory
   file:
