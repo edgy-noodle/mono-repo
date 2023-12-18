@@ -34,7 +34,7 @@ spec:
                     readOnly: true
                     volumeAttributes:
                       secretProviderClass: grafana
-config:
+  config:
     log:
       mode: console
     auth:
