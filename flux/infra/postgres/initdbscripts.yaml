@@ -15,7 +15,7 @@ data:
       \c infra
     
       CREATE SCHEMA grafana;
-      \getenv grafana_pwd GRAFANA_PASSWORD
+      \getenv grafana_pwd GRAFANA_PASS
       CREATE ROLE grafana WITH LOGIN PASSWORD :'grafana_pwd';
       ALTER DEFAULT PRIVILEGES IN SCHEMA grafana GRANT ALL PRIVILEGES ON TABLES TO grafana;
       ALTER DEFAULT PRIVILEGES IN SCHEMA grafana GRANT USAGE          ON SEQUENCES TO grafana;
