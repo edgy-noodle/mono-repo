@@ -16,4 +16,6 @@ spec:
   wait: true
   dependsOn:
     - name: sources
+    - name: storage
     - name: secrets-store
+    - name: postgres

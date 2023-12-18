@@ -32,13 +32,5 @@ data:
 #        security:
 #          admin_password:
 #
-#      extraVolumeMounts:
-#        - name: secrets
-#          mountPath: /etc/secrets
-#          readOnly: true
-#          csi:
-#            driver: secrets-store.csi.k8s.io
-#            readOnly: true
-#            volumeAttributes:
-#              secretProviderClass: grafana
+#
 #

@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: grafana-operator
 resources:
   - namespace.yaml
-  - secretproviderclass.yaml
+  - grafana
   - values.yaml
   - helmrelease.yaml
