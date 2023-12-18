@@ -7,7 +7,6 @@ data:
   values.yaml: |
     operator:
       namespaceScope: true
-      watchNamespace: grafana
       priorityClassName: system-node-critical
 
     grafana:
