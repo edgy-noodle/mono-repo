@@ -11,5 +11,4 @@ resources:
   - weaveworks.yaml
   - metrics-server.yaml
   - prometheus-community.yaml
-  - grafana.yaml
   - bitnami.yaml
