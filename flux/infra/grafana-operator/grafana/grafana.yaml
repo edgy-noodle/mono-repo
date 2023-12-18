@@ -11,6 +11,13 @@ spec:
       replicas: 2
       template:
         spec:
+          volumes:
+            - name: secrets
+              csi:
+                driver: secrets-store.csi.k8s.io
+                readOnly: true
+                volumeAttributes:
+                  secretProviderClass: grafana
           containers:
             - name: grafana
               env:
@@ -24,16 +31,10 @@ spec:
                     secretKeyRef:
                       key: admin-password
                       name: grafana
-
               volumeMounts:
                 - name: secrets
                   mountPath: /etc/secrets
                   readOnly: true
-                  csi:
-                    driver: secrets-store.csi.k8s.io
-                    readOnly: true
-                    volumeAttributes:
-                      secretProviderClass: grafana
   config:
     log:
       mode: console
