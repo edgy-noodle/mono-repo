@@ -44,6 +44,6 @@ spec:
     database:
       type: postgres
       host: postgres-postgresql-ha-pgpool.postgres.svc.cluster.local:5432
-      name: grafana
+      name: infra
       user: grafana
       password: test
