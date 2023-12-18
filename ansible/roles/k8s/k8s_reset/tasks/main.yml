@@ -23,3 +23,6 @@
   iptables:
     flush: true
     table: mangle
+
+- name: Reboot
+  reboot:
