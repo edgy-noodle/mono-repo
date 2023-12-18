@@ -205,7 +205,7 @@
       name: default
       bound_service_account_names:
         - default
-        - grafana
+        - grafana-sa
       bound_service_account_namespaces:
         - secrets-store
         - grafana
