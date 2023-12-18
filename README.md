@@ -93,6 +93,8 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
    - `flux_gh_repo` - repo name (`--repository`)
    - `flux_gh_cluster` - cluster path (`--path`)
    - `flux_gh_token` - PAT generated in previous step
+3. While on _Bootstrap flux_ task at the end of the play, login to your CPN and run `kubectl get CertificateSigningRequest | grep Pending`.
+4. Approve the certificate requests using `kubectl certificate approve <NAME>` based on the list returned in previous step. 
 
 > The cluster is now ready and can be interacted with from any of the k8s nodes. You can easily ssh through the ansible user on the Ansible Controle Node.
 
