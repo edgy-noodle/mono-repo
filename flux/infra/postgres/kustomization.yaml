@@ -7,6 +7,7 @@ resources:
   - secretproviderclass.yaml
   - storageclass.yaml
   - values.yaml
+  - initdbscripts.yaml
   - postgresql.yaml
   - pgpool.yaml
   - helmrelease.yaml

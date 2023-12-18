@@ -11,11 +11,12 @@ data:
       pdb:
         create: true
         minAvailable: 2
-      
+
       maxConnections: 40
       postgresConnectionLimit: 2
       dbUserConnectionLimit: 10
-      
+      initdbScriptsCM: initdbscripts
+  
       extraVolumes:
         - name: secrets
           csi:
@@ -28,6 +29,7 @@ data:
           mountPath: /etc/secrets
           readOnly: true
       existingSecret: postgres
+      extraEnvVarsSecret: grafana
       
       resources:
         requests:
