@@ -1,0 +1,11 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: postgres-exporter
+spec:
+  instanceSelector:
+    matchLabels:
+      name: grafana
+  grafanaCom:
+    id: 9628
