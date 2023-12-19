@@ -31,6 +31,3 @@ data:
     # Secret needs to exist/be created - disabling "user-account" auth method not supported in HelmChart
     adminUser:
       create: false
-      
-    rbac:
-      impersonationResourceNames: ['alexwavresz@gmail.com']
