@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgpool
+data:
+  pgpool.yaml: |
+    pgpool:
+      priorityClassName: system-node-critical
+      pdb:
+        create: true
+        minAvailable: 1
+
+      extraVolumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: postgres
+      extraVolumeMounts:
+        - name: secrets
+          mountPath: /etc/secrets
+          readOnly: true
+      existingSecret: postgres
+      customUsersSecret: pgpool-users
+
+      resources:
+        requests:
+          cpu: 5m
+          memory: 128Mi
+        limits:
+          cpu: 100m
+          memory: 512Mi

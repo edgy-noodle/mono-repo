@@ -4,8 +4,6 @@ kind: Kustomization
 namespace: grafana
 resources:
   - namespace.yaml
-  - secretproviderclass.yaml
+  - grafana
   - values.yaml
-  - datasources.yaml
-  - dashboardproviders.yaml
   - helmrelease.yaml

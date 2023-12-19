@@ -39,8 +39,14 @@
       kubeadm_checks.stdout
   when: not kubeadm_init.stat.exists
 
+- name: Copy kubeadm config
+  become: true
+  copy:
+    src: "{{ k8s_kubeadm_conf }}"
+    dest: /home/ansible/kubeadm_config.yaml
+
 - name: Initialize CPN
-  command: kubeadm init
+  command: kubeadm init --config /home/ansible/kubeadm_config.yaml
   when: not kubeadm_init.stat.exists
   become: true
 

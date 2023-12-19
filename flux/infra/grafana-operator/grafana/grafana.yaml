@@ -1,0 +1,68 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    name: grafana
+spec:
+  deployment:
+    spec:
+      replicas: 2
+      template:
+        spec:
+          volumes:
+            - name: secrets
+              csi:
+                driver: secrets-store.csi.k8s.io
+                readOnly: true
+                volumeAttributes:
+                  secretProviderClass: grafana
+          containers:
+            - name: grafana
+              image: grafana/grafana:10.2.2
+              env:
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: admin-user
+                      name: grafana
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: admin-password
+                      name: grafana
+                - name: GF_AUTH_GOOGLE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-id
+                      name: grafana
+                - name: GF_AUTH_GOOGLE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: grafana
+              volumeMounts:
+                - name: secrets
+                  mountPath: /etc/secrets
+                  readOnly: true
+  config:
+    log:
+      mode: console
+    auth:
+      disable_login_form: "false"
+    database:
+      type: postgres
+      host: postgres-postgresql-ha-pgpool.postgres.svc.cluster.local:5432
+      name: infra
+      user: $__file{/etc/secrets/db-user}
+      password: $__file{/etc/secrets/db-pass}
+    auth.google:
+      enabled: "true"
+      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
+      auth_url: https://accounts.google.com/o/oauth2/auth
+      token_url: https://accounts.google.com/o/oauth2/token
+      allowed_domains: edgy-noodle.com
+      allow_sign_up: "true"
+    server:
+      root_url: https://grafana.edgy-noodle.com

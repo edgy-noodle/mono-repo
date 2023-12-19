@@ -1,0 +1,28 @@
+# roles/k8s_reset
+---
+- name: Run kubeadm reset
+  command: kubeadm reset -f --cleanup-tmp-dir
+
+- name: Delete cni config
+  file:
+    state: absent
+    path: /etc/cni/net.d
+- name: Delete kubeconfig
+  file:
+    state: absent
+    path: /home/ansible/.kube
+
+- name: Purge filter iptables
+  iptables:
+    flush: true
+- name: Purge nat iptables
+  iptables:
+    flush: true
+    table: nat
+- name: Purge mangle iptables
+  iptables:
+    flush: true
+    table: mangle
+
+- name: Reboot
+  reboot:

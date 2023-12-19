@@ -12,24 +12,29 @@
   hosts: k8s
   become: true
   roles:
-    - k8s/k8s_all
+    - name: k8s/k8s_all
+      tags: k8s_init
 
 - name: Provision CPN
   hosts: cpn
   roles:
-    - k8s/k8s_cpn
+    - name: k8s/k8s_cpn
+      tags: k8s_init
 
 - name: Provision worker nodes
   become: true
   hosts: workers
   roles:
-    - k8s/k8s_workers
+    - name: k8s/k8s_workers
+      tags: k8s_init
 
 - name: Provision Flux
   hosts: cpn
   roles:
     - name: k8s/k8s_flux
-      tags: k8s_flux
+      tags:
+        - k8s_init
+        - k8s_flux
 
 - name: K8s vault init
   hosts: cpn

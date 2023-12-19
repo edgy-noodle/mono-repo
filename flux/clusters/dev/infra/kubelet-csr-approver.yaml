@@ -2,19 +2,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: postgresql
+  name: kubelet-csr-approver
   namespace: flux-system
 spec:
   interval: 1h0m0s
   retryInterval: 10s
-  timeout: 1m0s
+  timeout: 30s
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/infra/postgresql
+  path: ./flux/infra/kubelet-csr-approver
   prune: true
   wait: true
   dependsOn:
     - name: sources
-    - name: storage
-    - name: secrets-store

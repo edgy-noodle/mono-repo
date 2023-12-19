@@ -20,6 +20,7 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |       |   |-- k8s_all
 |       |   |-- k8s_cpn
 |       |   |-- k8s_flux
+|       |   |-- k8s_reset
 |       |   |-- k8s_vault
 |       |   |-- k8s_vault_add
 |       |   `-- k8s_workers
@@ -35,9 +36,11 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |   `-- infra
 |       |-- cloudflare-tunnel
 |       |-- consul
-|       |-- grafana
+|       |-- grafana-operator
+|       |   `-- grafana
+|       |-- kubelet-csr-approver
 |       |-- metrics-server
-|       |-- postgresql
+|       |-- postgres
 |       |-- prometheus
 |       |-- secrets-store
 |       |   |-- secrets-store-csi-driver
@@ -88,11 +91,13 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 ##### K8s and Flux
 
 1. Generate PAT as described [in this guide](https://fluxcd.io/flux/installation/bootstrap/github/#github-personal-account).
-2. Run `k8s_init.yml` playbook with the following variables for Flux bootstrap:
+2. Run `k8s_init.yml` playbook with `--tags k8s_init` and the following variables for Flux bootstrap:
    - `flux_gh_owner` - repo owner username (`--owner`)
    - `flux_gh_repo` - repo name (`--repository`)
    - `flux_gh_cluster` - cluster path (`--path`)
    - `flux_gh_token` - PAT generated in previous step
+3. While on _Bootstrap flux_ task at the end of the play, login to your CPN and run `kubectl get CertificateSigningRequest | grep Pending`.
+4. Approve the certificate requests using `kubectl certificate approve <NAME>` based on the list returned in previous step. 
 
 > The cluster is now ready and can be interacted with from any of the k8s nodes. You can easily ssh through the ansible user on the Ansible Controle Node.
 

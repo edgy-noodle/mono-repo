@@ -1,5 +1,12 @@
 # roles/k8s_vault
 ---
+- name: Wait for namespace to exist
+  kubernetes.core.k8s_info:
+    kind: Namespace
+    name: secrets-store
+    wait: true
+    wait_timeout: 180
+
 - name: Define AWS KMS secret
   kubernetes.core.k8s:
     state: present
@@ -198,10 +205,10 @@
       name: default
       bound_service_account_names:
         - default
-        - grafana
+        - grafana-sa
       bound_service_account_namespaces:
         - secrets-store
         - grafana
         - cloudflare-tunnel
-        - postgresql
+        - postgres
       policies: secrets-store

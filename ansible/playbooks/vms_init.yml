@@ -5,3 +5,10 @@
   become_method: su
   roles:
     - unix/vms_init
+
+- name: Bootstrap NFS
+  hosts: storage
+  become: true
+  become_method: su
+  roles:
+    - unix/nfs_init
