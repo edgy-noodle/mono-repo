@@ -11,16 +11,17 @@ cloudflare:
   # REMOTE: TRUE
   # Choose between a string value and a name of the secret containing the _token_ key
   token: ""
-  tokenSecret: null
+  tokenSecretName: null
 
   # REMOTE: FALSE
   # Choose between string values or the name of the secret (needed only for a locally-managed tunnel).
-  accountId: ""
-  name: ""
-  id: ""
-  tunnelSecret: null
+  accountTag: ""
+  tunnelName: ""
+  tunnelId: ""
+  tunnelSecret: ""
+  tunnelSecretName: ""
   warp: false
-  # Use one of ingress or ingressSecret/ingressCM which require a name.
+  # Use one of ingress or ingressSecretName/ingressCMName which require a name.
   # Secret will override any other values. ConfigMap will override plaintext config under ingress.
   ingress: []
     # This rule proxies traffic from cloud.example.com to cluster-service at port 80
@@ -31,8 +32,8 @@ cloudflare:
     # in the connection from cloudflared to your local service, not from the internet to cloudflared.
     # - hostname: hello.example.com
     #   service: hello_world
-  ingressSecret: null
-  ingressCM: null
+  ingressSecretName: null
+  ingressCMName: null
 
   # volumes:
   #   - name: extra-volume
@@ -106,10 +107,10 @@ resources: {}
 
 autoscaling:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 85
+  targetMemoryUtilizationPercentage: 85
 
 nodeSelector: {}
 tolerations: []
