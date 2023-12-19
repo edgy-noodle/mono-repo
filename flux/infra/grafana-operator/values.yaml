@@ -12,25 +12,3 @@ data:
 
     grafana:
       enabled: false
-#      replicaCount: 2
-#      resources:
-#        requests:
-#          cpu: 10m
-#          memory: 64Mi
-#        limits:
-#          cpu: 100m
-#          memory: 256Mi
-#
-#      persistence:
-#        enabled: true
-#        storageClass: grafana
-#        size: 6Gi
-#
-#      config:
-#        #    database:
-#
-#        security:
-#          admin_password:
-#
-#
-#
