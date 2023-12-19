@@ -26,8 +26,6 @@ cloudflare:
   # For details see: ./helm/cloudflare-tunnel/templates/secret.yaml
   tunnelSecretName: ""
   warp: false
-  # Use one of ingress or ingressSecretName/ingressCMName which require a name.
-  # Secret will override any other values. ConfigMap will override plaintext config under ingress.
   ingress: []
     # This rule proxies traffic from cloud.example.com to cluster-service at port 80
     # - hostname: cloud.example.com
@@ -37,8 +35,6 @@ cloudflare:
     # in the connection from cloudflared to your local service, not from the internet to cloudflared.
     # - hostname: hello.example.com
     #   service: hello_world
-  ingressSecretName: null
-  ingressCMName: null
 
   # volumes:
   #   - name: extra-volume
