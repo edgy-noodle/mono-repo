@@ -28,5 +28,6 @@ data:
         mountPath: /etc/secrets
         readOnly: true
 
+    # Secret needs to exist/be created - disabling "user-account" auth method not supported in HelmChart
     adminUser:
       create: false
