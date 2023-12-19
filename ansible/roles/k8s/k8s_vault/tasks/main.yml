@@ -186,29 +186,18 @@
 - name: Add policy
   community.hashi_vault.vault_write:
     url: http://{{ vault_address }}
-    path: sys/policy/secrets-store
+    path: sys/policy/{{ policy_path }}
     token: "{{ root_token }}"
     data:
       policy: "{{ content }}"
-  vars:
-    content:
-      path "secret/*" {
-        capabilities = ["read", "list"]
-      }
 
 - name: Create default role
   community.hashi_vault.vault_write:
     url: http://{{ vault_address }}
-    path: auth/kubernetes/role/default
+    path: auth/kubernetes/role/{{ role_name }}
     token: "{{ root_token }}"
     data:
-      name: default
-      bound_service_account_names:
-        - default
-        - grafana-sa
-      bound_service_account_namespaces:
-        - secrets-store
-        - grafana
-        - cloudflare-tunnel
-        - postgres
-      policies: secrets-store
+      name: "{{ role_name }}"
+      bound_service_account_names: "{{ role_sa_names }}"
+      bound_service_account_namespaces: "{{ role_sa_ns }}"
+      policies: "{{ role_policies }}"
