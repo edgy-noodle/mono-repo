@@ -32,6 +32,16 @@ spec:
                     secretKeyRef:
                       key: admin-password
                       name: grafana
+                - name: GF_AUTH_GOOGLE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-id
+                      name: grafana
+                - name: GF_AUTH_GOOGLE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: grafana
               volumeMounts:
                 - name: secrets
                   mountPath: /etc/secrets
