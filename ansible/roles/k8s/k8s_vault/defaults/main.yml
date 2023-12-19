@@ -12,6 +12,7 @@ role_name: default
 role_policies: secrets-store
 role_sa_names:
   - default
+  - weave-gitops
   - grafana-sa
 role_sa_ns:
   - secrets-store
