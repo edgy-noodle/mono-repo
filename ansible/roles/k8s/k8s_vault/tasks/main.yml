@@ -194,10 +194,10 @@
 - name: Create default role
   community.hashi_vault.vault_write:
     url: http://{{ vault_address }}
-    path: auth/kubernetes/role/{{ role_name }}
+    path: auth/kubernetes/role/{{ role_path }}
     token: "{{ root_token }}"
     data:
-      name: "{{ role_name }}"
+      name: "{{ role_path }}"
       bound_service_account_names: "{{ role_sa_names }}"
       bound_service_account_namespaces: "{{ role_sa_ns }}"
       policies: "{{ role_policies }}"

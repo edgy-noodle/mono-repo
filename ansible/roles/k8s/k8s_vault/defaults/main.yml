@@ -8,7 +8,7 @@ policy_content:
   path "secret/*" {
   capabilities = ["read", "list"]
   }
-role_name: default
+role_path: default
 role_policies: secrets-store
 role_sa_names:
   - default
