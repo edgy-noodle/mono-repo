@@ -5,3 +5,4 @@ namespace: grafana
 resources:
   - nodeexporter.yaml
   - postgresexporter.yaml
+  - k8s.yaml
