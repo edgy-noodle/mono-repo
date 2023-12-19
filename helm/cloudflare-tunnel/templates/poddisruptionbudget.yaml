@@ -1,0 +1,16 @@
+{{- if .Values.pdb.enable }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "cloudflare-tunnel.fullname" . }}
+spec:
+  {{- if .Values.pdb.minAvailable }}
+    minAvailable: {{- .Values.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.pdb.maxUnavailable }}
+    maxUnavailable: {{- .Values.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "cloudflare-tunnel.selectorLabels" . | nindent 6 }}
+{{- end }}
