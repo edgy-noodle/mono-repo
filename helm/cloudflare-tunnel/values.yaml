@@ -1,0 +1,116 @@
+# Default values for cloudflare-tunnel.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Cloudflare values
+cloudflare:
+  # Change to true if you want to use a tunnel provisioned in the UI, for which you only need to provide a token.
+  # For details see: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/
+  remote: false
+
+  # REMOTE: TRUE
+  # Choose between a string value and a name of the secret containing the _token_ key
+  token: ""
+  tokenSecret: null
+
+  # REMOTE: FALSE
+  # Choose between string values or the name of the secret (needed only for a locally-managed tunnel).
+  accountId: ""
+  name: ""
+  id: ""
+  tunnelSecret: null
+  warp: false
+  # Use one of ingress or ingressSecret/ingressCM which require a name.
+  # Secret will override any other values. ConfigMap will override plaintext config under ingress.
+  ingress: []
+    # This rule proxies traffic from cloud.example.com to cluster-service at port 80
+    # - hostname: cloud.example.com
+    #   service: http://cluster-service:80
+    # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
+    # issues. If hello.example.com resolves and first rule does not, then the problem is
+    # in the connection from cloudflared to your local service, not from the internet to cloudflared.
+    # - hostname: hello.example.com
+    #   service: hello_world
+  ingressSecret: null
+  ingressCM: null
+
+  # volumes:
+  #   - name: extra-volume
+  #     csi:
+  #       driver: secrets-store.csi.k8s.io
+  #       readOnly: true
+  #       volumeAttributes:
+  #         secretProviderClass: my-extra-secret
+  extraVolumes: []
+  # - name: extra-volume
+  #   mountPath: /etc/extra-volume
+  #   readOnly: true
+  extraVolumeMounts: []
+
+
+replicaCount: 2
+# Values for PodDisruptionBudget, will be ignored when set to false.
+pdb:
+  enable: false
+  minAvailable: 1
+  # maxUnavailable: 0
+
+image:
+  repository: cloudflare/cloudflared
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+
+securityContext:
+  capabilities:
+   drop:
+   - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
