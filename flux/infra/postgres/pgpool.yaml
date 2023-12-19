@@ -23,6 +23,7 @@ data:
           mountPath: /etc/secrets
           readOnly: true
       existingSecret: postgres
+      customUsersSecret: pgpool-users
       
       resources:
         requests:
