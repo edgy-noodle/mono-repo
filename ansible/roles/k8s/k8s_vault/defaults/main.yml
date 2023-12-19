@@ -8,13 +8,13 @@ policy_content:
   path "secret/*" {
   capabilities = ["read", "list"]
   }
-role_path: default
-role_policies: secrets-store
-role_sa_names:
+vault_role_name: default
+vault_role_policies: secrets-store
+vault_role_sa_names:
   - default
   - weave-gitops
   - grafana-sa
-role_sa_ns:
+vault_role_sa_ns:
   - secrets-store
   - grafana
   - cloudflare-tunnel
