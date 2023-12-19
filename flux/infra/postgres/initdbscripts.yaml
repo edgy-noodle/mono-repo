@@ -14,9 +14,9 @@ data:
       CREATE DATABASE infra;
       \c infra
     
-      CREATE SCHEMA grafana;
       \set grafana_pwd `cat /etc/secrets/grafana-pass`
       CREATE ROLE grafana WITH LOGIN PASSWORD :'grafana_pwd';
-      ALTER DEFAULT PRIVILEGES IN SCHEMA grafana GRANT ALL PRIVILEGES ON TABLES TO grafana;
-      ALTER DEFAULT PRIVILEGES IN SCHEMA grafana GRANT USAGE          ON SEQUENCES TO grafana;
+      GRANT USAGE, CREATE ON SCHEMA public TO grafana;
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, UPDATE, INSERT, DELETE  ON TABLES TO grafana;
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE                           ON SEQUENCES TO grafana;
     EOF
