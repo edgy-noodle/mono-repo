@@ -15,6 +15,7 @@ data:
         enabled: true
 
       persistentVolume:
+        storageClass: prometheus
         size: 4Gi
       retention: "7d"
 

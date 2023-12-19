@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: prometheus
 resources:
   - namespace.yaml
+  - storageclass.yaml
   - values.yaml
   - helmrelease.yaml
