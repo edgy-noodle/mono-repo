@@ -18,3 +18,4 @@ role_sa_ns:
   - grafana
   - cloudflare-tunnel
   - postgres
+  - weave-gitops
