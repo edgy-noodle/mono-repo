@@ -16,7 +16,7 @@ data:
       postgresConnectionLimit: 2
       dbUserConnectionLimit: 10
       initdbScriptsCM: initdbscripts
-  
+
       extraVolumes:
         - name: secrets
           csi:
@@ -30,7 +30,7 @@ data:
           readOnly: true
       existingSecret: postgres
       extraEnvVarsSecret: grafana
-      
+
       resources:
         requests:
           cpu: 5m

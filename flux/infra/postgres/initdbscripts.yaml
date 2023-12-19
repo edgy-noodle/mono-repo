@@ -10,10 +10,10 @@ data:
 
     psql postgresql://postgres:$POSTGRES_PASSWORD@127.0.0.1:5432 <<EOF
       \x
-    
+
       CREATE DATABASE infra;
       \c infra
-    
+
       \set grafana_pwd `cat /etc/secrets/grafana-pass`
       CREATE ROLE grafana WITH LOGIN PASSWORD :'grafana_pwd';
       GRANT USAGE, CREATE ON SCHEMA public TO grafana;

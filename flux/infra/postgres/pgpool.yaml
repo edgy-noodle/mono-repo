@@ -10,7 +10,7 @@ data:
       pdb:
         create: true
         minAvailable: 1
-      
+
       extraVolumes:
         - name: secrets
           csi:
@@ -24,7 +24,7 @@ data:
           readOnly: true
       existingSecret: postgres
       customUsersSecret: pgpool-users
-      
+
       resources:
         requests:
           cpu: 5m
