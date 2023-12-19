@@ -14,11 +14,16 @@ cloudflare:
   tokenSecretName: null
 
   # REMOTE: FALSE
+  tunnelName: ""
   # Choose between string values or the name of the secret (needed only for a locally-managed tunnel).
   accountTag: ""
-  tunnelName: ""
   tunnelId: ""
   tunnelSecret: ""
+  # If using your pre-defined secret, it needs to contain the following keys under file credentials.json:
+  # - AccountTag
+  # - TunnelID
+  # - TunnelSecret
+  # For details see: ./helm/cloudflare-tunnel/templates/secret.yaml
   tunnelSecretName: ""
   warp: false
   # Use one of ingress or ingressSecretName/ingressCMName which require a name.
