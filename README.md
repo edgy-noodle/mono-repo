@@ -38,6 +38,7 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |       |-- consul
 |       |-- grafana-operator
 |       |   `-- grafana
+|       |-- kube-bench
 |       |-- kubelet-csr-approver
 |       |-- metrics-server
 |       |-- postgres

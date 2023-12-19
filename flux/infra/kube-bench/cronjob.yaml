@@ -1,0 +1,17 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kube-bench
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: kube-bench
+              image: aquasec/kube-bench:0.6.19
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Never
+  concurrencyPolicy: Replace
