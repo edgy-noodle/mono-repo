@@ -9,7 +9,7 @@ cloudflare:
   remote: false
 
   # REMOTE: TRUE
-  # Choose between a string value and a name of the secret containing the _token_ key
+  # Choose between a string value and a name of the secret containing the _tunnelToken_ key.
   token: ""
   tokenSecretName: null
 
@@ -115,4 +115,6 @@ autoscaling:
 
 nodeSelector: {}
 tolerations: []
+
+# By default pods will attempt to run on different nodes. Use to override.
 affinity: {}

@@ -35,6 +35,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
+            # Start cloudflare tunnel with values in the mounted config file.
             - cloudflared
             - tunnel
             - --config
@@ -46,12 +47,23 @@ spec:
             - mountPath: /etc/cloudflared/config
               name: config
               readOnly: true
+            # Only mount secret if not remote and tokenSecretName is undefined
+            {{- if and (not .Values.cloudflare.remote) (not .Values.cloudflare.tokenSecretName) }}
             - mountPath: /etc/cloudflared/creds
               name: creds
               readOnly: true
+            {{- end }}
             {{- with .Values.cloudflare.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- if .Values.cloudflare.remote }}
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.cloudflare.tokenSecretName | default (include "cloudflare-tunnel.fullname") }}
+                  key: tunnelToken
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -73,9 +85,11 @@ spec:
             items:
               - key: config.yaml
                 path: config.yaml
+        {{- if not .Values.cloudflare.remote }}
         - name: creds
           secret:
             secretName: {{ .Values.cloudflare.tunnelSecretName | default (include "cloudflare-tunnel.fullname" .) }}
+        {{- end }}
         {{- with .Values.cloudflare.extraVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -88,6 +102,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- else }}
         podAntiAffinity:
+          # Make sure pods attempt to run on different nodes.
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 10
               podAffinityTerm:
