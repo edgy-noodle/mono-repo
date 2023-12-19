@@ -64,3 +64,5 @@ spec:
       token_url: https://accounts.google.com/o/oauth2/token
       allowed_domains: edgy-noodle.com
       allow_sign_up: "true"
+    server:
+      root_url: https://grafana.edgy-noodle.com
