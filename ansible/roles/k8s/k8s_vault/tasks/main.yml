@@ -189,7 +189,7 @@
     path: sys/policy/{{ policy_path }}
     token: "{{ root_token }}"
     data:
-      policy: "{{ content }}"
+      policy: "{{ policy_content }}"
 
 - name: Create default role
   community.hashi_vault.vault_write:
