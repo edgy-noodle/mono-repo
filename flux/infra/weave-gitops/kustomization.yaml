@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: weave-gitops
 resources:
   - namespace.yaml
+  - secretproviderclass.yaml
   - values.yaml
   - helmrelease.yaml
