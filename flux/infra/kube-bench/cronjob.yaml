@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: kube-bench
-              image: aquasec/kube-bench:0.6.19
+              image: aquasec/kube-bench:latest
               imagePullPolicy: IfNotPresent
           restartPolicy: Never
   concurrencyPolicy: Replace
