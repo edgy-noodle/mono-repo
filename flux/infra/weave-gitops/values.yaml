@@ -13,19 +13,20 @@ data:
         cpu: 100m
         memory: 128Mi
 
-    securityContext:
-      capabilities:
-        drop:
-          - ALL
-      readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
     service:
       type: NodePort
 
+    extraVolumes:
+      - name: secrets
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: weave-gitops
+    extraVolumeMounts:
+      - name: secrets
+        mountPath: /etc/secrets
+        readOnly: true
+
     adminUser:
-      create: true
-      username: admin
-      # Change password by generating a new hash with:
-      # https://docs.gitops.weave.works/docs/configuration/securing-access-to-the-dashboard/#login-via-a-cluster-user-account
-      passwordHash: "$2a$10$lWy9sSqaw6Vd0aOF7Wfsp.au6ikuve51p8P4xJ535eyaSYQQuAXyW"
+      create: false
