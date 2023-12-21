@@ -43,7 +43,7 @@ spec:
             - /etc/cloudflared/config/config.yaml
             {{- if not .Values.cloudflare.remote }}
             - run
-            - {{ include .Values.cloudflare.local_vars.tunnelName }}
+            - {{ .Values.cloudflare.local_vars.tunnelName }}
             {{- end }}
           volumeMounts:
             - mountPath: /etc/cloudflared/config
