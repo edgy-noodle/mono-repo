@@ -25,6 +25,22 @@ data:
         replicas: 3
         disruptionBudget:
           maxUnavailable: 1
+          
+        config: |
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
+          storage "consul" {
+            path        = "vault"
+            address     = "HOST_IP:8500"
+          }
+          seal "awskms" {
+            region      = "AWS_REGION"
+            kms_key_id  = "AWS_KMS_KEY_ID"
+          }
+          service_registration "kubernetes" {}
 
       resources:
         requests:
@@ -33,22 +49,6 @@ data:
         limits:
           cpu: 100m
           memory: 512Mi
-
-      config: |
-        listener "tcp" {
-          tls_disable = 1
-          address = "[::]:8200"
-          cluster_address = "[::]:8201"
-        }
-        storage "consul" {
-          path        = "vault"
-          address     = "HOST_IP:8500"
-        }
-        seal "awskms" {
-          region      = "AWS_REGION"
-          kms_key_id  = "AWS_KMS_KEY_ID"
-        }
-        service_registration "kubernetes" {}
 
       service:
         type: NodePort
