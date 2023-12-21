@@ -15,7 +15,7 @@ spec:
     metadata:
       annotations:
         checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -37,13 +37,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             # Start cloudflare tunnel with values in the mounted config file.
+            {{- if not .Values.cloudflare.remote }}
             - cloudflared
+            {{- end }}
             - tunnel
             - --config
             - /etc/cloudflared/config/config.yaml
-            {{- if not .Values.cloudflare.remote }}
             - run
-            - {{ .Values.cloudflare.local_vars.tunnelName }}
             {{- end }}
           volumeMounts:
             - mountPath: /etc/cloudflared/config
