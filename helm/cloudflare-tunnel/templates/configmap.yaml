@@ -10,15 +10,15 @@ data:
     no-autoupdates: true
 
     {{- if not .Values.cloudflare.remote }}
-    tunnel: {{ .Values.cloudflare.tunnelName }}
+    tunnel: {{ .Values.cloudflare.local_vars.tunnelName }}
     credentials-file: /etc/cloudflared/creds/credentials.json
 
     warp-routing:
-      enabled: {{ .Values.cloudflare.warp }}
+      enabled: {{ .Values.cloudflare.local_vars.warp }}
 
     # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
     ingress:
-      {{- with .Values.cloudflare.ingress }}
+      {{- with .Values.cloudflare.local_vars.ingress }}
       {{- toYaml . | nindent 6 }}
       {{- end }}
       - service: http_status:404

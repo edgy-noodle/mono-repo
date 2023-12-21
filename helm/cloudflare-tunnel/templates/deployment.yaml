@@ -15,6 +15,7 @@ spec:
     metadata:
       annotations:
         checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -48,7 +49,7 @@ spec:
               name: config
               readOnly: true
             # Only mount secret if not remote and tokenSecretName is undefined
-            {{- if and (not .Values.cloudflare.remote) (not .Values.cloudflare.tokenSecretName) }}
+            {{- if and (not .Values.cloudflare.remote) (not .Values.cloudflare.remote_vars.tokenSecretName) }}
             - mountPath: /etc/cloudflared/creds
               name: creds
               readOnly: true
@@ -61,7 +62,7 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.cloudflare.tokenSecretName | default (include "cloudflare-tunnel.fullname") }}
+                  name: {{ .Values.cloudflare.remote_vars.tokenSecretName | default (include "cloudflare-tunnel.fullname") }}
                   key: tunnelToken
           {{- end }}
           ports:
@@ -88,7 +89,7 @@ spec:
         {{- if not .Values.cloudflare.remote }}
         - name: creds
           secret:
-            secretName: {{ .Values.cloudflare.tunnelSecretName | default (include "cloudflare-tunnel.fullname" .) }}
+            secretName: {{ .Values.cloudflare.local_vars.tunnelSecretName | default (include "cloudflare-tunnel.fullname" .) }}
         {{- end }}
         {{- with .Values.cloudflare.extraVolumes }}
         {{- toYaml . | nindent 8 }}
