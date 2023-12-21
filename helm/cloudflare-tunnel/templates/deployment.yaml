@@ -37,9 +37,6 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             # Start cloudflare tunnel with values in the mounted config file.
-            {{- if not .Values.cloudflare.remote }}
-            - cloudflared
-            {{- end }}
             - tunnel
             - --config
             - /etc/cloudflared/config/config.yaml
