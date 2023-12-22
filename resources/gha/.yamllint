@@ -9,8 +9,7 @@ ignore: |
 
 # TODO
 rules:
-  new-line-at-end-of-file:
-    level: warning
+  new-line-at-end-of-file: false
   line-length:
     level: warning
   braces:

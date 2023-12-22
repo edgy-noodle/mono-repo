@@ -25,7 +25,7 @@ data:
         replicas: 3
         disruptionBudget:
           maxUnavailable: 1
-          
+
         config: |
           listener "tcp" {
             tls_disable = 1
