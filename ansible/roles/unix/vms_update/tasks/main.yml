@@ -3,5 +3,5 @@
 - name: Install updates
   apt:
     upgrade: true
-    update_cache: yes
+    update_cache: true
   notify: Restart VMs
