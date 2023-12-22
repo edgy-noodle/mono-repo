@@ -13,5 +13,5 @@ rules:
   line-length:
     level: warning
   braces:
-    min-spaces-inside: 1
+    min-spaces-inside: 0
     max-spaces-inside: 1
