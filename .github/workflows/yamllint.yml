@@ -6,12 +6,14 @@ on:
       - '**.yml'
       - '**.yaml'
       - '!.github/**'
+      - '!helm/**'
   push:
     branches: [ main ]
     paths:
       - '**.yml'
       - '**.yaml'
       - '!.github/**'
+      - '!helm/**'
   workflow_dispatch:
 
 jobs:

@@ -1,13 +1,12 @@
 name: 'helmrelease_gha'
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
     paths:
       - '/charts/**'
 
 jobs:
-  release:
+  helmrelease:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
