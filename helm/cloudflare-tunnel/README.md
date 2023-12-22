@@ -26,6 +26,7 @@ Connect/manage Cloudflare (Argo) tunnels.
 | `cloudflare.local_vars.tunnelId`         | `""`    | `String`  | ID of your tunnel (see [credentials file](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/tunnel-useful-terms/#credentials-file)).                                                                                                       |
 | `cloudflare.local_vars.tunnelSecret`     | `""`    | `String`  | Your tunnel secret (see [credentials file](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/tunnel-useful-terms/#credentials-file)).                                                                                                      |
 | `cloudflare.local_vars.tunnelSecretName` | `""`    | `String`  | Name of a pre-existing secret to use instead of generating a new one.<br/>The secret must contain keys: `AccountTag`, `TunnelID`, `TunnelSecret`. Overrides credentials file variables.                                                                                            |
+| `cloudflare.local_vars.certSecretName`   | `""`    | `String`  | Name of a pre-existing secret created from your `cert.pem` file.<br/>The secret must contain one key - `cert.pem`.                                                                                                                                                                 |
 | `cloudflare.local_vars.warp`             | `false` | `Boolean` | If using WARP, change to `true`.                                                                                                                                                                                                                                                   |
 | `cloudflare.local_vars.ingress`          | `[]`    | `Array`   | Rules for proxying traffic from Cloudflare endpoint to cluster services (see [public hostnames config](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/local-management/configuration-file/#file-structure-for-public-hostnames)). |
 
@@ -39,7 +40,9 @@ Connect/manage Cloudflare (Argo) tunnels.
 
 1. Create the tunnel as described in the docs (see [links](#useful-links)).
 2. Grab tunnel details from credentials file (see this [directory](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/tunnel-useful-terms/#default-cloudflared-directory)).
-3. Create a YAML file with your values.
+3. Create a secret from your cert file (see directory above) using the following command:
+`kubectl -n <NAMESPACE> create secret generic <NAME> --from-file <DIRECTORY>/cert.pem`
+4. Create a YAML file with your values.
 
 ### Installation
 

@@ -12,6 +12,7 @@ data:
     {{- if not .Values.cloudflare.remote }}
     tunnel: {{ .Values.cloudflare.local_vars.tunnelName }}
     credentials-file: /etc/cloudflared/creds/credentials.json
+    origincert: /etc/cloudflared/creds/cert.pem
 
     warp-routing:
       enabled: {{ .Values.cloudflare.local_vars.warp }}

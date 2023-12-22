@@ -20,6 +20,7 @@ cloudflare:
     accountTag: ""
     tunnelId: ""
     tunnelSecret: ""
+    certSecretName: ""
     # If using your pre-defined secret, it needs to contain the following keys under file credentials.json:
     # - AccountTag
     # - TunnelID
