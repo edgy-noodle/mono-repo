@@ -50,7 +50,7 @@ spec:
             - mountPath: /etc/cloudflared/creds
               name: creds
               readOnly: true
-            - mountPath: /etc/cloudflared/creds
+            - mountPath: /etc/cloudflared/cert
               name: cert
               readOnly: true
             {{- end }}
