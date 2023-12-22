@@ -69,10 +69,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
           livenessProbe:
             httpGet:
               path: /ready
