@@ -50,6 +50,9 @@ spec:
             - mountPath: /etc/cloudflared/creds
               name: creds
               readOnly: true
+            - mountPath: /etc/cloudflared/creds
+              name: cert
+              readOnly: true
             {{- end }}
             {{- with .Values.cloudflare.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
@@ -61,13 +64,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.cloudflare.remote_vars.tokenSecretName | default (include "cloudflare-tunnel.fullname" .) }}
                   key: tunnelToken
-            {{- if not .Values.cloudflare.remote }}
-            - name: TUNNEL_ORIGIN_CERT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.cloudflare.local_vars.certSecretName }}
-                  key: cert.pem
-            {{- end }}
           {{- end }}
           ports:
             - name: http
@@ -91,6 +87,9 @@ spec:
               - key: config.yaml
                 path: config.yaml
         {{- if not .Values.cloudflare.remote }}
+        - name: cert
+          secret:
+            secretName: {{ .Values.cloudflare.local_vars.certSecretName }}
         - name: creds
           secret:
             secretName: {{ .Values.cloudflare.local_vars.tunnelSecretName | default (include "cloudflare-tunnel.fullname" .) }}
