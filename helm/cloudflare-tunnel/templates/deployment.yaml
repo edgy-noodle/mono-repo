@@ -61,6 +61,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.cloudflare.remote_vars.tokenSecretName | default (include "cloudflare-tunnel.fullname" .) }}
                   key: tunnelToken
+            {{- if not .Values.cloudflare.remote }}
+            - name: TUNNEL_ORIGIN_CERT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.cloudflare.local_vars.certSecretName }}
+                  key: cert.pem
+            {{- end }}
           {{- end }}
           ports:
             - name: http
