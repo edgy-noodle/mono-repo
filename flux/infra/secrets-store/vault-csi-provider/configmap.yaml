@@ -26,14 +26,6 @@ data:
         disruptionBudget:
           maxUnavailable: 1
 
-      resources:
-        requests:
-          cpu: 10m
-          memory: 128Mi
-        limits:
-          cpu: 100m
-          memory: 512Mi
-
         config: |
           listener "tcp" {
             tls_disable = 1
@@ -49,6 +41,14 @@ data:
             kms_key_id  = "AWS_KMS_KEY_ID"
           }
           service_registration "kubernetes" {}
+
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+        limits:
+          cpu: 100m
+          memory: 512Mi
 
       service:
         type: NodePort

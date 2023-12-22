@@ -5,10 +5,13 @@ ignore: |
   resources/
   .github/
   flux/clusters/*/flux-system/
+  helm/
 
 # TODO
 rules:
-  new-line-at-end-of-file:
-    level: warning
+  new-line-at-end-of-file: false
   line-length:
     level: warning
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1

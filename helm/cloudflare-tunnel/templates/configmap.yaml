@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cloudflare-tunnel.fullname" . }}
+data:
+  config.yaml: |
+    metrics: 0.0.0.0:2000
+    # Disabled in kubernetes as image state should be managed by deployment, not the pod.
+    # Any updates would be lost on pod re-creation.
+    no-autoupdates: true
+
+    {{- if not .Values.cloudflare.remote }}
+    tunnel: {{ .Values.cloudflare.local_vars.tunnelName }}
+    credentials-file: /etc/cloudflared/creds/credentials.json
+    origincert: /etc/cloudflared/cert/cert.pem
+
+    warp-routing:
+      enabled: {{ .Values.cloudflare.local_vars.warp }}
+
+    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
+    ingress:
+      {{- with .Values.cloudflare.local_vars.ingress }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      - service: http_status:404
+    {{- end }}

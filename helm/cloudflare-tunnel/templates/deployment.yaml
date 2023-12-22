@@ -1,0 +1,123 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cloudflare-tunnel.fullname" . }}
+  labels:
+    {{- include "cloudflare-tunnel.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "cloudflare-tunnel.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "cloudflare-tunnel.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cloudflare-tunnel.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            # Start cloudflare tunnel with values in the mounted config file.
+            - tunnel
+            - --config
+            - /etc/cloudflared/config/config.yaml
+            - run
+          volumeMounts:
+            - mountPath: /etc/cloudflared/config
+              name: config
+              readOnly: true
+            # Only mount secret if not remote and tokenSecretName is undefined
+            {{- if and (not .Values.cloudflare.remote) (not .Values.cloudflare.remote_vars.tokenSecretName) }}
+            - mountPath: /etc/cloudflared/creds
+              name: creds
+              readOnly: true
+            - mountPath: /etc/cloudflared/cert
+              name: cert
+              readOnly: true
+            {{- end }}
+            {{- with .Values.cloudflare.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- if .Values.cloudflare.remote }}
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.cloudflare.remote_vars.tokenSecretName | default (include "cloudflare-tunnel.fullname" .) }}
+                  key: tunnelToken
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "cloudflare-tunnel.fullname" . }}
+            items:
+              - key: config.yaml
+                path: config.yaml
+        {{- if not .Values.cloudflare.remote }}
+        - name: cert
+          secret:
+            secretName: {{ .Values.cloudflare.local_vars.certSecretName }}
+        - name: creds
+          secret:
+            secretName: {{ .Values.cloudflare.local_vars.tunnelSecretName | default (include "cloudflare-tunnel.fullname" .) }}
+        {{- end }}
+        {{- with .Values.cloudflare.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      affinity:
+        {{- with .Values.affinity }}
+        {{- toYaml . | nindent 8 }}
+        {{- else }}
+        podAntiAffinity:
+          # Make sure pods attempt to run on different nodes.
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 10
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                  {{- range $k, $v := include "cloudflare-tunnel.selectorLabels" . | fromYaml }}
+                    - key: {{ $k }}
+                      operator: In
+                      values:
+                        - {{ $v }}
+                  {{- end }}
+        {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
