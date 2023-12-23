@@ -1,6 +1,15 @@
 terraform {
   required_version = ">= 1.6.6"
 
+  backend "remote" {
+    hostname = "${local.domain}.scalr.io"
+    organization = local.domain
+
+    workspaces {
+      name = var.scalr_workspace
+    }
+  }
+
   required_providers {
     scalr = {
       source  = "Scalr/scalr"
@@ -50,6 +59,11 @@ locals {
 provider "scalr" {
   hostname = "${local.domain}.scalr.io"
   token    = var.scalr_api_token
+}
+resource "scalr_workspace" "cli-driven" {
+  name = var.scalr_workspace
+  environment_id = var.scalr_env_id
+  execution_mode = "local"
 }
 
 provider "proxmox" {

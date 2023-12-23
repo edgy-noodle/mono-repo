@@ -1,3 +1,10 @@
+variable "scalr_workspace" {
+  type = string
+  default = "dev"
+}
+variable "scalr_env_id" {
+  type = string
+}
 variable "scalr_api_token" {
   type      = string
   sensitive = true
