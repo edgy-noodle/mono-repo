@@ -39,13 +39,12 @@ cloudflare:
       # - hostname: hello.example.com
       #   service: hello_world
 
-  # volumes:
-  #   - name: extra-volume
-  #     csi:
-  #       driver: secrets-store.csi.k8s.io
-  #       readOnly: true
-  #       volumeAttributes:
-  #         secretProviderClass: my-extra-secret
+  # - name: extra-volume
+  #   csi:
+  #     driver: secrets-store.csi.k8s.io
+  #     readOnly: true
+  #     volumeAttributes:
+  #       secretProviderClass: my-extra-secret
   extraVolumes: []
   # - name: extra-volume
   #   mountPath: /etc/extra-volume
