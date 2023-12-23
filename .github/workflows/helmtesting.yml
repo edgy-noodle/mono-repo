@@ -4,6 +4,10 @@ on:
     branches: [ main ]
     paths:
       - 'helm/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'helm/**'
 
 jobs:
   helmtest:
