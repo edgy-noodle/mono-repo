@@ -11,14 +11,14 @@ data:
         tokenSecretName: cloudflare-tunnel
 
       extraVolumes:
-        - name: extra-volume
+        - name: secrets
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
               secretProviderClass: cloudflare-tunnel
       extraVolumeMounts:
-        - name: cloudflare-tunnel
+        - name: secrets
           mountPath: /etc/secrets
           readOnly: true
 
