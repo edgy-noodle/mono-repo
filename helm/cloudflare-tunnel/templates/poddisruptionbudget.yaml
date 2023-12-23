@@ -6,10 +6,10 @@ metadata:
   name: {{ include "cloudflare-tunnel.fullname" . }}
 spec:
   {{- if .Values.pdb.minAvailable }}
-  minAvailable: {{- .Values.pdb.minAvailable }}
+  minAvailable: {{ .Values.pdb.minAvailable }}
   {{- end }}
   {{- if .Values.pdb.maxUnavailable }}
-  maxUnavailable: {{- .Values.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.pdb.maxUnavailable }}
   {{- end }}
   selector:
     matchLabels:
