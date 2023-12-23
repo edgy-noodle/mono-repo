@@ -3,6 +3,16 @@ entries:
   cloudflare-tunnel:
   - apiVersion: v2
     appVersion: 2023.10.0
+    created: "2023-12-23T00:33:13.589685478Z"
+    description: A deployment for a cloudflared tunnel.
+    digest: 27148f0e46fc1fa0e3168616ad14d9d5917b1629968cd80d8f018ed86cc87710
+    name: cloudflare-tunnel
+    type: application
+    urls:
+    - https://github.com/edgy-noodle/mono-repo/releases/download/cloudflare-tunnel-1.0.3/cloudflare-tunnel-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: 2023.10.0
     created: "2023-12-23T00:21:48.872920911Z"
     description: A deployment for a cloudflared tunnel.
     digest: 7ff332832e1ba23af444628709ece9233773b827bc98b65071d3e88dcad12008
@@ -21,4 +31,4 @@ entries:
     urls:
     - https://github.com/edgy-noodle/mono-repo/releases/download/cloudflare-tunnel-1.0.1/cloudflare-tunnel-1.0.1.tgz
     version: 1.0.1
-generated: "2023-12-23T00:21:48.872933825Z"
+generated: "2023-12-23T00:33:13.589722497Z"
