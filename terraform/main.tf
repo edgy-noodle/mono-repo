@@ -2,8 +2,8 @@ terraform {
   required_version = ">= 1.6.6"
 
   backend "remote" {
-    hostname = "${local.domain}.scalr.io"
-    organization = local.domain
+    hostname     = "${var.domain}.scalr.io"
+    organization = var.domain
 
     workspaces {
       name = var.scalr_workspace
@@ -19,6 +19,10 @@ terraform {
     proxmox = {
       source  = "Telmate/proxmox"
       version = ">= 2.9.14"
+    }
+    talos = {
+      source = "siderolabs/talos"
+      version = ">= 0.4.0"
     }
 
     cloudflare = {
@@ -52,16 +56,14 @@ terraform {
   }
 }
 
-locals {
-  domain = "edgy-noodle"
-}
+locals {}
 
 provider "scalr" {
-  hostname = "${local.domain}.scalr.io"
+  hostname = "${var.domain}.scalr.io"
   token    = var.scalr_api_token
 }
 resource "scalr_workspace" "cli-driven" {
-  name = var.scalr_workspace
+  name           = var.scalr_workspace
   environment_id = var.scalr_env_id
   execution_mode = "local"
 }
@@ -71,6 +73,7 @@ provider "proxmox" {
   pm_api_token_id     = var.proxmox_token_id
   pm_api_token_secret = var.proxmox_token_secret
 }
+provider "talos" {}
 
 provider "cloudflare" {
   api_token = var.cloudflare_api_token

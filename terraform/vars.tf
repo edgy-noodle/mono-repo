@@ -1,5 +1,10 @@
+variable "domain" {
+  type    = string
+  default = "edgy-noodle"
+}
+
 variable "scalr_workspace" {
-  type = string
+  type    = string
   default = "dev"
 }
 variable "scalr_env_id" {
