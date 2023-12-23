@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: cloudflare-tunnel
 resources:
   - namespace.yaml
+  - poddisruptionbudget.yaml
   - secretproviderclass.yaml
-  - values.yaml
-  - helmrelease.yaml
+  - deployment.yaml

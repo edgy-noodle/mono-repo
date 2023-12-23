@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflare-tunnel
+data:
+  values.yaml: |
+    cloudflare:
+      remote: true
+      remote_vars:
+        tokenSecretName: cloudflare-tunnel
+
+    pdb:
+      enable: true
+
+    resources:
+      requests:
+        cpu: 5m
+        memory: 64Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
+    autoscaling:
+      enabled: true

@@ -12,3 +12,4 @@ resources:
   - metrics-server.yaml
   - prometheus-community.yaml
   - bitnami.yaml
+  - edgy-noodle.yaml
