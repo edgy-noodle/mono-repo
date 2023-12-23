@@ -22,3 +22,15 @@ data:
         memory: 256Mi
     autoscaling:
       enabled: true
+
+    extraVolumes:
+      - name: extra-volume
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: cloudflare-tunnel
+    extraVolumeMounts:
+      - name: cloudflare-tunnel
+        mountPath: /etc/secrets
+        readOnly: true
