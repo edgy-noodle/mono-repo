@@ -43,42 +43,12 @@ terraform {
   }
 }
 
-variable "scalr_hostname" {
-  type = string
-}
-variable "scalr_api_token" {
-  type      = string
-  sensitive = true
-}
-
-variable "proxmox_url" {
-  type = string
-}
-variable "proxmox_token_id" {
-  type      = string
-  sensitive = true
-}
-variable "proxmox_token_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "cloudflare_api_token" {
-  type      = string
-  sensitive = true
-}
-
-variable "betteruptime_api_token" {
-  type      = string
-  sensitive = true
-}
-variable "logtail_api_token" {
-  type      = string
-  sensitive = true
+locals {
+  domain = "edgy-noodle"
 }
 
 provider "scalr" {
-  hostname = var.scalr_hostname
+  hostname = "${local.domain}.scalr.io"
   token    = var.scalr_api_token
 }
 
@@ -93,11 +63,11 @@ provider "cloudflare" {
 }
 
 provider "aws" {
-  region = "init"
+  region = var.aws_region
 }
 provider "google" {
-  project = "init"
-  region  = "init"
+  project = var.gcp_project
+  region  = var.gcp_region
 }
 
 provider "betteruptime" {
