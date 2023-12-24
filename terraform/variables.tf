@@ -6,9 +6,6 @@ variable "slack_channel_name" {
   type    = string
   default = "alerts-scalr"
 }
-variable "slack_account_id" {
-  type = string
-}
 variable "slack_channel_id" {
   type = string
 }
@@ -20,6 +17,9 @@ variable "slack_events" {
 variable "scalr_api_token" {
   type      = string
   sensitive = true
+}
+variable "scalr_account_id" {
+  type = string
 }
 variable "scalr_env_id" {
   type = string
