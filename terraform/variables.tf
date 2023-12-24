@@ -15,6 +15,10 @@ variable "scalr_env_id" {
 variable "scalr_workspace_id" {
   type = string
 }
+variable "scalr_workspace" {
+  type = string
+  default = "dev"
+}
 
 #variable "proxmox_url" {
 #  type = string

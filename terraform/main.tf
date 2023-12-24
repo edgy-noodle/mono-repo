@@ -34,6 +34,11 @@ terraform {
 
 locals {}
 
+resource "scalr_workspace" "cli-driven" {
+  name = var.scalr_workspace
+  environment_id = var.scalr_env_id
+  execution_mode = "local"
+}
 
 #module "bare-metal" {
 #  source = "./modules/bare-metal"
