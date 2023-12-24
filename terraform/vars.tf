@@ -1,6 +1,5 @@
 variable "domain" {
   type    = string
-  default = "edgy-noodle"
 }
 
 variable "scalr_workspace" {
