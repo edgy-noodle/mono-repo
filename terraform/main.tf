@@ -2,11 +2,11 @@ terraform {
   required_version = "<= 1.5.7"
 
   backend "remote" {
-    hostname     = "${var.domain}.scalr.io"
-    organization = var.domain
+    hostname     = "edgy-noodle.scalr.io"
+    organization = "mono-repo"
 
     workspaces {
-      name = var.scalr_workspace
+      name = "dev"
     }
   }
 
@@ -21,10 +21,10 @@ terraform {
 #      version = ">= 4.20.0"
 #    }
 #
-#    aws = {
-#      source  = "hashicorp/aws"
-#      version = ">= 5.31.0"
-#    }
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.31.0"
+    }
 #    google = {
 #      source  = "hashicorp/google"
 #      version = ">= 5.10.0"

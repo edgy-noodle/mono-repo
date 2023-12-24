@@ -3,7 +3,6 @@
 **/.terraform/*
 
 # .tfstate files
-*.tfstate
 *.tfstate.*
 
 # Crash log files
@@ -34,3 +33,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+/.terraform.lock.hcl
