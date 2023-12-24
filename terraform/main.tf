@@ -34,14 +34,6 @@ terraform {
 
 locals {}
 
-resource "scalr_slack_integration" "alerts-scalr" {
-  name         = var.slack_channel_name
-  events       = var.slack_events
-  channel_id   = var.slack_channel_id
-  account_id   = var.scalr_account_id
-  environments = [var.scalr_env_id]
-  workspaces   = [var.scalr_workspace_id]
-}
 
 #module "bare-metal" {
 #  source = "./modules/bare-metal"

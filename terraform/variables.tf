@@ -2,18 +2,6 @@ variable "domain" {
   type = string
 }
 
-variable "slack_channel_name" {
-  type    = string
-  default = "alerts-scalr"
-}
-variable "slack_channel_id" {
-  type = string
-}
-variable "slack_events" {
-  type    = list(string)
-  default = ["run_approval_required", "run_success", "run_errored"]
-}
-
 variable "scalr_api_token" {
   type      = string
   sensitive = true
