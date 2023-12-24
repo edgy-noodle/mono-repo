@@ -6,19 +6,6 @@ variable "scalr_api_token" {
   type      = string
   sensitive = true
 }
-variable "scalr_account_id" {
-  type = string
-}
-variable "scalr_env_id" {
-  type = string
-}
-variable "scalr_workspace_id" {
-  type = string
-}
-variable "scalr_workspace" {
-  type = string
-  default = "dev"
-}
 
 #variable "proxmox_url" {
 #  type = string
