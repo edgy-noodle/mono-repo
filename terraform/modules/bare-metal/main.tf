@@ -5,7 +5,7 @@ terraform {
       version = ">= 2.9.14"
     }
     talos = {
-      source = "siderolabs/talos"
+      source  = "siderolabs/talos"
       version = ">= 0.4.0"
     }
   }
