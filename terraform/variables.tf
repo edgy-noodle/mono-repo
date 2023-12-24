@@ -2,11 +2,6 @@ variable "domain" {
   type = string
 }
 
-variable "scalr_api_token" {
-  type      = string
-  sensitive = true
-}
-
 #variable "proxmox_url" {
 #  type = string
 #}

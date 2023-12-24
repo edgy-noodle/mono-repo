@@ -1,6 +1,5 @@
 provider "scalr" {
   hostname = "${var.domain}.scalr.io"
-  token    = var.scalr_api_token
 }
 
 #provider "proxmox" {
@@ -14,11 +13,14 @@ provider "scalr" {
 #provider "cloudflare" {
 #  api_token = var.cloudflare_api_token
 #}
-#
-#provider "aws" {
-#  region = var.aws_region
-#}
-#
+
+provider "aws" {
+  region = var.aws_region
+}
+provider "awscc" {
+  region = var.aws_region
+}
+
 #provider "google" {
 #  project = var.gcp_project
 #  region  = var.gcp_region

@@ -13,21 +13,25 @@ terraform {
   required_providers {
     scalr = {
       source  = "Scalr/scalr"
-      version = ">= 1.7.0"
+      version = "~> 1.7.0"
     }
 
 #    cloudflare = {
 #      source  = "cloudflare/cloudflare"
-#      version = ">= 4.20.0"
+#      version = "~> 4.20.0"
 #    }
 #
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.31.0"
+      version = "~> 5.31.0"
+    }
+    awscc = {
+      source  = "hashicorp/awscc"
+      version = "~> 0.1"
     }
 #    google = {
 #      source  = "hashicorp/google"
-#      version = ">= 5.10.0"
+#      version = "~> 5.10.0"
 #    }
   }
 }
