@@ -12,7 +12,7 @@ terraform {
 }
 
 resource "proxmox_pool" "k8s" {
-  for_each = var.nodes.keys
+  for_each = var.pm_k8s_nodes.keys
   poolid   = "k8s-${each.key}"
 }
 
@@ -26,8 +26,7 @@ resource "proxmox_vm_qemu" "k8s" {
   agent       = 1
 
   name  = each.key
-  desc  = "Talos k8s CPN VM"
-  vmid  = "100${each.value.no}"
+  desc  = "Talos k8s ${each.value.node} VM"
   clone = "talos-template"
   bios  = "ovmf"
 
