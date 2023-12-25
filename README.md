@@ -1,10 +1,10 @@
 # mono-repo
 
-[![yamllint_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml)
-[![shellcheck_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml)
-[![fluxe2e_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/fluxe2e.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/fluxe2e.yml)
-[![helmtesting_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/helmtesting.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/helmtesting.yml)
-[![terraformvalidate_gha](https://github.com/edgy-noodle/mono-repo/actions/workflows/terraformvalidate.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/terraformvalidate.yml)
+[![yamllint](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/yamllint.yml)
+[![shellcheck](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/shellcheck.yml)
+[![fluxe2e](https://github.com/edgy-noodle/mono-repo/actions/workflows/fluxe2e.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/fluxe2e.yml)
+[![helmtesting](https://github.com/edgy-noodle/mono-repo/actions/workflows/helmtesting.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/helmtesting.yml)
+[![terraformvalidate](https://github.com/edgy-noodle/mono-repo/actions/workflows/terraformvalidate.yml/badge.svg)](https://github.com/edgy-noodle/mono-repo/actions/workflows/terraformvalidate.yml)
 
 One repo to rule them all.  
 Ansible-provisioned bare-metal k8s cluster managed by Flux.
