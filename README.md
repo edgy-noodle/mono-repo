@@ -53,9 +53,14 @@ Ansible-provisioned bare-metal k8s cluster managed by Flux.
 |-- helm
 |   `-- cloudflare-tunnel
 |       `-- templates
-`-- resources
-    |-- gha
-    `-- scripts
+|-- resources
+|   |-- gha
+|   `-- scripts
+`-- terraform
+    `-- modules
+        |-- bare-metal
+        |-- betterstack
+        `-- vault
 ```
 
 ## Usage
