@@ -38,16 +38,16 @@ data "aws_iam_policy_document" "budget_notifications_policy" {
 }
 resource "awscc_chatbot_slack_channel_configuration" "chatbot_slack" {
   configuration_name = "chatbot_slack"
-  iam_role_arn       = awscc_iam_role.chatbot_slack.arn
+  iam_role_arn       = aws_iam_role.chatbot_slack.arn
   sns_topic_arns     = [aws_sns_topic.budget_notifications.arn]
   slack_channel_id   = var.slack_channel_id
   slack_workspace_id = var.slack_workspace_id
 }
 
-resource "awscc_iam_role" "chatbot_slack" {
-  role_name                   = "chatbot"
-  assume_role_policy_document = data.aws_iam_policy_document.chatbot_slack_policy.json
-  managed_policy_arns         = ["arn:aws:iam::aws:policy/AWSResourceExplorerReadOnlyAccess"]
+resource "aws_iam_role" "chatbot_slack" {
+  name                = "chatbot"
+  assume_role_policy  = data.aws_iam_policy_document.chatbot_slack_policy.json
+  managed_policy_arns = ["arn:aws:iam::aws:policy/AWSResourceExplorerReadOnlyAccess"]
 }
 
 data "aws_iam_policy_document" "chatbot_slack_policy" {
