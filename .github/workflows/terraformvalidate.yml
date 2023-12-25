@@ -1,0 +1,23 @@
+name: 'terraformvalidate_gha'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+
+jobs:
+  terraformvalidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate terraform
+        uses: dflook/terraform-validate@v1
+        with:
+          path: './terraform'
+          workspace: 'dev'
