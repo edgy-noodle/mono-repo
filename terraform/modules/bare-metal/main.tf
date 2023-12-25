@@ -10,3 +10,43 @@ terraform {
     }
   }
 }
+
+resource "proxmox_pool" "k8s" {
+  for_each = var.nodes.keys
+  poolid   = "k8s-${each.key}"
+}
+
+resource "proxmox_vm_qemu" "k8s" {
+  for_each = {
+    for vm in local.vms : "${vm.node}-${vm.no}" => vm
+  }
+
+  target_node = "proxmox"
+  pool        = each.value.node
+  agent       = 1
+
+  name  = each.key
+  desc  = "Talos k8s CPN VM"
+  vmid  = "100${each.value.no}"
+  clone = "talos-template"
+  bios  = "ovmf"
+
+  cores   = 4
+  sockets = 1
+  cpu     = "x86-64-v2-AES"
+  memory  = 10280
+
+  network {
+    bridge = "vmbr01"
+    model  = "virtio"
+  }
+
+  disk {
+    storage = "talos-lvn"
+    type    = "virtio"
+    size    = "50G"
+  }
+
+  os_type   = "cloud-init"
+  ipconfig0 = "ip=${each.value.address}"
+}
