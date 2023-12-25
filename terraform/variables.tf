@@ -31,6 +31,11 @@ variable "aws_region" {
   default = "eu-central-1"
 }
 
+variable "aws_terraform_name" {
+  type    = string
+  default = "terraform"
+}
+
 #variable "gcp_project" {
 #  type = string
 #}
