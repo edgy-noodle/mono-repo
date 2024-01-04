@@ -9,6 +9,8 @@
 One repo to rule them all.  
 Ansible-provisioned bare-metal k8s cluster managed by Flux.
 
+> OUT OF DATE  
+> Soon to be deprecated after switching to Terraform-provisioned IaC.
 
 ## Structure
 
